@@ -264,3 +264,16 @@ function(object, newdata, genuine = FALSE, ...)
     }
     return(pred$h)
 }
+
+logLik.garch <-
+function(object, ...)
+{
+    if(!inherits(object, "garch"))
+        stop("method is only for garch objects")
+    n <- length(na.remove(object$residuals))
+    val <- (-object$n.likeli) - 0.5*n*log(2*pi)
+    attr(val, "df") <- length(object$coef)
+    class(val) <- "logLik"
+    return(val)
+}
+

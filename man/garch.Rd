@@ -24,9 +24,9 @@ garch(x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
   \item{itmax}{gives the maximum number of log-likelihood function
     evaluations \code{itmax} and the maximum number of iterations
     \code{2*itmax} the optimizer is allowed to compute.}
-  \item{eps}{defines the absolute (\code{max(1e-20,eps^2)}) and
+  \item{eps}{defines the absolute (\code{max(1e-20, eps^2)}) and
     relative function convergence tolerance
-    (\code{max(1e-10,eps^(2/3))}), the coefficient-convergence
+    (\code{max(1e-10, eps^(2/3))}), the coefficient-convergence
     tolerance (\code{sqrt(eps)}), and the false convergence tolerance
     (\code{1e2*eps}). Default value is the machine epsilon, see
     \code{\link{Machine}}.}
@@ -41,7 +41,7 @@ garch(x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
 \details{
   \code{garch} uses a Quasi-Newton optimizer to find the maximum
   likelihood estimates of the conditionally normal model.  The first
-  max(p,q) values are assumed to be fixed.  The optimizer uses a hessian
+  max(p, q) values are assumed to be fixed.  The optimizer uses a hessian
   approximation computed from the BFGS update.  Only a Cholesky factor
   of the Hessian approximation is stored.  For more details see Dennis
   et al. (1981), Dennis and Mei (1979), Dennis and More (1977), and

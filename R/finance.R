@@ -134,8 +134,8 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
 }
 
 get.hist.quote <-
-function(instrument = "^gdax", start, end,
-         quote = c("Open", "High", "Low", "Close") , provider = "yahoo", method = "auto")
+function (instrument = "^gdax", start, end, quote = c("Open", "High", "Low", "Close"),
+          provider = "yahoo", method = "auto", origin = "1899-12-30") 
 {
     if(missing(start)) start <- "1991-01-02"
     if(missing(end)) end <- format(Sys.time() - 86400, "%Y-%m-%d")
@@ -147,9 +147,17 @@ function(instrument = "^gdax", start, end,
 
     if(provider == "yahoo") {
         url <- paste("http://chart.yahoo.com/table.csv?s=",
-                     instrument,
-                     format(start, "&a=%m&b=%d&c=%Y"),
-                     format(end, "&d=%m&e=%d&f=%Y"),
+                     instrument, 
+                     format(start,
+                            paste("&a=",
+                                  as.character(as.numeric(format(start, "%m"))-1),
+                                  "&b=%d&c=%Y",
+                                  sep = "")),
+                     format(end,
+                            paste("&d=",
+                                  as.character(as.numeric(format(end, "%m"))-1),
+                                  "&e=%d&f=%Y",
+                                  sep = "")), 
                      "&g=d&q=q&y=0&z=",
                      instrument,
                      "&x=.csv",
@@ -165,7 +173,10 @@ function(instrument = "^gdax", start, end,
             unlink(destfile)
             stop(paste("No data available for", instrument))
         }
-        x <- read.table(destfile, header = TRUE, sep = ",")
+        x <- read.table(destfile, header = TRUE, sep = ",", as.is = TRUE)
+        # Debug
+        # cat("read.table: start =", x[NROW(x),"Date"], "\n")
+        # cat("read.table: end   =", x[1,"Date"], "\n")
         unlink(destfile)
 
         nser <- pmatch(quote, names(x)[-1]) + 1
@@ -185,7 +196,7 @@ function(instrument = "^gdax", start, end,
             cat(format(dat[n], "time series starts %Y-%m-%d\n"))
         if(dat[1] != end)
             cat(format(dat[1], "time series ends   %Y-%m-%d\n"))
-        jdat <- julian(dat)
+        jdat <- julian(dat, origin = as.POSIXct(origin, tz = "GMT"))
         ind <- jdat - jdat[n] + 1
         y <- matrix(NA, nr = max(ind), nc = length(nser))
         y[ind, ] <- as.matrix(x[, nser, drop = FALSE])

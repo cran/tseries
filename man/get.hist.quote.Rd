@@ -8,7 +8,8 @@
 \usage{
 get.hist.quote(instrument = "^gdax", start, end,
                quote = c("Open", "High", "Low", "Close"),
-               provider = "yahoo", method = "auto") 
+               provider = "yahoo", method = "auto",
+               origin = "1899-12-30") 
 }
 \arguments{
   \item{instrument}{a character string giving the name of the quote
@@ -33,11 +34,14 @@ get.hist.quote(instrument = "^gdax", start, end,
     \url{http://quote.yahoo.com/} for more information.}
   \item{method}{tool to be used for downloading the data.  See
     \code{\link{download.file}} for the available download methods.}
+  \item{origin}{an R object specifying the origin of the Julian dates, see
+    above.  Defaults to 1899-12-30 (Popular spreadsheet programs
+    internally also use Julian dates with this origin).}
 }
 \value{
   A time series containing the data in physical time, i.e., weekends,
   holidays, and missing days are filled with \code{NA}s.  The time scale
-  is given in Julian dates (days since 1970-01-01).
+  is given in Julian dates (days since the \code{origin}). 
 }
 \author{A. Trapletti}
 \seealso{

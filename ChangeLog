@@ -1,3 +1,19 @@
+2002-02-05  Adrian Trapletti <a.trapletti@bluewin.ch>
+
+	* DESCRIPTION (Version): New version is 0.9-8.	
+
+	* README: cleanup.
+	
+	* R/finance.R
+	* man/get.hist.quote.Rd: add new argument origin and change 
+	YAHOO query (it seems that YAHOO has slightly changed the query 
+	syntax to access historical data).  
+
+	* R/garch.R
+	* man/garch-methods.Rd: add new method logLik.garch.
+
+	* man/garch.Rd: cosmetic change.
+	
 2003-01-22  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-7.

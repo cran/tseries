@@ -6,6 +6,7 @@
 \alias{fitted.garch}
 \alias{print.garch}
 \alias{plot.garch}
+\alias{logLik.garch}
 \title{Methods for Fitted GARCH Models}
 \description{
   Methods for fitted GARCH model objects, typically the result of a call
@@ -18,6 +19,7 @@
 \method{fitted}{garch}(object, \dots)
 \method{print}{garch}(x, digits = max(3, getOption("digits") - 3), \dots)
 \method{plot}{garch}(x, ask = interactive(), \dots)
+\method{logLik}{garch}(object, \dots)
 }
 \arguments{
   \item{object, x}{an object of class \code{"garch"}; usually, a result
@@ -48,7 +50,11 @@
   predictions for the series which has been used to fit the model.
 
   \code{plot} graphically investigates normality and remaining ARCH
-  effects for the residuals. 
+  effects for the residuals.
+
+  \code{logLik} returns the log-likelihood value of the GARCH(p, q)
+  model represented by \code{object} evaluated at the estimated
+  coefficients. It is assumed that first max(p, q) values are fixed.
 }  
 \value{
   For \code{predict} a bivariate time series (two-column matrix) of
