@@ -1,6 +1,6 @@
 Package: tseries
-Version: 0.9-8
-Date: 2003-02-05
+Version: 0.9-9
+Date: 2003-02-19
 Title: Time series analysis and computational finance
 Author: Compiled by Adrian Trapletti <a.trapletti@bluewin.ch>
 Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>

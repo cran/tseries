@@ -1,4 +1,15 @@
-2002-02-05  Adrian Trapletti <a.trapletti@bluewin.ch>
+2003-02-19  Adrian Trapletti <a.trapletti@bluewin.ch>
+
+	* DESCRIPTION (Version): New version is 0.9-9.	
+
+	* README: update.
+	
+        * R/finance.R
+	* man/plotOHLC.Rd: add new argument origin such that 
+	it works smoothly together with get.hist.quote() (problem 
+	spotted by Michael Parzen <fmparzen@gsb.uchicago.edu>).
+
+2003-02-05  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION (Version): New version is 0.9-8.	
 

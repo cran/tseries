@@ -1,4 +1,4 @@
-## Copyright (C) 1997-2001  Adrian Trapletti
+## Copyright (C) 1997-2003  Adrian Trapletti
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -255,7 +255,8 @@ plotOHLC <-
 function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
          col = par("col"), bg = par("bg"), axes = TRUE,
          frame.plot = axes, ann = par("ann"), main = NULL,
-         date = c("calendar", "julian"), format = "%Y-%m-%d", ...)
+         date = c("calendar", "julian"), format = "%Y-%m-%d",
+         origin = "1899-12-30", ...)
 {
   if ((!is.mts(x)) ||
       (colnames(x)[1] != "Open") ||
@@ -296,7 +297,7 @@ function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
       else {
           n <- NROW(x)
           lab.ind <- round(seq(1, n, length=5))
-          D <- as.vector(time.x[lab.ind]*86400) + as.POSIXct("1970-01-01", tz = "GMT")
+          D <- as.vector(time.x[lab.ind]*86400) + as.POSIXct(origin, tz = "GMT")
           DD <- format.POSIXct(D, format = format, tz ="GMT")
           axis(1, at=time.x[lab.ind], lab=DD, ...)
           axis(2, ...)
