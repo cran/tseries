@@ -47,7 +47,7 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
         coef <- c(var(x)*(1.0-small*(ncoef-1)),rep(small,ncoef-1))
     if(!is.vector(coef)) stop("coef is not a vector")
     if(ncoef != length(coef)) stop("incorrect length of coef")
-    if(is.null(eps)) eps <- Machine()$double.eps
+    if(is.null(eps)) eps <- .Machine$double.eps
     nlikeli <- 1.0e+10
     fit <- .C("fit_garch",
               as.vector(x, mode = "double"),

@@ -182,7 +182,7 @@ c------------------------------------------------------------------------
      +            roundadd
       integer     intx(1), inty(1), intxmax, intymax, intmax,
      +            npt, maxprec, len
-      character   runform*10
+c     character   runform*10
       logical     trace
 
       common /bounds/ npt, maxprec

@@ -1,3 +1,10 @@
+2002-06-28  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION: New version is 0.9-2.
+
+	* R/garch.R (garch): Replace Machine() by .Machine as the former
+	is deprecated in R 1.6.
+
 2002-06-19  Adrian Trapletti <a.trapletti@bluewin.ch>
 	* DESCRIPTION (Version): New version is 0.9-1.	
 
