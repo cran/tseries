@@ -13,7 +13,7 @@ terasvirta.test (x, y, type = c("chisq","F"), scale = TRUE)
   \item{lag}{an integer which specifies the model order in terms of
     lags.} 
   \item{type}{a string indicating whether the Chi-Square test or the
-    F-test is computed. Valid types are "chisq" and "F".}
+    F-test is computed. Valid types are \code{"chisq"} and \code{"F"}.}
   \item{scale}{a logical indicating whether the data should be scaled 
     before computing the test statistic. The default arguments to
     \code{\link{scale}} are used.}
@@ -25,7 +25,7 @@ terasvirta.test (x, y, type = c("chisq","F"), scale = TRUE)
 }
 \details{
   The null is the hypotheses of linearity in
-  "mean". This test uses a Taylor series expansion of the activation
+  ``mean''. This test uses a Taylor series expansion of the activation
   function to arrive at a suitable test statistic. If \code{type} equals
   \code{"F"}, then the F-statistic instead of the Chi-Square statistic
   is used in analogy to the classical linear regression. 
@@ -55,14 +55,14 @@ terasvirta.test (x, y, type = c("chisq","F"), scale = TRUE)
 \examples{
 n <- 1000
 
-x <- runif (1000, -1, 1)  # Non-linear in "mean" regression 
+x <- runif (1000, -1, 1)  # Non-linear in ``mean'' regression 
 y <- x^2 - x^3 + 0.1*rnorm(x)
 terasvirta.test (x, y)
 
 terasvirta.test (cbind(x,x^2,x^3), y)  # Is the polynomial of order 2 misspecified?
 
 x[1] <- 0.0
-for (i in (2:n))  # Generate time series which is nonlinear in "mean"
+for (i in (2:n))  # Generate time series which is nonlinear in ``mean''
 {
   x[i] <- 0.4*x[i-1] + tanh(x[i-1]) + rnorm (1, sd=0.5)
 }

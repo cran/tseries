@@ -34,11 +34,12 @@ plot (object, ci.col = "blue", ylab = "AMIF", \dots)
   \item{trace}{a logical indicating whether additional output from the
     computation is traced.}
   \item{plot}{a logical indicating whether the AMIF is plotted.}
-  \item{\dots}{additional arguments to \code{\link{plot.amif}}.}
   \item{object}{an object of class \code{"amif"}.}
   \item{ci.col}{color to plot the confidence bound.}
   \item{ylab}{the title for the y axis.}
-  \item{\dots}{additional arguments to \code{\link{plot.acf}}.}
+  \item{\dots}{either additional arguments to \code{\link{plot.amif}}
+    (\code{amif}), or additional arguments to \code{\link{plot.acf}}
+    (\code{plot.amif}).}
 }
 \description{
   Computes and plots the sample (normalized) auto mutual information function
@@ -69,7 +70,7 @@ plot (object, ci.col = "blue", ylab = "AMIF", \dots)
   implementation of the algorithm of Fraser and Swinney (1986) is used.
 }
 \value{
-  An object of class \code{"amif","acf"}.
+  An object of class \code{c("amif","acf")}.
 }
 \references{
   C. Granger and J. L. Lin (1994): Using the Mutual Information
@@ -108,8 +109,8 @@ plot (x)
 # Each test takes about 3 sec on a Pentium II 300MHz
 
 amif (x, lag.max=5)  # i.i.d. vs. any dependence 
-amif (x, lag.max=5, fft=T)  # linear vs. non-linear 
-amif (x, lag.max=5, fft=T, amplitude=T)
+amif (x, lag.max=5, fft=TRUE)  # linear vs. non-linear 
+amif (x, lag.max=5, fft=TRUE, amplitude=TRUE)
 
 e <- rnorm (n)  # Generate AR(1) process
 x <- double (n)
@@ -122,8 +123,8 @@ x <- ts(x)
 plot (x)
 
 amif (x, lag.max=5)  # i.i.d. vs. any dependence 
-amif (x, lag.max=5, fft=T)  # linear vs. non-linear 
-amif (x, lag.max=5, fft=T, amplitude=T)
+amif (x, lag.max=5, fft=TRUE)  # linear vs. non-linear 
+amif (x, lag.max=5, fft=TRUE, amplitude=TRUE)
 }
 \keyword{ts}
 

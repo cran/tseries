@@ -53,8 +53,8 @@ print.summary (object, digits = max(3,.Options$digits-3),
 \details{
   The following parametrization is used for the ARMA(p,q) model:
   
-  \code{y[t] = a[0] + a[1]y[t-1] + \dots + a[p]y[t-p] + b[1]e[t-1] +
-    \dots + b[q]e[t-q] + e[t]},
+  \deqn{y[t] = a[0] + a[1]y[t-1] + \dots + a[p]y[t-p] + b[1]e[t-1] +
+    \dots + b[q]e[t-q] + e[t],}
   
   where \code{a[0]} is set to zero if no intercept is included. By using
   the argument \code{lag}, it is possible to fit a parsimonious submodel

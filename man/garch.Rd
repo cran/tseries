@@ -46,8 +46,6 @@ print.summary (object, digits = max(3,.Options$digits-3),
   \item{series}{name for the series. Defaults to
     \code{deparse(substitute(x))}.}
   \item{trace}{trace optimizer output?}
-  \item{\dots}{additional arguments for \code{\link{qr}} when computing
-    the asymptotic standard errors of \code{coef}.}
   \item{object}{a fit from \code{garch}.}
   \item{newdata}{a numeric vector or time series to compute GARCH
     predictons. Defaults to \code{eval(parse(text=object$series))}.}
@@ -57,7 +55,9 @@ print.summary (object, digits = max(3,.Options$digits-3),
   \item{digits, signif.stars}{see \code{\link{print.coefmat}}.}
   \item{ask}{Should the \code{plot} method work interactively? See
     \code{\link{interactive}}.}
-  \item{\dots}{additional arguments for \code{\link{print}}.} 
+  \item{\dots}{either additional arguments for \code{\link{qr}} when computing
+    the asymptotic standard errors of \code{coef} (\code{garch}), or
+    additional arguments for \code{\link{print}} (\code{print.summary.garch}).} 
 }
 \description{
   Fit a Generalized Autoregressive Conditional Heteroscedastic

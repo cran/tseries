@@ -1,10 +1,18 @@
 \name{tseries.internal}
-\title{tseries internal function}
+\title{Internal tseries functions}
 \alias{ampsurr}
 \alias{boot.sample}
 \alias{fftsurr}
 \description{
-  This is an internal function and it should not be used directly.
+  Internal tseries functions
+}
+\usage{
+ampsurr (x)
+boot.sample (x, b, type)
+fftsurr (x)
+}
+\details{
+  These are not to be called by the user.
 }
 \author{A. Trapletti}
-\keyword{misc}
+\keyword{ts,misc}

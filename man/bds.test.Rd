@@ -24,11 +24,11 @@ print (object, digits = 4)
   of i.i.d. random variables.
 }
 \details{
-  This test examines the "spatial dependence"
+  This test examines the ``spatial dependence''
   of the observed series. To do this, the series is embedded in
   \code{m}-space and the dependence of \code{x} is examined by 
-  counting "near" points. Points for which the distance is less than
-  \code{eps} are called "near". The BDS test statistic is asymptotically
+  counting ``near'' points. Points for which the distance is less than
+  \code{eps} are called ``near''. The BDS test statistic is asymptotically
   standard Normal.
   
   Missing values are not allowed.

@@ -27,7 +27,7 @@ surrogate (x, ns = 1, fft = FALSE, amplitude = FALSE, statistic = NULL, ...)
   the histogram of the original data is preserved. If \code{fft} is
   \code{TRUE}, then surrogate data with the same spectrum as \code{x} is
   computed by randomizing the phases of the Fourier coefficients of
-  \code{x}.If in addition \code{amplitude} is \code{TRUE}, then also the
+  \code{x}. If in addition \code{amplitude} is \code{TRUE}, then also the
   amplitude distribution of the original series is preserved.
 
   Note, that the interpretation of the computed standard error and bias
@@ -82,9 +82,9 @@ for (i in 2:n)
 x <- ts(x)
 
 theta <- function (x)  # Autocorrelations up to lag 10
-  return (acf(x, plot=F)$acf[2:11])
+  return (acf(x, plot=FALSE)$acf[2:11])
 
-surrogate (x, ns=50, fft=T, statistic=theta) 
+surrogate (x, ns=50, fft=TRUE, statistic=theta) 
 }
 \keyword{ts}
 

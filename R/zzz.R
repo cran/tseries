@@ -3,11 +3,9 @@
   library.dynam("tseries", pkg, lib)
   if (!require (ts, quietly=TRUE))
     stop ("Package ts is needed. Stopping")
-  filenm <- paste (.lib.loc, "/tseries/DESCRIPTION", sep="")
-  descidx <- file.exists (filenm)
-  descfn <- paste (filenm)[descidx]
-  desc <- scan (descfn, what=character(), quiet = TRUE)
-  ver <- desc[which (desc=="Version:")+1]
+  mylib <- .path.package("tseries")
+  mylib <- substr(mylib, 1, nchar(mylib)-7)
+  ver <- package.description("tseries", lib=mylib)$Version
   vertxt <- paste ("\n      `tseries' version:", ver, "\n")
   introtxt <- paste ("\n      `tseries' is a package for time series analysis with emphasize\n",
                      "       on non-linear modelling.\n",

@@ -27,5 +27,5 @@ surrogate                Generate Surrogate Data and Statistics
 tcm                      Monthly Yields on Treasury Securities
 tcmd                     Daily Yields on Treasury Securities
 terasvirta.test          Teraesvirta Neural Network Test for Nonlinearity
-tseries.internal         tseries internal function
+tseries.internal         Internal tseries functions
 white.test               White Neural Network Test for Nonlinearity

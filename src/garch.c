@@ -20,13 +20,12 @@
    Heteroscedasticity, Journal of Econometrics 31, 307-327. */
 
 
-#include "R.h"
-#include "Rinternals.h"
+#include <R.h>
 
 
-extern void F77_SYMBOL(dsumsl) ();
-extern void F77_SYMBOL(dsmsno) ();
-extern void F77_SYMBOL(ddeflt) ();
+extern void F77_NAME(dsumsl) ();
+extern void F77_NAME(dsmsno) ();
+extern void F77_NAME(ddeflt) ();
 
 
 #define BIG 1.0e+10  /* function value if the parameters are invalid */
@@ -52,8 +51,8 @@ struct garch_handler  /* used to set up the additional parameters used in calcf 
 static struct garch_handler garch_h;
 
 
-static void F77_SYMBOL(calcf) (int *pq, double *p, int *nf, double *f, int *uiparm, 
-			       double *urparm, void (*F77_SYMBOL(ufparm))(void))
+static void F77_SUB(calcf) (int *pq, double *p, int *nf, double *f, int *uiparm, 
+			    double *urparm, void (*F77_SUB(ufparm))(void))
      /* compute negative log likelihood apart from the constant and the pre-sample values */
 {
   int i, j, ok;
@@ -83,8 +82,8 @@ static void F77_SYMBOL(calcf) (int *pq, double *p, int *nf, double *f, int *uipa
     (*f) = BIG;
 }
 
-static void F77_SYMBOL(calcg) (int *pq, double *p, int *nf, double *dp, int *uiparm, 
-			       double *urparm, void (*F77_SYMBOL(ufparm))(void))
+static void F77_SUB(calcg) (int *pq, double *p, int *nf, double *dp, int *uiparm, 
+			    double *urparm, void (*F77_SUB(ufparm))(void))
      /* compute derivative of negative log likelihood */
 {
   int i, j, k;
@@ -126,13 +125,13 @@ static void F77_SYMBOL(calcg) (int *pq, double *p, int *nf, double *dp, int *uip
   } 
 }
 
-static void F77_SYMBOL(ufparm) ()
+static void F77_SUB(ufparm) ()
 {
   error ("fatal error in fit_garch ()\n");
 }
 
 
-void F77_SYMBOL(error) (char *string)
+void F77_SUB(error) (char *string)
 {
   error (string);
 }
@@ -173,7 +172,7 @@ void fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax,
   lv = 77+pq*(pq+17)/2;
   v = Calloc (lv, double);
   alg = 2;  
-  F77_SYMBOL(ddeflt) (&alg, iv, &liv, &lv, v);
+  F77_CALL(ddeflt) (&alg, iv, &liv, &lv, v);
   iv[0] = 12;  
   
   /* set up user defined optimizer parameters */ 
@@ -207,15 +206,15 @@ void fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax,
   if (*agrad)  /* estimation with analytical gradient */
   {
     if (*trace) Rprintf ("\n ***** ESTIMATION WITH ANALYTICAL GRADIENT ***** \n\n");
-    F77_SYMBOL(dsumsl) (&pq, d, par, F77_SYMBOL(calcf), F77_SYMBOL(calcg), 
-			iv, &liv, &lv, v, NULL, NULL, F77_SYMBOL(ufparm));
+    F77_CALL(dsumsl) (&pq, d, par, F77_SUB(calcf), F77_SUB(calcg), 
+		      iv, &liv, &lv, v, NULL, NULL, F77_SUB(ufparm));
     if (*trace) Rprintf ("\n");
   }
   else  /* estimation with numerical gradient */
   {
     if (*trace) Rprintf ("\n ***** ESTIMATION WITH NUMERICAL GRADIENT ***** \n\n");
-    F77_SYMBOL(dsmsno) (&pq, d, par, F77_SYMBOL(calcf), iv, 
-			&liv, &lv, v, NULL, NULL, F77_SYMBOL(ufparm));
+    F77_CALL(dsmsno) (&pq, d, par, F77_SUB(calcf), iv, 
+		      &liv, &lv, v, NULL, NULL, F77_SUB(ufparm));
     if (*trace) Rprintf ("\n");
   }
   

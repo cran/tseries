@@ -17,13 +17,12 @@
 */
 
 
-/* Changes for loading into R, A. Trapletti, 23.3.99 */
+/* Changes for loading into R, A. Trapletti, 20.12.2000 */
 
 
 #include <stdio.h>
 #include <math.h>
-#include "R.h"
-#include "Rinternals.h"
+#include <R.h>
 
       
 /* NBITS is the number of useable bits per word entry.  Technically
@@ -38,7 +37,7 @@
 #define PREC	double	
 #define TABLEN 32767
 
-static int DEBUG;
+static int BDS_DEBUG;
 
 /* ----------- grid macro: turn bits on --------------------------- */
 
@@ -182,7 +181,7 @@ int n;
 			}
 		}
 	}
-	if(DEBUG)
+	if(BDS_DEBUG)
 		Rprintf("count = %ld\n",count);
 
 	return ( 2*((double)count)/ (nd*(nd-1)));
@@ -291,12 +290,12 @@ double *k,c[];
 		lookup = Calloc(TABLEN+1,int);
 
 
-		if(DEBUG)
+		if(BDS_DEBUG)
 			Rprintf("set up grid\n");
 		postab = Calloc(n,struct position);
 
 		/* build start : grid pointers */
-		if(DEBUG)
+		if(BDS_DEBUG)
 			Rprintf("build start\n");
 		start = Calloc(n+1,short int *);
 		/* find out how big grid has to be */
@@ -322,7 +321,7 @@ double *k,c[];
 			bits[i] = (bits[i-1] << 1);
 
 		/* table for bit countining */
-		if(DEBUG)
+		if(BDS_DEBUG)
 			Rprintf("build lookup\n");
 		for(i=0;i<=TABLEN;i++){
 			*(lookup+i) = 0;
@@ -338,7 +337,7 @@ double *k,c[];
 		*ip = 0;
 
 
-	if(DEBUG)
+	if(BDS_DEBUG)
 		Rprintf("build pos tab\n");
 
 	/* perform thieler sort */
@@ -347,7 +346,7 @@ double *k,c[];
 		(postab+i)->pos   = i;
 	}
 
-	if(DEBUG)
+	if(BDS_DEBUG)
 		Rprintf("sort\n");
 
 	qsort((char *)postab,n,sizeof(struct position),comp);
@@ -355,7 +354,7 @@ double *k,c[];
 
 	/* start row by row construction */
 	/* use theiler method */
-	if(DEBUG)
+	if(BDS_DEBUG)
 		Rprintf("set grid\n");
 
 	count = 0;
@@ -394,7 +393,7 @@ double *k,c[];
 	/* adjust k and c to u statistic */
 	count = count - nobs;
 	phi   = phi - nobs - 3*count;
-	if(DEBUG)
+	if(BDS_DEBUG)
 		Rprintf("%ld %f\n",count,phi);
 	*k    = ((double)phi)/(dlength*(dlength-1)*(dlength-2));
 	c[1]  = ((double)count)/(dlength*(dlength-1));
@@ -540,12 +539,12 @@ void bdstest_main (int *N, int *M, double *x, double *c, double *cstan, double *
 	n = (*N);  
 	m = (*M);
 	eps = (*EPS);
-	DEBUG = (*TRACE);
+	BDS_DEBUG = (*TRACE);
 	
 	/* calculate raw c and k statistics : This is the hard part */
 	fkc(x,n,&k,c,m,m-1,eps);
 
-	if(DEBUG) {
+	if(BDS_DEBUG) {
 		Rprintf("k = %f\n",k);
 		for(i=1;i<=m;i++) {
 			Rprintf("c(%d) %f\n",i,c[i]);

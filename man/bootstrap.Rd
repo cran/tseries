@@ -20,11 +20,12 @@ print (obj, digits = max(3,.Options$digits-3), ...)
     (stationary bootstrap with mean block length \code{b}) and
     \code{"block"} (moving blocks bootstrap with block length
     \code{b}).}
-  \item{\dots}{Additional arguments for \code{statistic} which are
-    passed unchanged each time it is called.}
   \item{object}{a list with class \code{"resample.statistic"}.}
   \item{digits}{the number of digits to format real numbers.}
-  \item{\dots}{Additional arguments for \code{print}.}
+  \item{\dots}{either additional arguments for \code{statistic} which are
+    passed unchanged each time \code{statistic} is called
+    (\code{bootstrap}), or additional arguments for \code{print}
+    (\code{print.resample.statistic}).}
 }
 \description{
   Generates \code{nb} bootstrap samples from the original data
@@ -91,7 +92,7 @@ for (i in 2:n)
 x <- ts(x)
 
 theta <- function (x)  # Autocorrelations up to lag 10
-  return (acf(x, plot=F)$acf[2:11])
+  return (acf(x, plot=FALSE)$acf[2:11])
 
 bootstrap (x, nb=50, statistic=theta) 
 }

@@ -21,7 +21,7 @@ pp.test (x, alternative = c("stationary", "explosive"),
 }
 \details{
   The general regression equation which incorporates a constant and a
-  linear trend is used and the Z(alpha) or Z(t\_alpha) statistic for a
+  linear trend is used and the \code{Z(alpha)} or \code{Z(t_alpha)} statistic for a
   first order autoregressive coefficient equals one are computed. To estimate
   \code{sigma^2} the Newey-West estimator is used.  If \code{lshort}
   is \code{TRUE}, then the truncation lag parameter is set to

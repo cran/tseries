@@ -22,9 +22,9 @@ white.test (x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
     with the input vector of lagged variables. This strategy preserves
     power while still conserving degrees of freedom.}
   \item{range}{the input to hidden unit weights are initialized uniformly
-    over [-range/2,range/2].}
+    over [-range/2, range/2].}
   \item{type}{a string indicating whether the Chi-Square test or the
-    F-test is computed. Valid types are "chisq" and "F".}
+    F-test is computed. Valid types are \code{"chisq"} and \code{"F"}.}
   \item{scale}{a logical indicating whether the data should be scaled 
     before computing the test statistic. The default arguments to
     \code{\link{scale}} are used.}
@@ -35,7 +35,7 @@ white.test (x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
   \code{y~x}.
 }
 \details{
-  The null is the hypotheses of linearity in "mean". This
+  The null is the hypotheses of linearity in ``mean''. This
   type of test is consistent against arbitrary nonlinearity
   in mean. If \code{type} equals \code{"F"}, then the F-statistic
   instead of the Chi-Square statistic is used in analogy to the
@@ -66,14 +66,14 @@ white.test (x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
 \examples{
 n <- 1000
 
-x <- runif (1000, -1, 1)  # Non-linear in "mean" regression 
+x <- runif (1000, -1, 1)  # Non-linear in ``mean'' regression 
 y <- x^2 - x^3 + 0.1*rnorm(x)
 white.test (x, y)
 
 white.test (cbind(x,x^2,x^3), y)  # Is the polynomial of order 2 misspecified?
 
 x[1] <- 0.0
-for (i in (2:n))  # Generate time series which is nonlinear in "mean"
+for (i in (2:n))  # Generate time series which is nonlinear in ``mean''
 {
   x[i] <- 0.4*x[i-1] + tanh(x[i-1]) + rnorm (1, sd=0.5)
 }

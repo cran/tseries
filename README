@@ -9,7 +9,8 @@ License: GPL, except ./src/muin2ser.f and ./misc which are free for
 	 on the non GPL code. 
 
 The package has been tested using the following environment:
-Redhat 5.2, linux-2.0.36
-g77 egcs-2.90.29
-gcc 2.7.2.3
-R : Version 0.65.1
+Suse 7.0
+Linux version 2.2.16
+g77 version 2.95.2 19991024 (release)
+gcc version 2.95.2 19991024 (release)
+R : Version 1.2.0

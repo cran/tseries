@@ -4895,9 +4895,9 @@ C                 1982.
 C***ROUTINES CALLED  (NONE)
 C***END PROLOGUE  XERABT
       CHARACTER*(*) MESSG
-      EXTERNAL ERROR
+C      EXTERNAL ERROR
 C***FIRST EXECUTABLE STATEMENT  XERABT
-      CALL ERROR('dsumsl(), dsmsno() aborted\n')
+C      CALL ERROR('dsumsl(), dsmsno() aborted\n')
       END
       SUBROUTINE XERCTL(MESSG1,NMESSG,NERR,LEVEL,KONTRL)
       save

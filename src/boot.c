@@ -18,7 +18,7 @@
 
 
 #include <math.h>
-#include "R.h"
+#include <R.h>
 
 
 static int geodev (double p)
