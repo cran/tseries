@@ -8,9 +8,7 @@ function(lib, pkg)
     ver <- package.description("tseries", lib = mylib)["Version"]
     vertxt <- paste("\n\t`tseries' version:", ver, "\n")
     introtxt <-
-        paste("\n\t`tseries' is a package for time series analysis ",
-              "with emphasis\n",
-              "\ton non-linear modelling.\n",
+        paste("\n\t`tseries' is a package for time series analysis.\n",
               "\tSee `library (help=tseries)' for details.\n\n",
               sep = "")
     if(interactive() || getOption("verbose"))

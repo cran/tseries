@@ -11,11 +11,8 @@ plotOHLC(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab, col = par("col"),
 }
 \arguments{
   \item{x}{a multivariate time series object of class \code{"mts"}.}
-  \item{xlim, ylim}
-  \item{xlab, ylab}
-  \item{col, bg}
-  \item{axes, frame.plot}
-  \item{ann, main}{graphical arguments, see \code{\link{plot}},
+  \item{xlim, ylim, xlab, ylab, col, bg, axes, frame.plot, ann,
+    main}{graphical arguments, see \code{\link{plot}},
     \code{\link{plot.default}} and \code{\link{par}}.}
   \item{date}{a string indicating the type of x axis
     annotation. Default is calendar dates.}

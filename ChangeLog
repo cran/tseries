@@ -1,3 +1,10 @@
+2001-11-30  Adrian Trapletti <a.trapletti@bluewin.ch>
+	* DESCRIPTION (Version): New version is 0.8-4.	
+
+	* man/plotOHLC.Rd: improve documentation
+	
+	* R/zzz.R: cosmetic change
+	
 2001-11-08  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION (Version): New version is 0.8-3.
