@@ -205,14 +205,46 @@ function(x)
     cmaxx <- cummax(x)-x
     mdd <- max(cmaxx)
     to <- which(mdd == cmaxx)
-    from <- max(which(cmaxx[1:to] == 0))
+    from <- double(NROW(to))
+    for (i in 1:NROW(to))
+        from[i] <- max(which(cmaxx[1:to[i]] == 0))
     return(list(maxdrawdown = mdd, from = from, to = to))
 }
 
-plotOHLC <- function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
-                     col = par("col"), bg = par("bg"), axes = TRUE,
-                     frame.plot = axes, ann = par("ann"), main = NULL,
-                     date = c("calendar", "julian"), format = "%Y-%m-%d", ...)
+sharpe <-
+function(x, r = 0, scale = sqrt(250))
+{
+    if(NCOL(x) > 1)
+        stop("x is not a vector or univariate time series")
+    if(any(is.na(x)))
+        stop("NAs in x")
+    if(NROW(x) == 1)
+        return(NA)
+    else {
+        y <- diff(x)
+        return(scale * (mean(y)-r)/sd(y))
+    }
+}
+
+sterling <-
+function(x)
+{
+    if(NCOL(x) > 1)
+        stop("x is not a vector or univariate time series")
+    if(any(is.na(x)))
+        stop("NAs in x")
+    if(NROW(x) == 1)
+        return(NA)
+    else {
+        return((x[NROW(x)]-x[1]) / maxdrawdown(x)$maxdrawdown)
+    }
+}
+
+plotOHLC <-
+function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
+         col = par("col"), bg = par("bg"), axes = TRUE,
+         frame.plot = axes, ann = par("ann"), main = NULL,
+         date = c("calendar", "julian"), format = "%Y-%m-%d", ...)
 {
   if ((!is.mts(x)) ||
       (colnames(x)[1] != "Open") ||

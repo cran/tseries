@@ -18,13 +18,18 @@ maxdrawdown(x)
   a buy-and-hold strategy invested in \code{x}.
 }
 \value{
-  A list containing the following two components:
+  A list containing the following three components:
   \item{maxdrawdown}{double representing the max drawdown or max
     loss statistic.}
-  \item{from}{the index where the max drawdown period starts.}
-  \item{to}{the index where the max drawdown period ends.}
+  \item{from}{the index (or vector of indices) where the max drawdown
+    period starts.} 
+  \item{to}{the index (or vector of indices) where the max drawdown
+    period ends.} 
 }
 \author{A. Trapletti}
+\seealso{
+  \code{\link{sterling}}
+}
 \examples{
 # Toy example
 x <- c(1:10, 9:7, 8:14, 13:8, 9:20)

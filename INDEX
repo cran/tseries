@@ -26,6 +26,8 @@ read.matrix             Read Matrix Data
 read.ts                 Read Time Series Data
 runs.test               Runs Test
 seqplot.ts              Plot Two Time Series
+sharpe                  Sharpe Ratio
+sterling                Sterling Ratio
 summary.arma            Summarizing ARMA Model Fits
 summary.garch           Summarizing GARCH Model Fits
 surrogate               Generate Surrogate Data and Statistics

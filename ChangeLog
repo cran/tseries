@@ -1,3 +1,16 @@
+2002-06-19  Adrian Trapletti <a.trapletti@bluewin.ch>
+	* DESCRIPTION (Version): New version is 0.9-1.	
+
+	* INDEX:
+	* TITLE:
+	* R/zzz.R: Cleanup and cosmetic changes.
+
+	* man/maxdrawdown.Rd:
+	* man/sharpe.Rd:
+	* man/sterling.Rd:
+	* R/finance.R: Improved version of maxdrawdown 
+	and new functions sharpe and sterling.
+	
 2002-04-26  Adrian Trapletti <a.trapletti@bluewin.ch>
 	* DESCRIPTION (Version): New version is 0.9-0.	
 
