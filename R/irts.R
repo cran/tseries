@@ -189,7 +189,7 @@ function(x, i, j, ...)
     }
 }
 
-interpolate <-
+approx.irts <-
 function(object, time, ...)
 {
     if(!inherits(object, "irts"))

@@ -1,3 +1,14 @@
+2003-07-09  Adrian Trapletti <a.trapletti@bluewin.ch>
+
+	* DESCRIPTION (Version): New version is 0.9-14.	
+
+	* R/finance.R (plotOHLC): Correct bug when setting the ylim
+	argument (reported by Dirk Eddelbuettel).
+
+	* R/irts.R:
+	* man/irts-functions.Rd: rename function interpolate to
+	approx.irts.
+
 2003-07-08  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-13.

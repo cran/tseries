@@ -1,7 +1,7 @@
 \name{irts-functions}
 \alias{irts-functions}
+\alias{approx.irts}
 \alias{daysecond}
-\alias{interpolate}
 \alias{is.businessday}
 \alias{is.weekend}
 \alias{read.irts}
@@ -13,7 +13,7 @@
 }
 \usage{
 daysecond(object, tz = "GMT")
-interpolate(object, time, \dots)
+approx.irts(object, time, \dots)
 is.businessday(object, tz = "GMT")
 is.weekend(object, tz = "GMT")
 read.irts(file, format = "\%Y-\%m-\%d \%H:\%M:\%S", tz = "GMT", \dots)
@@ -39,7 +39,7 @@ write.irts(object, file = "", append = FALSE, quote = FALSE,
     file. \code{format.value} is passed unchanged as argument
     \code{format} to the function \code{\link{formatC}}.} 
   \item{\dots}{further arguments passed to or from other methods: for
-    \code{interpolate} passed to \code{\link{approx}}; for
+    \code{approx.irts} passed to \code{\link{approx}}; for
     \code{read.irts} passed to \code{\link{read.table}}; for
     \code{write.irts} passed to \code{\link{data.frame}}.}
 }
@@ -52,7 +52,7 @@ write.irts(object, file = "", append = FALSE, quote = FALSE,
   irregular time-series object are recorded on business days and
   weekends, respectively. 
 
-  \code{interpolate} interpolates an irregularly spaced time-series at
+  \code{approx.irts} interpolates an irregularly spaced time-series at
   prespecified times.
 
   \code{read.irts} is the function to read irregular time-series
@@ -68,7 +68,7 @@ write.irts(object, file = "", append = FALSE, quote = FALSE,
   For \code{is.businessday} and \code{is.weekend} a vector of
   \code{"logical"} representing the test results for each time.
 
-  For \code{interpolate}, \code{read.irts} and \code{write.irts} an
+  For \code{approx.irts}, \code{read.irts} and \code{write.irts} an
   object of class \code{"irts"}.
 }
 \author{
@@ -90,8 +90,8 @@ is.businessday(x)
 is.weekend(x)
 x
 
-interpolate(x, seq(ISOdatetime(1970, 1, 1, 0, 0, 0, tz = "GMT"),
-                   by = "10 secs", length = 7), rule = 2)
+approx.irts(x, seq(ISOdatetime(1970, 1, 1, 0, 0, 0, tz = "GMT"),
+            by = "10 secs", length = 7), rule = 2)
 
 \dontrun{
 file <- tempfile()

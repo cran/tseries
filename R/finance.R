@@ -277,7 +277,6 @@ function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
   date <- match.arg(date)
   time.x <- time(x)
   dt <- min(lag(time.x)-time.x)/3
-  ylim <- c(min(x, na.rm = TRUE), max(x, na.rm = TRUE))
   if (is.null(xlim)) 
       xlim <- range(time.x)
   if (is.null(ylim)) 
