@@ -134,7 +134,8 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
 }
 
 get.hist.quote <-
-function (instrument = "^gdax", start, end, quote = c("Open", "High", "Low", "Close"),
+function (instrument = "^gdax", start, end,
+          quote = c("Open", "High", "Low", "Close"),
           provider = "yahoo", method = "auto", origin = "1899-12-30") 
 {
     if(missing(start)) start <- "1991-01-02"
@@ -146,22 +147,23 @@ function (instrument = "^gdax", start, end, quote = c("Open", "High", "Low", "Cl
     end <- as.POSIXct(end, tz = "GMT")
 
     if(provider == "yahoo") {
-        url <- paste("http://chart.yahoo.com/table.csv?s=",
-                     instrument, 
-                     format(start,
-                            paste("&a=",
-                                  as.character(as.numeric(format(start, "%m"))-1),
-                                  "&b=%d&c=%Y",
-                                  sep = "")),
-                     format(end,
-                            paste("&d=",
-                                  as.character(as.numeric(format(end, "%m"))-1),
-                                  "&e=%d&f=%Y",
-                                  sep = "")), 
-                     "&g=d&q=q&y=0&z=",
-                     instrument,
-                     "&x=.csv",
-                     sep = "")
+        url <-
+            paste("http://chart.yahoo.com/table.csv?s=",
+                  instrument, 
+                  format(start,
+                         paste("&a=",
+                               as.character(as.numeric(format(start, "%m"))-1),
+                               "&b=%d&c=%Y",
+                               sep = "")),
+                  format(end,
+                         paste("&d=",
+                               as.character(as.numeric(format(end, "%m"))-1),
+                               "&e=%d&f=%Y",
+                               sep = "")), 
+                  "&g=d&q=q&y=0&z=",
+                  instrument,
+                  "&x=.csv",
+                  sep = "")
         destfile <- tempfile()
         status <- download.file(url, destfile, method = method)
         if(status != 0) {
@@ -184,7 +186,7 @@ function (instrument = "^gdax", start, end, quote = c("Open", "High", "Low", "Cl
             stop("This quote is not available")
         n <- nrow(x)
 
-        ## Yahoo currently formats dates as `26-Jun-01', hence need C
+        ## Yahoo currently formats dates as '26-Jun-01', hence need C
         ## LC_TIME locale for getting the month right.
         lct <- Sys.getlocale("LC_TIME")
         Sys.setlocale("LC_TIME", "C")
@@ -196,10 +198,11 @@ function (instrument = "^gdax", start, end, quote = c("Open", "High", "Low", "Cl
             cat(format(dat[n], "time series starts %Y-%m-%d\n"))
         if(dat[1] != end)
             cat(format(dat[1], "time series ends   %Y-%m-%d\n"))
-        jdat <- julian(dat, origin = as.POSIXct(origin, tz = "GMT"))
-        ## The as.numeric() is needed because 1.7.0 does not allow
-        ## adding 1 to a "difftime" object.
-        ind <- as.numeric(jdat - jdat[n]) + 1
+        jdat <-
+            unclass(julian(dat, origin = as.POSIXct(origin, tz = "GMT")))
+        ## We need unclass() because 1.7.0 does not allow adding a number
+        ## to a "difftime" object. 
+        ind <- jdat - jdat[n] + 1
         y <- matrix(NA, nr = max(ind), nc = length(nser))
         y[ind, ] <- as.matrix(x[, nser, drop = FALSE])
         colnames(y) <- names(x)[nser]
