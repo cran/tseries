@@ -1,3 +1,10 @@
+2005-04-01  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-25.
+
+	* R/finance.R (get.hist.quote): Use Date rather than POSIXct,
+	suggested by Gabor Grothendieck <ggrothendieck@myway.com>.
+
 2004-11-12  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-24.

@@ -142,14 +142,16 @@ function (instrument = "^gdax", start, end,
     ## May be "d", "w" or "m", for daily weekly or monthly.
     ## Defaults to "d".
     ## John Bollinger, 2004-10-27, www.BollingerBands.com, bbands@yahoo.com
+    ##
+    ## Changed POSIXct class to Date class, 2005-03-31
 {
     if(missing(start)) start <- "1991-01-02"
-    if(missing(end)) end <- format(Sys.time() - 86400, "%Y-%m-%d")
+    if(missing(end)) end <- format(Sys.Date() - 1, "%Y-%m-%d")
   
     provider <- match.arg(provider)
 
-    start <- as.POSIXct(start, tz = "GMT")
-    end <- as.POSIXct(end, tz = "GMT")
+    start <- as.Date(start)
+    end <- as.Date(end)
 
     if(provider == "yahoo") {
         url <-
@@ -204,13 +206,13 @@ function (instrument = "^gdax", start, end,
         on.exit(Sys.setlocale("LC_TIME", lct))
 
         dat <- gsub(" ", "0", as.character(x[, 1])) # Need the gsub?
-        dat <- as.POSIXct(strptime(dat, "%d-%b-%y"), tz = "GMT")
+        dat <- as.Date(dat, "%d-%b-%y")
         if(dat[n] != start)
             cat(format(dat[n], "time series starts %Y-%m-%d\n"))
         if(dat[1] != end)
             cat(format(dat[1], "time series ends   %Y-%m-%d\n"))
         jdat <-
-            unclass(julian(dat, origin = as.POSIXct(origin, tz = "GMT")))
+            unclass(julian(dat, origin = as.Date(origin)))
         ## We need unclass() because 1.7.0 does not allow adding a number
         ## to a "difftime" object. 
         ind <- jdat - jdat[n] + 1
