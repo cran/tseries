@@ -1,12 +1,17 @@
 \name{terasvirta.test}
 \title{Teraesvirta Neural Network Test for Nonlinearity}
-\usage{
-terasvirta.test (x, lag = 1, type = c("chisq","F"), scale = TRUE)
-terasvirta.test (x, y, type = c("chisq","F"), scale = TRUE)
-}
 \alias{terasvirta.test}
 \alias{terasvirta.test.ts}
 \alias{terasvirta.test.default}
+\description{
+  Generically computes Teraesvirta's neural network test for neglected
+  nonlinearity either for the time series \code{x} or the regression
+  \code{y~x}.
+}
+\usage{
+\method{terasvirta.test}{ts}(x, lag = 1, type = c("chisq","F"), scale = TRUE)
+\method{terasvirta.test}{default}(x, y, type = c("chisq","F"), scale = TRUE)
+}
 \arguments{
   \item{x}{a numeric vector, matrix, or time series.}
   \item{y}{a numeric vector.}
@@ -17,11 +22,6 @@ terasvirta.test (x, y, type = c("chisq","F"), scale = TRUE)
   \item{scale}{a logical indicating whether the data should be scaled 
     before computing the test statistic. The default arguments to
     \code{\link{scale}} are used.}
-}
-\description{
-  Generically computes Teraesvirta's neural network test for neglected
-  nonlinearity either for the time series \code{x} or the regression
-  \code{y~x}.
 }
 \details{
   The null is the hypotheses of linearity in
@@ -71,7 +71,3 @@ plot (x)
 terasvirta.test (x)
 }
 \keyword{ts}
-
-
-
-

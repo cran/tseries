@@ -1,14 +1,19 @@
 \name{white.test}
 \title{White Neural Network Test for Nonlinearity}
-\usage{
-white.test (x, lag = 1, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
-            scale = TRUE)
-white.test (x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
-            scale = TRUE)
-}
 \alias{white.test}
 \alias{white.test.ts}
 \alias{white.test.default}
+\description{
+  Generically computes the White neural network test for neglected
+  nonlinearity either for the time series \code{x} or the regression
+  \code{y~x}.
+}
+\usage{
+\method{white.test}{ts}(x, lag = 1, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
+            scale = TRUE)
+\method{white.test}{default}(x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
+            scale = TRUE)
+}
 \arguments{
   \item{x}{a numeric vector, matrix, or time series.}
   \item{y}{a numeric vector.}
@@ -28,11 +33,6 @@ white.test (x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
   \item{scale}{a logical indicating whether the data should be scaled 
     before computing the test statistic. The default arguments to
     \code{\link{scale}} are used.}
-}
-\description{
-  Generically computes the White neural network test for neglected
-  nonlinearity either for the time series \code{x} or the regression
-  \code{y~x}.
 }
 \details{
   The null is the hypotheses of linearity in ``mean''. This
@@ -82,7 +82,3 @@ plot (x)
 white.test (x)
 }
 \keyword{ts}
-
-
-
-

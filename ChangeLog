@@ -1,0 +1,10 @@
+2001-06-18  Kurt Hornik  <Kurt.Hornik@ci.tuwien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.7-2.
+	(Depends): Redo according to R-exts.  Detailed info now in
+	`README'.
+
+	* man/na.remove.Rd: Sync code and documented usage.
+
+	* ChangeLog: finally started.
+

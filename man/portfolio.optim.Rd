@@ -1,11 +1,15 @@
 \name{portfolio.optim}
-\title{Portfolio Optimization}
-\usage{
-portfolio.optim (x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
-}
 \alias{portfolio.optim}
 \alias{portfolio.optim.ts}
 \alias{portfolio.optim.default}
+\title{Portfolio Optimization}
+\description{
+  Computes an efficient portfolio from the given return series \code{x}
+  in the mean-variance sense.
+}
+\usage{
+\method{portfolio.optim}{default}(x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
+}
 \arguments{
   \item{x}{a numeric matrix or multivariate time series consisting of a
     series of returns.}
@@ -16,18 +20,14 @@ portfolio.optim (x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
     securities are allowed.} 
   \item{rf}{the riskfree interest rate.}
 }
-\description{
-  Computes an efficient portfolio from the given return series \code{x}
-  in the mean-variance sense.
-}
 \details{
-  The computed portfolio has the desired
-  expected return \code{pm} and no other portfolio exists, which has the same
-  mean return, but a smaller variance. To solve the quadratic program
-  \code{\link{solve.QP}} is used.
+  The computed portfolio has the desired expected return \code{pm} and
+  no other portfolio exists, which has the same mean return, but a
+  smaller variance.  To solve the quadratic program,
+  \code{\link[quadprog]{solve.QP}} is used.
 
-  \code{portfolio.optim} is a generic function with methods for multivariate
-  \code{"ts"} and \code{default} for matrix.
+  \code{portfolio.optim} is a generic function with methods for
+  multivariate \code{"ts"} and \code{default} for matrix.
 
   Missing values are not allowed.
 }
@@ -47,7 +47,7 @@ portfolio.optim (x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
 }
 \author{A. Trapletti}
 \seealso{
-  \code{\link{solve.QP}}
+  \code{\link[quadprog]{solve.QP}}
 }
 \examples{
 x <- rnorm (1000)
@@ -56,4 +56,3 @@ res <- portfolio.optim (x)
 res$pw
 }
 \keyword{ts}
-

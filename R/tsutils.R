@@ -1,22 +1,23 @@
-# Copyright (C) 1997-1999  Adrian Trapletti
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Library General Public
-# License as published by the Free Software Foundation; either
-# version 2 of the License, or (at your option) any later version.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Library General Public License for more details.
-#
-# You should have received a copy of the GNU Library General Public
-# License along with this library; if not, write to the Free
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+## Copyright (C) 1997-1999  Adrian Trapletti
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; either version 2, or (at your option)
+## any later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+## A copy of the GNU General Public License is available via WWW at
+## http://www.gnu.org/copyleft/gpl.html.  You can also obtain it by
+## writing to the Free Software Foundation, Inc., 59 Temple Place,
+## Suite 330, Boston, MA  02111-1307  USA.
 
-#
-# Various time series related routines
-#
+##
+## Various time series related routines
+##
 
 
 read.ts <- function (file, header = FALSE, sep = "", skip = 0, ...)
@@ -156,7 +157,7 @@ read.matrix <- function (file, header = FALSE, sep = "", skip = 0)
   return (x)
 }
 
-na.remove <- function (object, ...) { UseMethod ("na.remove") }
+na.remove <- function (object, ...) UseMethod ("na.remove")
 
 na.remove.ts <- function (x)
 {
@@ -318,16 +319,15 @@ bootstrap <- function (x, nb = 1, statistic = NULL, b = NULL, type = c("stationa
   }
 }
 
-print.resample.statistic <- function (object, digits = max(3,.Options$digits-3), ...)
+print.resample.statistic <-
+function (object, digits = max(3,.Options$digits-3), ...)
 {
-  cat("\nCall:", deparse(object$call), "", sep = "\n")
-  nam <- c("original", "bias", "std. error")
-  stat <- cbind(object$orig.statistic,object$bias,object$se)
-  colnames(stat) <- nam
-  cat ("Resampled Statistic(s):\n")
-  print (drop(stat), digits, ...)
-  cat("\n")
-  invisible(object)
+    cat("\nCall:", deparse(object$call), "", sep = "\n")
+    nam <- c("original", "bias", "std. error")
+    stat <- cbind(object$orig.statistic,object$bias,object$se)
+    colnames(stat) <- nam
+    cat("Resampled Statistic(s):\n")
+    print(drop(stat), digits, ...)
+    cat("\n")
+    invisible(object)
 }
-
-
