@@ -175,10 +175,16 @@ function (instrument = "^gdax", start, end,
             unlink(destfile)
             stop(paste("No data available for", instrument))
         }
-        x <- read.table(destfile, header = TRUE, sep = ",", as.is = TRUE)
+        
+        ## Yahoo includes rows concerning dividends,
+        ## hence need fill = TRUE and na.omit
+        x <- read.table(destfile, header = TRUE, sep = ",", as.is = TRUE, fill = TRUE)
+        x <- na.omit(x)
+        
         ## Debug
         ## cat("read.table: start =", x[NROW(x),"Date"], "\n")
         ## cat("read.table: end   =", x[1,"Date"], "\n")
+        
         unlink(destfile)
 
         nser <- pmatch(quote, names(x)[-1]) + 1
