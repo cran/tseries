@@ -4,7 +4,7 @@
 get.hist.quote (instrument = "^gdax", start, end,
                 quote = c("Open", "High", "Low", "Close"),
                 provider = "yahoo",
-                method = c("auto", "wget", "lynx"))
+                method = "auto")
 }
 \alias{get.hist.quote}
 \arguments{
@@ -17,9 +17,8 @@ get.hist.quote (instrument = "^gdax", start, end,
   \item{provider}{the name of the data provider. Currently implemented
     is \code{"yahoo"}. See \url{http://quote.yahoo.com/} for more
     information.}
-  \item{method}{tool to be used for downloading the data. Currently
-    download methods \code{"auto"}, \code{"wget"}, and \code{"lynx"}
-    are available.}
+  \item{method}{tool to be used for downloading the data. See
+    \code{\link{download.file}} for the available download methods.}
 }
 \description{
   Download historical financial data from a given data provider over
@@ -32,7 +31,8 @@ get.hist.quote (instrument = "^gdax", start, end,
 }
 \author{A. Trapletti}
 \seealso{
-  \code{\link{ts}}, \code{\link{chron}}, \url{http://quote.yahoo.com/}
+  \code{\link{ts}}, \code{\link{chron}}, \code{\link{download.file}},
+  \url{http://quote.yahoo.com/} 
 }
 \examples{
 \dontrun{x <- get.hist.quote (instrument = "^spc", start = "1 1 1998",

@@ -63,6 +63,9 @@ c------------------------------------------------------------------------
      +            chi3alpha, chi15alpha, cdiff
       logical*4   trace
 
+      common /bounds/ npt, maxprec
+      common /chi/    chi3alpha, chi15alpha
+
 c--- the following data are taken from Tab.1.1.2.10, p.21,
 c    Bronstein & Semendjajew, Taschenbuch der Mathematik,
 c    25.Aufl., Teubner, Leipzig, 1991
@@ -75,8 +78,6 @@ c    25.Aufl., Teubner, Leipzig, 1991
       data   sqchi15  /0.347,  0.400,  0.487,  0.567,  0.687,
      +                 0.780,  0.870,  0.953,  1.049,  1.153,
      +                 1.287,  1.487,  1.667,  1.887,  2.040/
-      common /bounds/ npt, maxprec
-      common /chi/    chi3alpha, chi15alpha
 
 
 c---  get the limits for the chi^2-Test given the confidence level

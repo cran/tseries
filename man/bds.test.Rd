@@ -3,7 +3,7 @@
 \usage{
 bds.test (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace =
           FALSE)
-print (obj, digits = 4)
+print (object, digits = 4)
 }
 \alias{bds.test}
 \alias{print.bdstest}
@@ -16,7 +16,7 @@ print (obj, digits = 4)
     should be set in terms of the standard deviation of \code{x}.}
   \item{trace}{a logical indicating whether some informational output is
     traced.}
-  \item{obj}{a list with class \code{"bdstest"}.}
+  \item{object}{a list with class \code{"bdstest"}.}
   \item{digits}{the number of digits to format real numbers.}
 }
 \description{

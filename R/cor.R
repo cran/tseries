@@ -24,7 +24,6 @@ amif <- function (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, n
                   plot = TRUE, ...)
 {
   if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
-  if (lag.max < 1) stop ("number of lags is not positive")
   if ((maxbit < 1) | (maxbit > 25)) stop ("maxbit out of range")
   if ((confidence < 0.01) | (confidence > 0.99)) stop ("confidence out of range")
   if (nsurr < 1) stop ("nsurr is not positive")
@@ -38,6 +37,8 @@ amif <- function (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, n
   if (is.null(lag.max))
     lag.max <- floor (10*(log10(sampleT)-log10(1)))
   lag.max <- min (lag.max, sampleT-1)
+  if (lag.max < 1) 
+    stop ("lag.max must be at least 1")
   lag <- matrix (1, 1, 1)
   lag[lower.tri(lag)] <- -1
   inf <- double (lag.max+1)
@@ -70,10 +71,10 @@ amif <- function (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, n
   else return (amif)  
 }
 
-plot.amif <- function (obj, ci.col = "blue", ...)
+plot.amif <- function (object, ci.col = "blue", ...)
 {
-  if (!inherits(obj, "amif")) stop ("method is only for amif objects")
-  plot.acf (x = obj, ylab = "AMIF", ...)
-  if (!is.null(obj$clim))
-    lines(obj$lag[, 1, 1], obj$clim, col = ci.col, lty = 2)
+  if (!inherits(object, "amif")) stop ("method is only for amif objects")
+  plot.acf (x = object, ylab = "AMIF", ...)
+  if (!is.null(object$clim))
+    lines(object$lag[, 1, 1], object$clim, col = ci.col, lty = 2)
 }

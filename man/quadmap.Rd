@@ -1,7 +1,7 @@
 \name{quadmap}
 \title{Quadratic Map (Logistic Equation)}
 \usage{
-quadmap (xi = 0.0, a = 4.0, n = 1000)
+quadmap (xi = 0.2, a = 4.0, n = 1000)
 }
 \alias{quadmap}
 \arguments{
@@ -17,7 +17,7 @@ quadmap (xi = 0.0, a = 4.0, n = 1000)
 }
 \author{A. Trapletti}
 \examples{
-x <- quadmap (0.2)
+x <- quadmap ()
 acf (x, 10)
 }
 \keyword{ts}

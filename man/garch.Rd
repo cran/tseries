@@ -3,14 +3,14 @@
 \usage{
 garch (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
        grad = c("analytical","numerical"), series = NULL, trace = TRUE, \dots)
-predict (obj, newdata, genuine = FALSE)
-coef (obj)
-residuals (obj)
-fitted (obj)
-print (obj, digits = max(3,.Options$digits-3))
-summary (obj)
-plot (obj)
-print.summary (obj, digits = max(3,.Options$digits-3),
+predict (object, newdata, genuine = FALSE)
+coef (object)
+residuals (object)
+fitted (object)
+print (object, digits = max(3,.Options$digits-3))
+summary (object)
+plot (object, ask = interactive())
+print.summary (object, digits = max(3,.Options$digits-3),
                signif.stars = .Options$show.signif.stars, \dots)
 }
 \alias{garch}
@@ -48,9 +48,9 @@ print.summary (obj, digits = max(3,.Options$digits-3),
   \item{trace}{trace optimizer output?}
   \item{\dots}{additional arguments for \code{\link{qr}} when computing
     the asymptotic standard errors of \code{coef}.}
-  \item{obj}{a fit from \code{garch}.}
+  \item{object}{a fit from \code{garch}.}
   \item{newdata}{a numeric vector or time series to compute GARCH
-    predictons. Defaults to \code{eval(parse(text=obj$series))}.}
+    predictons. Defaults to \code{eval(parse(text=object$series))}.}
   \item{genuine}{a logical indicating whether a genuine prediction
     should be made, i.e., a prediction for which there is no
     target observation available.}

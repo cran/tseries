@@ -58,6 +58,7 @@ bds.test <- function (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = F
   if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
   if (any(is.na(x))) stop ("NAs in x")
   if (m < 2) stop ("m is less than 2")
+  if (length(eps) == 0) stop ("invalid eps")
   if (any(eps<=0)) stop ("invalid eps")
   DNAME <- deparse(substitute(x))
   n <- length(x)
@@ -84,38 +85,39 @@ bds.test <- function (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = F
             class = "bdstest")
 }
 
-print.bdstest <- function (obj, digits = 4)
+print.bdstest <- function (object, digits = 4)
 {
-  if (!inherits(obj, "bdstest")) stop ("method is only for bdstest objects")
-  cat("\n\t", obj$method, "\n\n")
-  cat("data: ", obj$data.name, "\n\n")
-  if (!is.null(obj$parameter))
+  if (!inherits(object, "bdstest")) stop ("method is only for bdstest objects")
+  cat("\n\t", object$method, "\n\n")
+  cat("data: ", object$data.name, "\n\n")
+  if (!is.null(object$parameter))
   {
-    cat("Embedding dimension = ", format(round(obj$parameter$m, digits)), sep = " ", "\n\n")
-    cat("Epsilon for close points = ", format(round(obj$parameter$eps, digits)), sep = " ", "\n\n")
+    cat("Embedding dimension = ", format(round(object$parameter$m, digits)), sep = " ", "\n\n")
+    cat("Epsilon for close points = ", format(round(object$parameter$eps, digits)),
+        sep = " ", "\n\n")
   }
-  if (!is.null(obj$statistic))
+  if (!is.null(object$statistic))
   {
-    colnames(obj$statistic) <- round (as.numeric(colnames(obj$statistic)), digits)
-    colnames(obj$statistic) <- paste("[",colnames(obj$statistic),"]")
-    rownames(obj$statistic) <- round (as.numeric(rownames(obj$statistic)), digits)
-    rownames(obj$statistic) <- paste("[",rownames(obj$statistic),"]")
+    colnames(object$statistic) <- round (as.numeric(colnames(object$statistic)), digits)
+    colnames(object$statistic) <- paste("[",colnames(object$statistic),"]")
+    rownames(object$statistic) <- round (as.numeric(rownames(object$statistic)), digits)
+    rownames(object$statistic) <- paste("[",rownames(object$statistic),"]")
     cat("Standard Normal = \n")
-    print (round(obj$statistic, digits))
+    print (round(object$statistic, digits))
     cat("\n")
   }
-  if (!is.null(obj$p.value))
+  if (!is.null(object$p.value))
   {
-    colnames(obj$p.value) <- round (as.numeric(colnames(obj$p.value)), digits)
-    colnames(obj$p.value) <- paste("[",colnames(obj$p.value),"]")
-    rownames(obj$p.value) <- round (as.numeric(rownames(obj$p.value)), digits)
-    rownames(obj$p.value) <- paste("[",rownames(obj$p.value),"]")
+    colnames(object$p.value) <- round (as.numeric(colnames(object$p.value)), digits)
+    colnames(object$p.value) <- paste("[",colnames(object$p.value),"]")
+    rownames(object$p.value) <- round (as.numeric(rownames(object$p.value)), digits)
+    rownames(object$p.value) <- paste("[",rownames(object$p.value),"]")
     cat("p-value = \n")
-    print (round(obj$p.value, digits))
+    print (round(object$p.value, digits))
     cat("\n")
   }
   cat("\n")
-  invisible(obj)
+  invisible(object)
 }
 
 adf.test <- function (x, k = trunc((length(x)-1)^(1/3)))
@@ -165,7 +167,7 @@ adf.test <- function (x, k = trunc((length(x)-1)^(1/3)))
             class = "htest")
 }
 
-white.test <- function (obj, ...) { UseMethod("white.test") }
+white.test <- function (object, ...) { UseMethod("white.test") }
 
 white.test.default <- function (x, y, qstar = 2, q = 10, range = 4,
                                 type = c("chisq","F"), scale = TRUE)
@@ -286,7 +288,7 @@ white.test.ts <- function (x, lag = 1, qstar = 2, q = 10, range = 4,
                  method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
 }
 
-terasvirta.test <- function (obj, ...) { UseMethod("terasvirta.test") }
+terasvirta.test <- function (object, ...) { UseMethod("terasvirta.test") }
 
 terasvirta.test.default <- function (x, y, type = c("chisq","F"), scale = TRUE)
 {
@@ -296,6 +298,8 @@ terasvirta.test.default <- function (x, y, type = c("chisq","F"), scale = TRUE)
   if (any(is.na(x))) stop ("NAs in x")
   if (any(is.na(y))) stop ("NAs in y")
   nin <- dim(x)[2]
+  if (nin < 1)
+    stop ("invalid x")
   t <- dim(x)[1]
   if (dim(x)[1] != dim(y)[1]) 
     stop("number of rows of x and y must match")

@@ -1,7 +1,8 @@
 Package: tseries
-Version: 0.3-1
+Version: 0.4-0
 Author: Compiled by Adrian Trapletti <A.Trapletti@ci.tuwien.ac.at>.
-Description: Library for time series analysis
+Description: Library for time series analysis with emphasize on non-linear 
+             modelling
 Depends: package ts (included in the R release), white.test needs package mva, 
          portfolio.optim needs package quadprog, get.hist.quote needs package
          chron.

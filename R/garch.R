@@ -87,44 +87,45 @@ garch <- function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
   return (garch)
 }
 
-coef.garch <- function (obj)
+coef.garch <- function (object)
 {
-  if (!inherits(obj, "garch")) stop ("method is only for garch objects")
-  return (obj$coef)
+  if (!inherits(object, "garch")) stop ("method is only for garch objects")
+  return (object$coef)
 }
 
-residuals.garch <- function (obj)
+residuals.garch <- function (object)
 {
-  if (!inherits(obj, "garch")) stop ("method is only for garch objects")
-  return (obj$residuals)
+  if (!inherits(object, "garch")) stop ("method is only for garch objects")
+  return (object$residuals)
 }
 
-fitted.garch <- function (obj)
+fitted.garch <- function (object)
 {
-  if (!inherits(obj, "garch")) stop ("method is only for garch objects")
-  return (obj$fitted.values)
+  if (!inherits(object, "garch")) stop ("method is only for garch objects")
+  return (object$fitted.values)
 }
 
-print.garch <- function (obj, digits = max(3,.Options$digits-3))
+print.garch <- function (object, digits = max(3,.Options$digits-3))
 {
-  if (!inherits(obj, "garch")) stop ("method is only for garch objects")
-  cat ("\nCall:\n", deparse(obj$call), "\n\n", sep = "")
+  if (!inherits(object, "garch")) stop ("method is only for garch objects")
+  cat ("\nCall:\n", deparse(object$call), "\n\n", sep = "")
   cat ("Coefficient(s):\n")
-  print.default (format(coef(obj), digits = digits), print.gap = 2, quote = FALSE)
+  print.default (format(coef(object), digits = digits), print.gap = 2, quote = FALSE)
   cat ("\n")
-  invisible (obj)
+  invisible (object)
 }
 
-summary.garch <- function (obj)
+summary.garch <- function (object)
 {
-  if (!inherits(obj, "garch")) stop ("method is only for garch objects")
+  if (!inherits(object, "garch")) stop ("method is only for garch objects")
   ans <- NULL
-  ans$residuals <- na.remove(obj$residuals)
-  tval <- obj$coef/obj$asy.se.coef
-  ans$coef <- cbind (obj$coef, obj$asy.se.coef, tval, 2*(1-pnorm(abs(tval))))
-  dimnames(ans$coef) <- list(names(obj$coef), c(" Estimate"," Std. Error"," t value","Pr(>|t|)"))
-  ans$call <- obj$call
-  ans$order <- obj$order
+  ans$residuals <- na.remove(object$residuals)
+  tval <- object$coef/object$asy.se.coef
+  ans$coef <- cbind (object$coef, object$asy.se.coef, tval, 2*(1-pnorm(abs(tval))))
+  dimnames(ans$coef) <- list(names(object$coef),
+                             c(" Estimate"," Std. Error"," t value","Pr(>|t|)"))
+  ans$call <- object$call
+  ans$order <- object$order
   Residuals <- ans$residuals
   ans$j.b.test <- jarque.bera.test(Residuals)
   Squared.Residuals <- ans$residuals^2
@@ -133,48 +134,48 @@ summary.garch <- function (obj)
   return (ans)
 }
 
-plot.garch <- function (obj, ask = interactive())
+plot.garch <- function (object, ask = interactive())
 {
-  if (!inherits(obj, "garch")) stop ("method is only for garch objects")
+  if (!inherits(object, "garch")) stop ("method is only for garch objects")
   op <- par()
   par (ask = ask, mfrow=c(2,1))
-  x <- eval (parse(text=obj$series))
+  x <- eval (parse(text=object$series))
   if (any(is.na(x))) stop ("NAs in x")
-  plot(x, main = obj$series, ylab = "Series")
-  plot(obj$residuals, main = "Residuals", ylab = "Series")
-  hist (x, main = paste("Histogram of",obj$series), xlab = "Series")
-  hist (obj$residuals, main = "Histogram of Residuals", xlab = "Series")
-  qqnorm (x, main = paste("Q-Q Plot of",obj$series), xlab = "Normal Quantiles")
-  qqnorm (obj$residuals, main = "Q-Q Plot of Residuals", xlab = "Normal Quantiles")
-  acf (x^2, main = paste("ACF of Squared",obj$series))
-  acf (obj$residuals^2, main = "ACF of Squared Residuals", na.action=na.remove)
+  plot(x, main = object$series, ylab = "Series")
+  plot(object$residuals, main = "Residuals", ylab = "Series")
+  hist (x, main = paste("Histogram of",object$series), xlab = "Series")
+  hist (object$residuals, main = "Histogram of Residuals", xlab = "Series")
+  qqnorm (x, main = paste("Q-Q Plot of",object$series), xlab = "Normal Quantiles")
+  qqnorm (object$residuals, main = "Q-Q Plot of Residuals", xlab = "Normal Quantiles")
+  acf (x^2, main = paste("ACF of Squared",object$series))
+  acf (object$residuals^2, main = "ACF of Squared Residuals", na.action=na.remove)
   par (ask = op$ask, mfrow = op$mfrow)
-  invisible (obj)
+  invisible (object)
 }
 
-print.summary.garch <- function (obj, digits = max(3,.Options$digits-3),
+print.summary.garch <- function (object, digits = max(3,.Options$digits-3),
                                  signif.stars = .Options$show.signif.stars, ...)
 {
-  if (!inherits(obj, "summary.garch")) stop ("method is only for summary.garch objects")
-  cat ("\nCall:\n", deparse(obj$call), "\n", sep = "")
-  cat ("\nModel:\nGARCH(", obj$order[1], ",", obj$order[2], ")", "\n", sep = "")
+  if (!inherits(object, "summary.garch")) stop ("method is only for summary.garch objects")
+  cat ("\nCall:\n", deparse(object$call), "\n", sep = "")
+  cat ("\nModel:\nGARCH(", object$order[1], ",", object$order[2], ")", "\n", sep = "")
   cat ("\nResiduals:\n")
-  rq <- structure(quantile(obj$residuals), names = c("Min","1Q","Median","3Q","Max"))
+  rq <- structure(quantile(object$residuals), names = c("Min","1Q","Median","3Q","Max"))
   print (rq, digits=digits, ...)
   cat ("\nCoefficient(s):\n")
-  print.coefmat (obj$coef, digits = digits, signif.stars = signif.stars, ...)
+  print.coefmat (object$coef, digits = digits, signif.stars = signif.stars, ...)
   cat ("\nDiagnostic Tests:")
-  print (obj$j.b.test)
-  print (obj$l.b.test)
-  invisible (obj)
+  print (object$j.b.test)
+  print (object$l.b.test)
+  invisible (object)
 }
 
-predict.garch <- function (obj, newdata, genuine = FALSE)
+predict.garch <- function (object, newdata, genuine = FALSE)
 {
-  if (!inherits(obj, "garch")) stop ("method is only for garch objects")
+  if (!inherits(object, "garch")) stop ("method is only for garch objects")
   if (missing(newdata))
   {
-    newdata <- eval (parse(text=obj$series))
+    newdata <- eval (parse(text=object$series))
     if (any(is.na(newdata))) stop ("NAs in newdata")
   }
   if (NCOL(newdata) > 1) stop ("newdata is not a vector or univariate time series")
@@ -185,10 +186,10 @@ predict.garch <- function (obj, newdata, genuine = FALSE)
   if (genuine) h <- double(n+1)
   else h <- double(n)
   pred <- .C ("pred_garch", as.vector(newdata,mode="double"), h=as.vector(h,mode="double"),
-              as.integer(n), as.vector(obj$coef,mode="double"), as.integer(obj$order[1]),
-              as.integer(obj$order[2]), PACKAGE="tseries")
+              as.integer(n), as.vector(object$coef,mode="double"), as.integer(object$order[1]),
+              as.integer(object$order[2]), PACKAGE="tseries")
   pred$h <- sqrt(pred$h)
-  pred$h[1:max(obj$order[1],obj$order[2])] <- rep (NA, max(obj$order[1],obj$order[2]))
+  pred$h[1:max(object$order[1],object$order[2])] <- rep (NA, max(object$order[1],object$order[2]))
   pred$h <- cbind(pred$h,-pred$h)
   if (ists)
   {

@@ -19,7 +19,7 @@
 #
 
 
-portfolio.optim <- function (obj, ...) { UseMethod ("portfolio.optim") }
+portfolio.optim <- function (object, ...) { UseMethod ("portfolio.optim") }
 
 portfolio.optim.ts <- function (x, ...)
 {
@@ -83,13 +83,12 @@ portfolio.optim.default <- function (x, pm = mean(x), riskless = FALSE, shorts =
 
 get.hist.quote <- function (instrument = "^gdax", start, end,
                             quote = c("Open", "High", "Low", "Close"), provider = "yahoo",
-                            method = c("auto", "wget", "lynx"))
+                            method = "auto")
 {
   if (!require (chron, quietly=TRUE))
     stop ("Package chron is needed. Stopping")
   quote <- match.arg(quote)
   provider <- match.arg(provider)
-  method <- match.arg(method)
   mm <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
   if (missing(start)) start <- "1 2 1991"
   if (missing(end)) end <- paste (pmatch(strsplit(date(), " ")[[1]][2],mm),

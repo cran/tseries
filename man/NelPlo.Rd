@@ -11,7 +11,7 @@ data (NelPlo)
   \code{vel}, \code{emp}, \code{int.rate}, \code{nom.wages},
   \code{gnp.def}, \code{money.stock}, \code{gnp.real},
   \code{stock.prices}, \code{gnp.capita}, \code{real.wages}, and
-  \code{unemp}.
+  \code{unemp} and the joint series \code{NelPlo}.
 }
 \description{
   These are the extended Nelson-Plosser Data. The series are of various
