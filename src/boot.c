@@ -56,7 +56,7 @@ static int WRAP (int i, int n)
 
 static void StatBoot (double x[], double xBoot[], int n, double p)
      /* Generates a bootstrap sample xBoot[1..n] from x[1..n] 
-	using the stationary bootstrap resampling scheme
+	according to the stationary bootstrap resampling scheme
 	(Politis, D. N. and Romano, J. P., 1994, The Stationary Bootstrap, 
 	J. Amer. Statist. Assoc. 89, 1303-1313).
 	Input is n, x[1..n], xBoot[1..n] and p, the parameter for 
@@ -71,15 +71,20 @@ static void StatBoot (double x[], double xBoot[], int n, double p)
     L = geodev(p);
     j = 0;
     while ((j < L) && (i <= n))
-      xBoot[i++] = x[WRAP(I+(j++),n)];
+    {
+      xBoot[i] = x[WRAP(I+j,n)];
+      i++;
+      j++;
+    }
   }
 }
 
-static void SimpBlockBoot (double x[], double xBoot[], int n, int l)
+static void BlockBoot (double x[], double xBoot[], int n, int L)
      /* Generates a bootstrap sample xBoot[1..n] from x[1..n] 
-	using the simple moving blocks bootstrap (Efron, B. and Tibshirani, R. J.,
-	1993, An Introduction to the Bootstrap (Chapman & Hall, NY et al.), 99-102).
-	Input is n, x[1..n], xBoot[1..n] and l, the blocklength, 
+	according to the blockwise bootstrap resampling scheme
+	(Kuensch, H. R., 1989, The Jackknife and the Bootstrap 
+	for General Stationary Observations, Ann. Stat. 17, 1217-1241).
+	Input is n, x[1..n], xBoot[1..n] and L, the blocklength, 
 	output xBoot[1..n]. */
 {
   int i, j, I;
@@ -87,10 +92,14 @@ static void SimpBlockBoot (double x[], double xBoot[], int n, int l)
   i = 1;
   while (i <= n)
   {
-    I = disuni(n-l+1);
+    I = disuni(n-L+1);
     j = 0;
-    while ((j < l) && (i <= n))
-      xBoot[i++] = x[I+(j++)];
+    while ((j < L) && (i <= n))
+    {
+      xBoot[i] = x[I+j];
+      i++;
+      j++;
+    }
   }
 }
 
@@ -98,7 +107,7 @@ void boot (double *x, double *xb, int *n, double *b, int *type)
 {
   GetRNGstate();
   if (*type == 0) StatBoot (x-1, xb-1, *n, *b);
-  else if (*type == 1) SimpBlockBoot (x-1, xb-1, *n, (int)*b);
+  else if (*type == 1) BlockBoot (x-1, xb-1, *n, (int)*b);
   else error ("this type of bootstrap is not yet implemented\n");
   PutRNGstate();
 }

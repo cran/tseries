@@ -6,7 +6,7 @@ arma-methods             Methods for Fitted ARMA Models
 arma                     Fit ARMA Models to Time Series
 bds.test                 BDS Test
 bev                      Beveridge Wheat Price Index, 1500--1869.
-bootstrap                Generate Bootstrap Data and Statistics
+bootstrap                Bootstrap for General Stationary Data
 camp                     Mount Campito Yearly Treering Data, -3435--1969.
 garch-methods            Methods for Fitted GARCH Models
 garch                    Fit GARCH Models to Time Series

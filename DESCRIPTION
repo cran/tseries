@@ -1,6 +1,6 @@
 Package: tseries
-Version: 0.8-2
-Date: 2001-10-19
+Version: 0.8-3
+Date: 2001-11-07
 Title: Package for time series analysis
 Author: Compiled by Adrian Trapletti <a.trapletti@bluewin.ch>
 Maintainer: Kurt.Hornik <Kurt.Hornik@ci.tuwien.ac.at>

@@ -309,7 +309,7 @@ function(x, nb = 1, statistic = NULL, b = NULL,
         if(is.null(b)) b <- const*n^(1/3)
         if((b < 1) || (b > n))
             stop(paste("b should be in [1,length(x)]",
-                       "for the block bootstrap"))
+                       "for the blockwise bootstrap"))
     }
     if(is.null(statistic)) {
         ists <- is.ts(x)
