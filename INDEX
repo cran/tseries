@@ -2,6 +2,10 @@ NelPlo                   Nelson-Plosser Macroeconomic Time Series
 adf.test                 Augmented Dickey-Fuller Test
 amif                     Auto Mutual Information Function
 bds.test                 BDS Test
+garch                    Fit GARCH Models to Time Series
+get.hist.quote           Download Historical Finance Data
+jarque.bera.test         Jarque-Bera Test
+na.remove                NA Handling Routines for Time Series
 portfolio.optim          Portfolio Optimization
 quadmap                  Quadratic Map (Logistic Equation)
 read.matrix              Read Matrix Data

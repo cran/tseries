@@ -59,8 +59,8 @@ ampsurr <- function (x)
 
 surrogate <- function (x, ns = 1, fft = FALSE, amplitude = FALSE)
 {
-  if (is.matrix(x)) 
-    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  if (any(is.na(x))) stop ("NAs in x")
   if (ns < 1) stop ("ns is not positive")
   n <- length(x)
   surrogate <- matrix (x, nrow=n, ncol=ns)
@@ -82,7 +82,8 @@ quadmap <- function (xi = 0.0, a = 4.0, n = 1000)
   if ((xi < 0) | (xi > 1)) stop ("xi is not in [0,1]")
   if ((a < 0) | (xi > 4)) stop ("a is not in [0,4]")
   x <- double(n)
-  res <- .C ("R_quad_map", x=as.vector(x), as.double(xi), as.double(a), as.integer(n))
+  res <- .C ("R_quad_map", x=as.vector(x), as.double(xi), as.double(a), as.integer(n),
+             PACKAGE="tseries")
   return (ts(res$x))
 }
 
@@ -118,5 +119,46 @@ read.matrix <- function (file, header = FALSE, sep = "", skip = 0)
   return (x)
 }
 
+na.remove <- function (obj, ...) { UseMethod ("na.remove") }
+
+na.remove.ts <- function (x)
+{
+  if (!is.ts(x)) stop ("method is only for time series")
+  if (any(is.na(x)))
+  {
+    y <- na.remove.default(x)
+    ok <- seq(1,NROW(x))[-attr(y,"na.removed")]
+    xfreq <- frequency(x)
+    start <- tsp(x)[1]+(ok[1]-1)/xfreq
+    end <- tsp(x)[1]+(ok[length(ok)]-1)/xfreq
+    yfreq <- (NROW(y)-1)/(end-start)
+    attr(y, "tsp") <- c(start,end,yfreq)
+    attr(y, "class") <- attr(x, "class")
+    return (y)
+  }
+  else return (x)
+}
+
+na.remove.default <- function (x)
+{
+  if (any(is.na(x)))
+  {
+    if (is.matrix(x))
+    {
+      nas <- apply(is.na(x),1,any)
+      y <- matrix(as.vector(x)[rep(!nas,ncol(x))],ncol=ncol(x))
+      dimnames(y) <- dimnames(x)
+      nas <- which(nas)
+    }
+    else 
+    {
+      nas <- which (is.na(x))
+      y <- x[-nas]
+    }
+    attr (y, "na.removed") <- nas
+    return (y)
+  }
+  else return (x)
+}
 
 

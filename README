@@ -1,6 +1,6 @@
 This package contains a library for time series analysis.
 
-Authors: B. LeBaron (./src/bdstest.c),
+Authors: B. LeBaron (./src/bdstest.c), D. M. Gay (./src/dsumsl.f),
          K. Krischer, and T. M. Kruel (./src/muin2ser.f, ./misc/mutinfo-1.21b.tar.gz).
 	 The remainder is by A. Trapletti <A.Trapletti@ci.tuwien.ac.at>. 
 
@@ -10,7 +10,9 @@ License: GPL, except ./src/muin2ser.f and ./misc which are free for
 
 The package has been tested using the following environment:
 Redhat 5.2, linux-2.0.36
-R : Version 0.65.0
+g77 egcs-2.90.29
+gcc 2.7.2.3
+R : Version 0.65.1
 
 
 

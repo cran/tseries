@@ -19,8 +19,8 @@
 
 runs.test <- function (x)
 {
-  if (is.matrix(x)) 
-    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  if (any(is.na(x))) stop ("NAs in x")
   DNAME <- deparse (substitute(x))
   if (any (x == 0.0))
   {
@@ -43,7 +43,7 @@ runs.test <- function (x)
   if (!is.null(resL$"2"))
     R <- R+resL$"2"
   STATISTIC <- ((R+0.5)-m)/s
-  METHOD <- "Runs test"
+  METHOD <- "Runs Test"
   PVAL <- 2 * pnorm (-abs(STATISTIC))
   names(STATISTIC) <- "Standard Normal"
   structure(list(statistic = STATISTIC,
@@ -55,8 +55,8 @@ runs.test <- function (x)
 
 bds.test <- function (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
 {
-  if (is.matrix(x)) 
-    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  if (any(is.na(x))) stop ("NAs in x")
   if (m < 2) stop ("m is less than 2")
   if (any(eps<=0)) stop ("invalid eps")
   DNAME <- deparse(substitute(x))
@@ -68,7 +68,8 @@ bds.test <- function (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = F
   for (i in (1:k))
   {
     res <- .C("bdstest_main", as.integer(n), as.integer(m), as.vector(x,mode="double"),
-              as.vector(cc), cstan=as.vector(cstan), as.double(eps[i]), as.integer(trace))
+              as.vector(cc), cstan=as.vector(cstan), as.double(eps[i]), as.integer(trace),
+              PACKAGE="tseries")
     STATISTIC[,i] <- res$cstan[2:m+1]
   }
   colnames(STATISTIC) <- eps
@@ -85,6 +86,7 @@ bds.test <- function (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = F
 
 print.bdstest <- function (obj, digits = 4)
 {
+  if (!inherits(obj, "bdstest")) stop ("method is only for bdstest objects")
   cat("\n\t", obj$method, "\n\n")
   cat("data: ", obj$data.name, "\n\n")
   if (!is.null(obj$parameter))
@@ -118,8 +120,8 @@ print.bdstest <- function (obj, digits = 4)
 
 adf.test <- function (x, k = trunc((length(x)-1)^(1/3)))
 {
-  if (is.matrix(x)) 
-    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  if (any(is.na(x))) stop ("NAs in x")
   if (k < 0) stop ("k negative")
   DNAME <- deparse(substitute(x))
   k <- k+1
@@ -165,11 +167,14 @@ adf.test <- function (x, k = trunc((length(x)-1)^(1/3)))
 
 white.test <- function (obj, ...) { UseMethod("white.test") }
 
-white.test.default <- function (x, y, qstar = 2, q = 10, range = 4, type = "chisq", scale = TRUE)
+white.test.default <- function (x, y, qstar = 2, q = 10, range = 4,
+                                type = c("chisq","F"), scale = TRUE)
 {
   DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
   x <- as.matrix(x)
   y <- as.matrix(y)
+  if (any(is.na(x))) stop ("NAs in x")
+  if (any(is.na(y))) stop ("NAs in y")
   nin <- dim(x)[2]
   t <- dim(x)[1]
   if (dim(x)[1] != dim(y)[1]) 
@@ -178,7 +183,9 @@ white.test.default <- function (x, y, qstar = 2, q = 10, range = 4, type = "chis
     stop("no observations in x and y")
   if (dim(y)[2] > 1)
     stop ("handles only univariate outputs")
-  if (!require (mva, quietly=TRUE)) stop ("Stopping")
+  if (!require (mva, quietly=TRUE))
+    stop ("Package mva is needed. Stopping")
+  type <- match.arg (type)
   if (scale)
   {
     x <- scale(x)
@@ -224,14 +231,17 @@ white.test.default <- function (x, y, qstar = 2, q = 10, range = 4, type = "chis
                  method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
 }
 
-white.test.ts <- function (x, lag = 1, qstar = 2, q = 10, range = 4, type = "chisq", scale = TRUE)
+white.test.ts <- function (x, lag = 1, qstar = 2, q = 10, range = 4,
+                           type = c("chisq","F"), scale = TRUE)
 {
   if (!is.ts(x)) stop ("method is only for time series")
-  if (is.matrix(x)) 
-    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  if (any(is.na(x))) stop ("NAs in x")
   if (lag < 1) 
     stop("minimum lag is 1")
-  if (!require (mva, quietly=TRUE)) stop ("Stopping")
+  if (!require (mva, quietly=TRUE))
+    stop ("Package mva is needed. Stopping")
+  type <- match.arg (type)
   DNAME <- deparse(substitute(x))
   t <- length(x)
   if (scale) x <- scale(x)
@@ -278,11 +288,13 @@ white.test.ts <- function (x, lag = 1, qstar = 2, q = 10, range = 4, type = "chi
 
 terasvirta.test <- function (obj, ...) { UseMethod("terasvirta.test") }
 
-terasvirta.test.default <- function (x, y, type = "chisq", scale = TRUE)
+terasvirta.test.default <- function (x, y, type = c("chisq","F"), scale = TRUE)
 {
   DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
   x <- as.matrix(x)
   y <- as.matrix(y)
+  if (any(is.na(x))) stop ("NAs in x")
+  if (any(is.na(y))) stop ("NAs in y")
   nin <- dim(x)[2]
   t <- dim(x)[1]
   if (dim(x)[1] != dim(y)[1]) 
@@ -291,6 +303,7 @@ terasvirta.test.default <- function (x, y, type = "chisq", scale = TRUE)
     stop("no observations in x and y")
   if (dim(y)[2] > 1)
     stop ("handles only univariate outputs")
+  type <- match.arg (type)
   if (scale)
   {
     x <- scale(x)
@@ -354,13 +367,14 @@ terasvirta.test.default <- function (x, y, type = "chisq", scale = TRUE)
                  method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
 }
 
-terasvirta.test.ts <- function (x, lag = 1, type = "chisq", scale = TRUE)
+terasvirta.test.ts <- function (x, lag = 1, type = c("chisq","F"), scale = TRUE)
 {
   if (!is.ts(x)) stop ("method is only for time series")
-  if (is.matrix(x)) 
-    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  if (any(is.na(x))) stop ("NAs in x")
   if (lag < 1) 
     stop("minimum lag is 1")
+  type <- match.arg (type)
   DNAME <- deparse(substitute(x))
   t <- length(x)
   if (scale) x <- scale(x)
@@ -423,4 +437,29 @@ terasvirta.test.ts <- function (x, lag = 1, type = "chisq", scale = TRUE)
                  method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
 }
 
+jarque.bera.test <- function (x)
+{
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  if (any(is.na(x))) stop ("NAs in x")
+  DNAME <- deparse (substitute(x))
+  n <- length (x)
+  m1 <- sum(x)/n
+  m2 <- sum((x-m1)^2)/n
+  m3 <- sum((x-m1)^3)/n
+  m4 <- sum((x-m1)^4)/n
+  b1 <- (m3/m2^(3/2))^2
+  b2 <- (m4/m2^2)
+  STATISTIC <- n*b1/6+n*(b2-3)^2/24
+  names(STATISTIC) <- "X-squared"
+  PARAMETER <- 2
+  names(PARAMETER) <- "df"
+  PVAL <- 1-pchisq(STATISTIC,df = 2)
+  METHOD <- "Jarque Bera Test"
+  structure(list(statistic = STATISTIC,
+                 parameter = PARAMETER,
+		 p.value = PVAL,
+		 method = METHOD,
+		 data.name = DNAME),
+	    class = "htest")
+}
 

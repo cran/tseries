@@ -1,7 +1,7 @@
 \name{read.ts}
 \title{Read Time Series Data}
 \usage{
-read.ts (file, header = FALSE, sep = "", skip = 0, ...)
+read.ts (file, header = FALSE, sep = "", skip = 0, \dots)
 }
 \alias{read.ts}
 \arguments{
@@ -14,7 +14,7 @@ read.ts (file, header = FALSE, sep = "", skip = 0, ...)
     the file are separated by this character.}
   \item{skip}{the number of lines of the data file to skip before
     beginning to read data.}
-  \item{...}{Additional arguments for \code{\link{ts}} such as,
+  \item{\dots}{Additional arguments for \code{\link{ts}} such as,
     e.g., \code{start}.}
 }
 \description{

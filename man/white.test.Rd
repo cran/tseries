@@ -1,9 +1,10 @@
 \name{white.test}
 \title{White Neural Network Test for Nonlinearity}
 \usage{
-white.test (x, lag = 1, qstar = 2, q = 10, range = 4, type = "chisq",
+white.test (x, lag = 1, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
             scale = TRUE)
-white.test (x, y, qstar = 2, q = 10, range = 4, type = "chisq", scale = TRUE)
+white.test (x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
+            scale = TRUE)
 }
 \alias{white.test}
 \alias{white.test.ts}
@@ -37,7 +38,7 @@ white.test (x, y, qstar = 2, q = 10, range = 4, type = "chisq", scale = TRUE)
   instead of the Chi-Square statistic is used in analogy to the
   classical linear regression. 
   
-  Missing values are not handled.
+  Missing values are not allowed.
 }
 \value{
   A list with class \code{"htest"} containing the following components:

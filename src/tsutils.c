@@ -21,7 +21,7 @@
 #include "S.h"
 
 
-extern void muin2ser_ ();
+extern void F77_SYMBOL(muin2ser) ();
 
 void R_amif (double *x, int *lx, double *inf, int *k, int *maxbit, 
 	     double *confidence, int *norm, int *trace)
@@ -50,8 +50,9 @@ void R_amif (double *x, int *lx, double *inf, int *k, int *maxbit,
     {
       x0[j] = x[j]; y0[j] = x[j+i];
     }
-    muin2ser_ (&information, lx, &freq, x0, y0, intx, inty, s, q, q_unsort, indices_x, indices_y, 
-	       position, maxbit, confidence, trace);
+    F77_SYMBOL(muin2ser) (&information, lx, &freq, x0, y0, intx, inty, 
+			  s, q, q_unsort, indices_x, indices_y, 
+			  position, maxbit, confidence, trace);
     if (*norm) inf[i] = sqrt(1.0-exp((-2.0)*information));
     else inf[i] = information;
   }

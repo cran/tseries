@@ -1,24 +1,23 @@
-\name{runs.test}
-\title{Runs Test}
+\name{jarque.bera.test}
+\title{Jarque-Bera Test}
 \usage{
-runs.test (x)
+jarque.bera.test (x)
 }
-\alias{runs.test}
+\alias{jarque.bera.test}
 \arguments{
   \item{x}{a numeric vector or time series.}
 }
 \description{
-  Computes the runs test statistic for the null of independence for
-  the series \code{x}.
-  This test searches for independence in the observed series by
-  examining the frequency of runs. Before computing the statistic,
-  zero values of \code{x} are eliminated.
+  Tests the null of normality for \code{x} using the Jarque-Bera
+  test statistic. It is a joint statistic using skewness and kurtosis
+  coefficients.
   
   Missing values are not allowed.
 }
 \value{
   A list with class \code{"htest"} containing the following components:
   \item{statistic}{the value of the test statistic.}
+  \item{parameter}{the degrees of freedom.}
   \item{p.value}{the p-value of the test.}
   \item{method}{a character string indicating what type of test was
     performed.} 
@@ -26,15 +25,15 @@ runs.test (x)
 }
 \references{
   J. B. Cromwell, W. C. Labys and M. Terraza (1994): \emph{Univariate
-    Tests for Time Series Models}, Sage, Thousand Oaks, CA, pp. 28-30.
+    Tests for Time Series Models}, Sage, Thousand Oaks, CA, pp. 20-22.
 }
 \author{A. Trapletti}
 \examples{
-x <- rnorm (100)  # no runs
-runs.test (x)
+x <- rnorm (100)  # null
+jarque.bera.test (x)
 
-x <- 1:100  # one big run
-runs.test (x)
+x <- runif (100)  # alternative
+jarque.bera.test (x)
 }
 \keyword{ts}
 

@@ -3,8 +3,8 @@
 \usage{
 amif (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, nsurr = 20, 
       fft = FALSE, amplitude = FALSE, normalized = TRUE, trace = FALSE,
-      plot = TRUE, na.action = na.fail, \dots)
-plot (obj, ci.col = "blue", ...)
+      plot = TRUE, \dots)
+plot (obj, ci.col = "blue", \dots)
 }
 \alias{amif}
 \alias{plot.amif}
@@ -34,7 +34,6 @@ plot (obj, ci.col = "blue", ...)
   \item{trace}{a logical indicating whether additional output from the
     computation is traced.}
   \item{plot}{a logical indicating whether the AMIF is plotted.}
-  \item{na.action}{function to be called to handle missing values.}
   \item{\dots}{additional arguments to \code{\link{plot.amif}}.}
   \item{obj}{an object of class \code{"amif"}.}
   \item{ci.col}{color to plot the confidence bound.}
@@ -58,7 +57,9 @@ plot (obj, ci.col = "blue", ...)
   distribution.
 
   The simulations are computed with the actual values of 
-  \code{maxbit} and \code{confidence}. 
+  \code{maxbit} and \code{confidence}.
+
+  Missing values are not allowed.
 }
 \details{
   To compute the AMIF, an implementation of the algorithm of Fraser and

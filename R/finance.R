@@ -23,8 +23,8 @@ portfolio.optim <- function (obj, ...) { UseMethod ("portfolio.optim") }
 
 portfolio.optim.ts <- function (x, ...)
 {
-  if (!is.ts(x) & !is.mts(x)) stop ("method is only for time series")
-  if (!is.matrix(x)) stop ("x is not a multivariate time series")
+  if (!is.ts(x)) stop ("method is only for time series")
+  if (NCOL(x) == 1) stop ("x is not a multivariate time series")
   res <- portfolio.optim.default (as.matrix(x), ...)
   res$px <- ts(res$px,start=start(x),frequency=frequency(x))
   return (res)
@@ -32,8 +32,10 @@ portfolio.optim.ts <- function (x, ...)
 
 portfolio.optim.default <- function (x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
 {
-  if (!require (quadprog, quietly=TRUE)) stop ("Stopping")
-  if (!is.matrix(x)) stop ("x is not a matrix")
+  if (!require (quadprog, quietly=TRUE))
+    stop ("Package quadprog is needed. Stopping")
+  if (NCOL(x) == 1) stop ("x is not a matrix")
+  if (any(is.na(x))) stop ("NAs in x")
   k <- dim(x)[2]
   Dmat <- cov(x)
   dvec <- rep(0,k)
@@ -77,5 +79,63 @@ portfolio.optim.default <- function (x, pm = mean(x), riskless = FALSE, shorts =
   y <- t(res$solution%*%t(x))
   ans <- list (pw=res$solution, px=y, pm=mean(y), ps=sd(y))
   return (ans)
+}
+
+get.hist.quote <- function (instrument = "^gdax", start, end,
+                            quote = c("Open", "High", "Low", "Close"), provider = "yahoo",
+                            method = c("auto", "wget", "lynx"))
+{
+  if (!require (chron, quietly=TRUE))
+    stop ("Package chron is needed. Stopping")
+  quote <- match.arg(quote)
+  provider <- match.arg(provider)
+  method <- match.arg(method)
+  mm <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  if (missing(start)) start <- "1 2 1991"
+  if (missing(end)) end <- paste (pmatch(strsplit(date(), " ")[[1]][2],mm),
+                                  as.numeric(strsplit(date(), " ")[[1]][3])-1,
+                                  strsplit(date(), " ")[[1]][5])
+  start <- c(as.numeric(strsplit(start, " ")[[1]][1]),
+             as.numeric(strsplit(start, " ")[[1]][2]),
+             as.numeric(strsplit(start, " ")[[1]][3]))
+  end <- c(as.numeric(strsplit(end, " ")[[1]][1]),
+           as.numeric(strsplit(end, " ")[[1]][2]),
+           as.numeric(strsplit(end, " ")[[1]][3]))
+  if (provider == "yahoo")
+  {
+    url <- paste ("http://chart.yahoo.com/table.csv?s=", instrument, sep="")
+    url <- paste (url, "&a=", start[1], "&b=", start[2], "&c=", start[3], sep="")
+    url <- paste (url, "&d=", end[1], "&e=", end[2], "&f=", end[3], sep="")
+    url <- paste (url, "&g=d&q=q&y=0&z=", instrument, "&x=.csv", sep="")
+    destfile <- tempfile ()
+    status <- download.file (url, destfile, method = method)
+    if (status != 0) 
+    {
+      unlink (destfile)
+      stop (paste("download error, status", status))
+    }
+    status <- scan (destfile, "", n=1, sep="\n", quiet=TRUE)
+    if (substring(status,1,2) == "No")
+    {
+      unlink (destfile)
+      stop (paste("No data available for", instrument))
+    }
+    x <- read.table (destfile, header=T, sep=",")
+    unlink (destfile)
+    nser <- pmatch (quote, c("Open", "High", "Low", "Close")) + 1
+    n <- nrow(x)
+    ser <- as.vector(x[n:1,nser])
+    dat <- dates(gsub("-", " ", as.character(x[n:1,1])), format="day mon y")
+    seqdat <- seq.dates (as.numeric(dat)[1],as.numeric(dat)[n])
+    idx <- match(as.numeric(dat),as.numeric(seqdat))
+    newser <- rep(NA,length(seqdat))
+    newser[idx] <- ser
+    if (as.numeric(dat)[1] != dates(paste(start[1],start[2],start[3]), format = "m d y"))
+      cat (paste("time series starts ", dat[1], "\n", sep=""))
+    if (as.numeric(dat)[n] != dates(paste(end[1],end[2],end[3]), format = "m d y"))
+      cat (paste("time series ends   ", dat[n], "\n", sep=""))
+    return (ts(newser, start = as.numeric(dat)[1], end = as.numeric(dat)[n]))
+  }
+  else stop ("provider not implemented")
 }
 

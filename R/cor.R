@@ -21,17 +21,16 @@
 
 amif <- function (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, nsurr = 20,
                   fft = FALSE, amplitude = FALSE, normalized = TRUE, trace = FALSE,
-                  plot = TRUE, na.action = na.fail, ...)
+                  plot = TRUE, ...)
 {
-  if (is.matrix(x)) 
-    if (ncol(x) > 1) stop ("x is not a vector or univariate time series")
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
   if (lag.max < 1) stop ("number of lags is not positive")
   if ((maxbit < 1) | (maxbit > 25)) stop ("maxbit out of range")
   if ((confidence < 0.01) | (confidence > 0.99)) stop ("confidence out of range")
   if (nsurr < 1) stop ("nsurr is not positive")
   if (ci >= 1) stop ("ci out of range")
   series <- deparse (substitute(x))
-  x <- na.action (as.ts(x))
+  x <- as.ts(x)
   x.freq <- frequency(x)
   x <- as.matrix(x)
   if (any(is.na(x))) stop ("NAs in x")
@@ -44,7 +43,8 @@ amif <- function (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, n
   inf <- double (lag.max+1)
   cor <- array(.C ("R_amif", as.vector(x,mode="double"), as.integer(sampleT), inf=as.vector(inf),
                    as.integer(lag.max), as.integer(maxbit), as.double(confidence),
-                   as.integer(normalized), as.integer(trace))$inf, c(lag.max + 1, 1, 1))
+                   as.integer(normalized), as.integer(trace), PACKAGE="tseries")$inf,
+               c(lag.max + 1, 1, 1))
   if (ci > 0)
   {
     surrsam <- surrogate (x, ns=nsurr, fft=fft, amplitude=amplitude)
@@ -52,15 +52,15 @@ amif <- function (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, n
     for (i in 1:nsurr)
       surrwb[i,] <- .C ("R_amif", as.vector(surrsam[,i],mode="double"), as.integer(sampleT),
                         inf=as.vector(inf), as.integer(lag.max), as.integer(maxbit),
-                        as.double(confidence), as.integer(normalized), as.integer(trace))$inf
+                        as.double(confidence), as.integer(normalized),
+                        as.integer(trace), PACKAGE="tseries")$inf
     wb <- apply (surrwb, 2, quantile, ci)
   }
   else
     wb <- NULL
   lag <- outer(0:lag.max, lag/x.freq)
-  amif <- structure(.Data = list(acf = cor, type = "covariance", clim = wb,
-                      normalized = normalized, n.used = sampleT, lag = lag,
-                      series = series, snames = colnames(x)),
+  amif <- structure(.Data = list(acf = cor, type = "covariance", n.used = sampleT, lag = lag,
+                      series = series, snames = colnames(x), clim = wb, normalized = normalized),
                     class = c("amif","acf"))
   if (plot)
   {
@@ -72,6 +72,7 @@ amif <- function (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, n
 
 plot.amif <- function (obj, ci.col = "blue", ...)
 {
+  if (!inherits(obj, "amif")) stop ("method is only for amif objects")
   plot.acf (x = obj, ylab = "AMIF", ...)
   if (!is.null(obj$clim))
     lines(obj$lag[, 1, 1], obj$clim, col = ci.col, lty = 2)

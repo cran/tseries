@@ -28,7 +28,7 @@ print (obj, digits = 4)
   \code{eps} are called "near". The BDS test statistic is asymptotically
   standard Normal.
   
-  Missing values are not handled.
+  Missing values are not allowed.
 }
 \value{
   A list with class \code{"bdstest"} containing the following components:

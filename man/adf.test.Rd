@@ -21,7 +21,7 @@ adf.test (x, k = trunc((length(x)-1)^(1/3)))
   zero the standard Dickey-Fuller test is computed. The p-values are
   interpolated from Table 4.2, p. 103 of Banerjee et al. (1993).
   
-  Missing values are not handled.
+  Missing values are not allowed.
 }
 \value{
   A list with class \code{"htest"} containing the following components:

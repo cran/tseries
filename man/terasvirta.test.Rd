@@ -1,8 +1,8 @@
 \name{terasvirta.test}
 \title{Teraesvirta Neural Network Test for Nonlinearity}
 \usage{
-terasvirta.test (x, lag = 1, type = "chisq", scale = TRUE)
-terasvirta.test (x, y, type = "chisq", scale = TRUE)
+terasvirta.test (x, lag = 1, type = c("chisq","F"), scale = TRUE)
+terasvirta.test (x, y, type = c("chisq","F"), scale = TRUE)
 }
 \alias{terasvirta.test}
 \alias{terasvirta.test.ts}
@@ -27,7 +27,7 @@ terasvirta.test (x, y, type = "chisq", scale = TRUE)
   \code{"F"}, then the F-statistic instead of the Chi-Square statistic
   is used in analogy to the classical linear regression. 
   
-  Missing values are not handled.
+  Missing values are not allowed.
 }
 \value{
   A list with class \code{"htest"} containing the following components:

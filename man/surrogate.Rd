@@ -22,7 +22,7 @@ surrogate (x, ns = 1, fft = FALSE, amplitude = FALSE)
   addition \code{amplitude} is \code{TRUE}, then also the amplitude
   distribution of the original series is preserved.
   
-  Missing values are not handled.
+  Missing values are not allowed.
 }
 \value{
   A matrix with \code{ns} columns and \code{length{x}} rows containing

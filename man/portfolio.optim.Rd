@@ -23,7 +23,7 @@ portfolio.optim (x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
   mean return, but a smaller variance. To solve the quadratic program
   \code{\link{solve.QP}} is used.
 
-  Missing values are not handled.
+  Missing values are not allowed.
 }
 \details{
   \code{portfolio.optim} is a generic function with methods for multivariate
