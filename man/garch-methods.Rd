@@ -9,8 +9,7 @@
 \alias{logLik.garch}
 \title{Methods for Fitted GARCH Models}
 \description{
-  Methods for fitted GARCH model objects, typically the result of a call
-  to \code{garch}.
+  Methods for fitted GARCH model objects.
 }
 \usage{
 \method{predict}{garch}(object, newdata, genuine = FALSE, \dots)
@@ -65,6 +64,9 @@
   (two-column matrix), respectively.
 
   For \code{plot} and \code{print}, the fitted GARCH model object.
+}
+\author{
+  A. Trapletti
 }
 \keyword{models}
 \keyword{ts}

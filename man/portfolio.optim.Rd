@@ -61,9 +61,9 @@
   \code{\link[quadprog]{solve.QP}}
 }
 \examples{
-x <- rnorm (1000)
+x <- rnorm(1000)
 dim(x) <- c(500,2)
-res <- portfolio.optim (x)
+res <- portfolio.optim(x)
 res$pw
 }
 \keyword{ts}

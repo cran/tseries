@@ -168,8 +168,8 @@ function (instrument = "^gdax", start, end, quote = c("Open", "High", "Low", "Cl
             unlink(destfile)
             stop(paste("download error, status", status))
         }
-        status <- scan(destfile, "", n = 1, sep = "\n", quiet = TRUE)
-        if(substring(status, 1, 2) == "No") {
+        nlines <- length(count.fields(destfile, sep = "\n"))
+        if(nlines == 1) {
             unlink(destfile)
             stop(paste("No data available for", instrument))
         }

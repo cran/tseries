@@ -76,7 +76,7 @@ n <- 500  # Generate AR(1) process
 e <- rnorm(n)  
 x <- double(n)
 x[1] <- rnorm(1)
-for (i in 2:n) {
+for(i in 2:n) {
   x[i] <- 0.4 * x[i-1] + e[i]
 }
 x <- ts(x)

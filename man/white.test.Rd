@@ -77,7 +77,7 @@ white.test(cbind(x,x^2,x^3), y)
 ## Generate time series which is nonlinear in ``mean''
 x[1] <- 0.0
 for(i in (2:n)) {
-  x[i] <- 0.4*x[i-1] + tanh(x[i-1]) + rnorm (1, sd=0.5)
+  x[i] <- 0.4*x[i-1] + tanh(x[i-1]) + rnorm(1, sd=0.5)
 }
 x <- as.ts(x)
 plot(x)

@@ -29,7 +29,7 @@ read.ts(file, header = FALSE, sep = "", skip = 0, \dots)
   \code{\link{ts}}.
 }
 \examples{
-data (sunspots)
+data(sunspots)
 st <- start(sunspots)
 fr <- frequency(sunspots)
 write(sunspots, "sunspots", ncolumns=1)

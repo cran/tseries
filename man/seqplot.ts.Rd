@@ -42,7 +42,7 @@ seqplot.ts(x, y, colx = "black", coly = "red", typex = "l",
   \code{\link{ts}}, \code{\link{plot.ts}}
 }
 \examples{
-data (USeconomic)
+data(USeconomic)
 x <- ts.union(log(M1), log(GNP), rs, rl)
 m.ar <- ar(x, method = "ols", order.max = 5)
 y <- predict(m.ar, x, n.ahead = 200, se.fit = FALSE)

@@ -1,3 +1,26 @@
+2003-03-04  Adrian Trapletti <a.trapletti@bluewin.ch>
+
+	* DESCRIPTION (Version): New version is 0.9-10.	
+	
+	* R/finance.R: change check for the case of an 
+	unknown quote. 
+
+	* man/arma-methods.Rd
+	* man/garch-methods.Rd
+	* man/plotOHLC.Rd
+	* man/portfolio.optim.Rd
+	* man/read.ts.Rd
+	* man/seqplot.ts.Rd
+	* man/surrogate.Rd
+	* man/terasvirta.test.Rd
+	* man/white.test.Rd: cosmetic changes.
+	
+	* R/irts.R
+	* man/irts-functions.Rd
+	* man/irts-methods.Rd
+	* man/irts.Rd: add new class for irregularly spaced 
+	time-series.
+	
 2003-02-19  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION (Version): New version is 0.9-9.	

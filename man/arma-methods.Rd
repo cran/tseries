@@ -7,8 +7,7 @@
 \alias{plot.arma}
 \title{Methods for Fitted ARMA Models}
 \description{
-  Methods for fitted ARMA model objects, typically the result of a call
-  to \code{arma}.
+  Methods for fitted ARMA model objects.
 }
 \usage{
 \method{coef}{arma}(object, \dots)
@@ -29,6 +28,9 @@
   For \code{coef}, a numeric vector;
   for \code{residuals} and \code{fitted} a univariate time series;
   for \code{plot} and \code{print}, the fitted ARMA model object.
+}
+\author{
+  A. Trapletti
 }
 \seealso{
   \code{\link{arma}}

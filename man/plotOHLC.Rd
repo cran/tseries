@@ -27,12 +27,16 @@ plotOHLC(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab, col = par("col"),
     \code{\link{plot.window}}, \code{\link{title}}, \code{\link{axis}},
     and \code{\link{box}}.}
 }
-\details{Within an open--high--low--close bar chart, each bar represents
+\details{
+  Within an open--high--low--close bar chart, each bar represents
   price information for the time interval between the open and the close
   price. The left tick for each bar indicates the open price for the
   time interval. The right tick indicates the closing price for the time
   interval. The vertical length of the bar represents the price range
   for the time interval.
+
+  The time scale of \code{x} must be in Julian dates (days since the
+  \code{origin}).
 }
 \author{A. Trapletti}
 \seealso{
