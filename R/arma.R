@@ -246,8 +246,8 @@ function(x, digits = max(3, getOption("digits") - 3),
                     names = c("Min","1Q","Median","3Q","Max"))
     print(rq, digits = digits, ...)
     cat("\nCoefficient(s):\n")
-    print.coefmat(x$coef, digits = digits,
-                  signif.stars = signif.stars, ...)
+    printCoefmat(x$coef, digits = digits,
+                 signif.stars = signif.stars, ...)
     cat("\nFit:\n")
     cat("sigma^2 estimated as ", format(x$var, digits = digits), 
         ",  Conditional Sum-of-Squares = ", format(round(x$css, 2)), 

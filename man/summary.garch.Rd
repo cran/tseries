@@ -15,7 +15,7 @@
     call to \code{\link{garch}}.}
   \item{x}{an object of class \code{"summary.garch"}; usually, a result
     of a call to the summary method for objects of class \code{"garch"}.}
-  \item{digits, signif.stars}{see \code{\link{print.coefmat}}.}
+  \item{digits, signif.stars}{see \code{\link{printCoefmat}}.}
   \item{\dots}{further arguments passed to or from other methods.}
 }
 \details{

@@ -1,3 +1,16 @@
+2003-10-10  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-16.
+
+	* R/arma.R (print.summary.arma): 	
+	* R/garch.R (print.summary.garch): 
+	* man/arma-methods.Rd: 
+	* man/garch-methods.Rd: 
+	* man/summary.arma.Rd: 	
+	* man/summary.garch.Rd: 
+	print.coefmat() is deprecated and replaced by printCoefmat() in R
+	1.8.
+
 2003-08-27  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION (Version): New version is 0.9-15.	

@@ -28,7 +28,7 @@
   \item{genuine}{a logical indicating whether a genuine prediction
     should be made, i.e., a prediction for which there is no target
     observation available.}
-  \item{digits}{see \code{\link{print.coefmat}}.}
+  \item{digits}{see \code{\link{printCoefmat}}.}
   \item{ask}{Should the \code{plot} method work interactively?  See
     \code{\link{interactive}}.}
   \item{\dots}{further arguments passed to or from other methods.} 
