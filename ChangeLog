@@ -1,11 +1,19 @@
+2004-01-31  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-19.
+
+	* INDEX: Removed.
+
 2003-12-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version): New version is 0.9-18.
+	
 	* R/finance.R (plotOHLC): Use segments() with vector arguments.
 
 2003-11-06  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-17.
+	
 	* man/summary.garch.Rd: 
 	* man/summary.arma.Rd: 
 	Fix codoc default value problem/typo.
@@ -95,7 +103,7 @@
 
 	* README: update.
 	
-        * R/finance.R
+        * R/finance.R:
 	* man/plotOHLC.Rd: add new argument origin such that 
 	it works smoothly together with get.hist.quote() (problem 
 	spotted by Michael Parzen <fmparzen@gsb.uchicago.edu>).
