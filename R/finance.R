@@ -289,14 +289,11 @@ function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
       ylim <- range(x[is.finite(x)])
   plot.new()
   plot.window(xlim, ylim, ...)
-  for (i in 1:NROW(x)) {
-      segments(time.x[i], x[i,"High"], time.x[i], x[i,"Low"],
-               col = col[1], bg = bg)
-      segments(time.x[i] - dt, x[i,"Open"], time.x[i], x[i,"Open"],
-               col = col[1], bg = bg)
-      segments(time.x[i], x[i,"Close"], time.x[i] + dt, x[i,"Close"],
-               col = col[1], bg = bg)
-  }
+  segments(time.x, x[, "High"], time.x, x[, "Low"], col = col[1], bg = bg)
+  segments(time.x - dt, x[, "Open"], time.x, x[, "Open"],
+           col = col[1], bg = bg)
+  segments(time.x, x[, "Close"], time.x + dt, x[, "Close"],
+           col = col[1], bg = bg)
   if (ann) 
       title(main = main, xlab = xlab, ylab = ylab, ...)  
   if (axes) {

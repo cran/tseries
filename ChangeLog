@@ -1,3 +1,8 @@
+2003-12-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version): New version is 0.9-18.
+	* R/finance.R (plotOHLC): Use segments() with vector arguments.
+
 2003-11-06  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-17.
