@@ -174,9 +174,9 @@ function (instrument = "^gdax", start, end, quote = c("Open", "High", "Low", "Cl
             stop(paste("No data available for", instrument))
         }
         x <- read.table(destfile, header = TRUE, sep = ",", as.is = TRUE)
-        # Debug
-        # cat("read.table: start =", x[NROW(x),"Date"], "\n")
-        # cat("read.table: end   =", x[1,"Date"], "\n")
+        ## Debug
+        ## cat("read.table: start =", x[NROW(x),"Date"], "\n")
+        ## cat("read.table: end   =", x[1,"Date"], "\n")
         unlink(destfile)
 
         nser <- pmatch(quote, names(x)[-1]) + 1
@@ -197,7 +197,9 @@ function (instrument = "^gdax", start, end, quote = c("Open", "High", "Low", "Cl
         if(dat[1] != end)
             cat(format(dat[1], "time series ends   %Y-%m-%d\n"))
         jdat <- julian(dat, origin = as.POSIXct(origin, tz = "GMT"))
-        ind <- jdat - jdat[n] + 1
+        ## The as.numeric() is needed because 1.7.0 does not allow
+        ## adding 1 to a "difftime" object.
+        ind <- as.numeric(jdat - jdat[n]) + 1
         y <- matrix(NA, nr = max(ind), nc = length(nser))
         y[ind, ] <- as.matrix(x[, nser, drop = FALSE])
         colnames(y) <- names(x)[nser]
