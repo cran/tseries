@@ -42,7 +42,7 @@ apply.kernel (k1, k2)
     smoothed is treated as circular, i.e., periodic.}
 }
 \description{
-  The \code{"kernel"} class is designed to represent symmetric
+  The \code{"kernel"} class is designed to represent discrete symmetric
   normalized smoothing kernels. These kernels can be used to smooth
   vectors, matrices, or time series objects. Furthermore, they are used
   for the \code{\link{spectrum}} estimation and related routines.

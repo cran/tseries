@@ -19,7 +19,7 @@
 #
 
 
-spectrum <- function (x, k = fejer.kernel(length(x)%/%2,length(x)/10), pl = TRUE, ...)
+spectrum <- function (x, k = fejer.kernel(nextn(length(x))%/%2-1,length(x)/10), pl = TRUE, ...)
 {
   if (!is.vector(x) & !is.univariate.ts(x)) 
     stop("x is not a vector or univariate time series")
@@ -61,7 +61,7 @@ cumulative.periodogram <- function (x, pl = TRUE, ...)
   return (cmpgram)
 }
 
-cross.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10))
+cross.spectrum <- function (x, y, k = fejer.kernel(nextn(length(x))%/%2-1,length(x)/10))
 {
   if (!is.vector(x) & !is.univariate.ts(x)) 
     stop ("x is not a vector or univariate time series")
@@ -94,7 +94,8 @@ cross.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10))
   return (spectrum)
 }
 
-co.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10), pl = TRUE, ...)
+co.spectrum <- function (x, y, k = fejer.kernel(nextn(length(x))%/%2-1,length(x)/10),
+                         pl = TRUE, ...)
 {
   s <- cross.spectrum(x,y,k)
   s$y <- Re(s$y)
@@ -103,7 +104,7 @@ co.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10), pl 
   return (s)
 }
 
-quadrature.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10),
+quadrature.spectrum <- function (x, y, k = fejer.kernel(nextn(length(x))%/%2-1,length(x)/10),
                                  pl = TRUE, ...)
 {
   s <- cross.spectrum(x,y,k)
@@ -113,7 +114,8 @@ quadrature.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/
   return (s)
 }
 
-absolute.coherency <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10), pl = TRUE, ...)
+absolute.coherency <- function (x, y, k = fejer.kernel(nextn(length(x))%/%2-1,length(x)/10),
+                                pl = TRUE, ...)
 {
   sx <- spectrum(x,k,pl=F)
   sy <- spectrum(y,k,pl=F)
@@ -138,7 +140,8 @@ absolute.coherency <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/1
   return (abscoh)
 }
 
-phase.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10), pl = TRUE, ...)
+phase.spectrum <- function (x, y, k = fejer.kernel(nextn(length(x))%/%2-1,length(x)/10),
+                            pl = TRUE, ...)
 {
   sx <- spectrum(x,k,pl=F)
   sy <- spectrum(y,k,pl=F)
@@ -164,7 +167,8 @@ phase.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10), 
   return (phspec)
 }
 
-amplitude.spectrum <- function (x, y, k = fejer.kernel(length(x)%/%2,length(x)/10), pl = TRUE, ...)
+amplitude.spectrum <- function (x, y, k = fejer.kernel(nextn(length(x))%/%2-1,length(x)/10),
+                                pl = TRUE, ...)
 {
   sx <- spectrum(x,k,pl=F)
   sy <- spectrum(y,k,pl=F)

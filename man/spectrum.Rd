@@ -1,7 +1,7 @@
 \name{spectrum}
 \title{Spectrum Estimation}
 \usage{
-spectrum (x, k = fejer.kernel(length(x)\%/\%2,length(x)/10), pl = TRUE, ...)
+spectrum (x, k = fejer.kernel(nextn(length(x))\%/\%2-1,length(x)/10), pl = TRUE, ...)
 }
 \alias{spectrum}
 \arguments{
@@ -12,8 +12,8 @@ spectrum (x, k = fejer.kernel(length(x)\%/\%2,length(x)/10), pl = TRUE, ...)
 }
 \description{
   Computes the "discrete spectral average estimator" of the spectrum of
-  \code{x}, i.e., the periodogram of \code{x} is smoothed with the given
-  kernel \code{k} (see Brockwell and Davies (1991), p. 351, for a
+  \code{x}, i.e., the periodogram of \code{x} is smoothed with the given weights
+  from the discrete kernel \code{k} (see Brockwell and Davies (1991), p. 351, for a
   definition). If \code{pl} is \code{TRUE}, then the estimated spectrum
   is plotted. Additionally, the plot contains information about the
   "equivalent degrees of freedom" \code{df} and the bandwidth \code{bw}

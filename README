@@ -1,30 +1,18 @@
-Copyright (C) 1998, 1999  Adrian Trapletti
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
---------------------
-
 This package contains a library for time series analysis.
 
-Author: Adrian Trapletti <A.Trapletti@ci.tuwien.ac.at>
+Author: A. Trapletti <A.Trapletti@ci.tuwien.ac.at>, 
+        B. LeBaron ("./src/bdstest.c"),
+        K. Krischer, and T. M. Kruel ("./src/muin2ser.f", 
+        "./misc/mutinfo-1.21b.tar.gz")
+
+License: "./src/muin2ser.f", "./misc/mutinfo-1.21b.tar.gz" are 
+        free for non-commercial purposes. "./src/bdstest.c" is 
+        free. The remainder is covered by GPL version 2 or 
+        newer; see file COPYING
 
 The package has been tested using the following environment:
 Redhat 5.2, linux-2.0.36
 R : Version 0.64.2  
-
-
 
 
 

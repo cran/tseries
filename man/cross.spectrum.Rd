@@ -1,12 +1,12 @@
 \name{cross spectra}
 \title{Cross Spectra Estimation}
 \usage{
-cross.spectrum (x, y, k = fejer.kernel(length(x)\%/\%2,length(x)/10))
-co.spectrum (x, y, k = fejer.kernel(length(x)\%/\%2,length(x)/10), pl = TRUE, ...)
-quadrature.spectrum (x, y, k = fejer.kernel(length(x)\%/\%2,length(x)/10), pl = TRUE, ...)
-absolute.coherency (x, y, k = fejer.kernel(length(x)\%/\%2,length(x)/10), pl = TRUE, ...)
-phase.spectrum (x, y, k = fejer.kernel(length(x)\%/\%2,length(x)/10), pl = TRUE, ...)
-amplitude.spectrum (x, y, k = fejer.kernel(length(x)\%/\%2,length(x)/10), pl = TRUE, ...)
+cross.spectrum (x, y, k = fejer.kernel(nextn(length(x))\%/\%2-1,length(x)/10))
+co.spectrum (x, y, k = fejer.kernel(nextn(length(x))\%/\%2-1,length(x)/10), pl = TRUE, ...)
+quadrature.spectrum (x, y, k = fejer.kernel(nextn(length(x))\%/\%2-1,length(x)/10), pl = TRUE, ...)
+absolute.coherency (x, y, k = fejer.kernel(nextn(length(x))\%/\%2-1,length(x)/10), pl = TRUE, ...)
+phase.spectrum (x, y, k = fejer.kernel(nextn(length(x))\%/\%2-1,length(x)/10), pl = TRUE, ...)
+amplitude.spectrum (x, y, k = fejer.kernel(nextn(length(x))\%/\%2-1,length(x)/10), pl = TRUE, ...)
 }
 \alias{cross.spectrum}
 \alias{co.spectrum}
