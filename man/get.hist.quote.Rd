@@ -51,18 +51,19 @@ get.hist.quote(instrument = "^gdax", start, end,
   \url{http://quote.yahoo.com/} 
 }
 \examples{
-\dontrun{
-x <- get.hist.quote(instrument = "^spc", start = "1998-01-01",
-                    quote = "Close")
-plot(x)
+if(!inherits(try(open(url("http://quote.yahoo.com")), silent = TRUE),
+             "try-error")) {
+  x <- get.hist.quote(instrument = "^gspc", start = "1998-01-01",
+                      quote = "Close")
+  plot(x)
 
-x <- get.hist.quote(instrument = "ibm", quote = c("Cl", "Vol"))
-plot(x, main = "International Business Machines Corp")
+  x <- get.hist.quote(instrument = "ibm", quote = c("Cl", "Vol"))
+  plot(x, main = "International Business Machines Corp")
 
-spc <- get.hist.quote(instrument = "^spc", start = "1998-01-01")
-ibm <- get.hist.quote(instrument = "ibm",  start = "1998-01-01")
-x <- na.remove(ts.union(spc, ibm))
-plot(x, main = "IBM vs S&P 500")
+  spc <- get.hist.quote(instrument = "^gspc", start = "1998-01-01")
+  ibm <- get.hist.quote(instrument = "ibm",  start = "1998-01-01")
+  x <- na.remove(ts.union(spc, ibm))
+  plot(x, main = "IBM vs S&P 500")
 }
 }
 \keyword{ts}

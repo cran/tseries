@@ -1,8 +1,8 @@
 \name{plotOHLC}
 \alias{plotOHLC}
-\title{Plot Open--High--Low--Close Bar Chart}
+\title{Plot Open-High-Low-Close Bar Chart}
 \description{
-  Plots open--high--low--close bar chart of a (financial) time series.
+  Plots open-high-low-close bar chart of a (financial) time series.
 }
 \usage{
 plotOHLC(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab, col = par("col"),
@@ -28,7 +28,7 @@ plotOHLC(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab, col = par("col"),
     and \code{\link{box}}.}
 }
 \details{
-  Within an open--high--low--close bar chart, each bar represents
+  Within an open-high-low-close bar chart, each bar represents
   price information for the time interval between the open and the close
   price. The left tick for each bar indicates the open price for the
   time interval. The right tick indicates the closing price for the time
@@ -45,17 +45,20 @@ plotOHLC(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab, col = par("col"),
   \code{\link{get.hist.quote}}
 }
 \examples{
-\dontrun{
-# Plot OHLC bar chart for the last `nDays' days of the instrument `instrument'
+if(!inherits(try(open(url("http://quote.yahoo.com")), silent = TRUE),
+             "try-error")) {
+  ## Plot OHLC bar chart for the last 'nDays' days of the instrument
+  ## 'instrument'
 
-nDays <- 50
-instrument <- "^spc"
+  nDays <- 50
+  instrument <- "^gspc"
 
-start <- strftime(as.POSIXlt(Sys.time() - nDays*24*3600), format="\%Y-\%m-\%d") 
-end <- strftime(as.POSIXlt(Sys.time()), format = "\%Y-\%m-\%d") 
-x <- get.hist.quote(instrument = instrument, start = start, end = end)
+  start <- strftime(as.POSIXlt(Sys.time() - nDays*24*3600),
+                    format="\%Y-\%m-\%d") 
+  end <- strftime(as.POSIXlt(Sys.time()), format = "\%Y-\%m-\%d") 
+  x <- get.hist.quote(instrument = instrument, start = start, end = end)
 
-plotOHLC(x, ylab = "price", main = instrument)
+  plotOHLC(x, ylab = "price", main = instrument)
 }
 }
 \keyword{hplot}

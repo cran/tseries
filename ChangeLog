@@ -1,3 +1,14 @@
+2004-07-20  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-22.
+
+	* man/get.hist.quote.Rd: 
+	* man/plotOHLC.Rd: 
+	Change symbol for S&P 500 from ^spc to ^gspc, argh.
+	Try wrapping examples inside a suitable test for connectivity to
+	quote.yahoo.com rather than \dontrun{}, so that we can figure out
+	when examples fail more easily.
+
 2004-03-23  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-20.
