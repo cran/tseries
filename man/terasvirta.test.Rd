@@ -9,16 +9,16 @@
   \code{y~x}.
 }
 \usage{
-\method{terasvirta.test}{ts}(x, lag = 1, type = c("chisq","F"), scale = TRUE)
-\method{terasvirta.test}{default}(x, y, type = c("chisq","F"), scale = TRUE)
+\method{terasvirta.test}{ts}(x, lag = 1, type = c("Chisq","F"), scale = TRUE)
+\method{terasvirta.test}{default}(x, y, type = c("Chisq","F"), scale = TRUE)
 }
 \arguments{
   \item{x}{a numeric vector, matrix, or time series.}
   \item{y}{a numeric vector.}
   \item{lag}{an integer which specifies the model order in terms of
     lags.} 
-  \item{type}{a string indicating whether the Chi-Square test or the
-    F-test is computed. Valid types are \code{"chisq"} and \code{"F"}.}
+  \item{type}{a string indicating whether the Chi-Squared test or the
+    F-test is computed. Valid types are \code{"Chisq"} and \code{"F"}.}
   \item{scale}{a logical indicating whether the data should be scaled 
     before computing the test statistic. The default arguments to
     \code{\link{scale}} are used.}
@@ -27,7 +27,7 @@
   The null is the hypotheses of linearity in
   ``mean''. This test uses a Taylor series expansion of the activation
   function to arrive at a suitable test statistic. If \code{type} equals
-  \code{"F"}, then the F-statistic instead of the Chi-Square statistic
+  \code{"F"}, then the F-statistic instead of the Chi-Squared statistic
   is used in analogy to the classical linear regression. 
   
   Missing values are not allowed.

@@ -79,93 +79,62 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
 
 get.hist.quote <-
 function(instrument = "^gdax", start, end,
-         quote = c("Open", "High", "Low", "Close", "Volume"),
-         provider = "yahoo", method = "auto")
+         quote = "Open", provider = "yahoo", method = "auto")
 {
+    if(missing(start)) start <- "1991-01-02"
+    if(missing(end)) end <- format(Sys.time() - 86400, "%Y-%m-%d")
   
-    strsplit2 <- function(str) {
-        unlist(lapply(strsplit(str, " "), function(x) x[x != ""]))
-    }
-
-    convert.to.julian <- function(dates) {
-        mn <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-                "Sep", "Oct", "Nov", "Dec")
-        ld <- length(dates)
-        dm <- matrix(unlist(lapply(dates, strsplit, "-")), ld, 3,
-                     byrow = TRUE)
-        dd <- as.numeric(dm[, 1])
-        mm <- unlist(lapply(dm[, 2], pmatch, mn))
-        yy <- as.numeric(dm[, 3])
-        yy <-(yy<50)*(2000+yy)+(yy>=50)*(1900+yy)
-        return(julian(mm, dd, yy))
-    }
-
-    if(!require(chron, quietly=TRUE))
-        stop("Package chron is needed. Stopping")
-    quote <- match.arg(quote)
     provider <- match.arg(provider)
-    mm <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-            "Sep", "Oct", "Nov", "Dec")
-    if(missing(start)) start <- "1 2 1991"
-    if(missing(end))
-        end <- paste(pmatch(strsplit2(date())[2], mm),
-                     as.numeric(strsplit2(date())[3]),
-                     strsplit2(date())[5])
-    start <- c(as.numeric(strsplit2(start)[1]),
-               as.numeric(strsplit2(start)[2]),
-               as.numeric(strsplit2(start)[3]))
-    end <- c(as.numeric(strsplit2(end)[1]),
-             as.numeric(strsplit2(end)[2]),
-             as.numeric(strsplit2(end)[3]))
-    end <- month.day.year(julian(end[1], end[2], end[3])-1)
-    end <- c(end$month, end$day, end$year)
+
+    start <- as.POSIXct(start, tz = "GMT")
+    end <- as.POSIXct(end, tz = "GMT")
+
     if(provider == "yahoo") {
-        url <- paste("http://chart.yahoo.com/table.csv?s=", instrument,
-                     sep="")
-        url <- paste(url, "&a=", start[1], "&b=", start[2], "&c=",
-                     start[3], sep="")
-        url <- paste(url, "&d=", end[1], "&e=", end[2], "&f=", end[3],
-                     sep="")
-        url <- paste(url, "&g=d&q=q&y=0&z=", instrument, "&x=.csv",
-                     sep="")
+        url <- paste("http://chart.yahoo.com/table.csv?s=",
+                     instrument,
+                     format(start, "&a=%m&b=%d&c=%Y"),
+                     format(end, "&d=%m&e=%d&f=%Y"),
+                     "&g=d&q=q&y=0&z=",
+                     instrument,
+                     "&x=.csv",
+                     sep = "")
         destfile <- tempfile()
         status <- download.file(url, destfile, method = method)
         if(status != 0) {
             unlink(destfile)
             stop(paste("download error, status", status))
         }
-        status <- scan(destfile, "", n=1, sep="\n", quiet=TRUE)
+        status <- scan(destfile, "", n = 1, sep = "\n", quiet = TRUE)
         if(substring(status, 1, 2) == "No") {
             unlink(destfile)
             stop(paste("No data available for", instrument))
         }
         x <- read.table(destfile, header = TRUE, sep = ",")
         unlink(destfile)
-        nser <- pmatch(quote, c("Open", "High", "Low", "Close", "Volume")) + 1
-        if(nser > ncol(x)) stop("This quote is not available")
+
+        nser <- pmatch(quote, names(x)[-1]) + 1
+        if(any(is.na(nser)))
+            stop("This quote is not available")
         n <- nrow(x)
-        dat <- gsub(" ", "0", as.character(x[n:1,1]))
-        dat <- convert.to.julian(dat)
-        ser <- as.vector(x[n:1,nser]) 
-        seqdat <- dat[1]:dat[n]
-        idx <- match(dat,seqdat)
-        newser <- rep(NA,length(seqdat))
-        newser[idx] <- ser
-        if(dat[1] != julian(start[1],start[2],start[3])) {
-            st <- month.day.year(dat[1])
-            cat(paste("time series starts ",
-                      paste(st$month,st$day,st$year,sep= " "), "\n",
-                      sep=""))
-        }
-        if(dat[n] != julian(end[1],end[2],end[3])) {
-            en <- month.day.year(dat[n])
-            cat(paste("time series ends   ",
-                      paste(en$month,en$day,en$year,sep= " "), "\n",
-                      sep=""))
-        }
-        return(ts(newser,
-                  start = as.numeric(dat)[1],
-                  end = as.numeric(dat)[n]))
+
+        ## Yahoo currently formats dates as `26-Jun-01', hence need C
+        ## LC_TIME locale for getting the month right.
+        lct <- Sys.getlocale("LC_TIME")
+        Sys.setlocale("LC_TIME", "C")
+        on.exit(Sys.setlocale("LC_TIME", lct))
+
+        dat <- gsub(" ", "0", as.character(x[, 1])) # Need the gsub?
+        dat <- as.POSIXct(strptime(dat, "%d-%b-%y"), tz = "GMT")
+        if(dat[n] != start)
+            cat(format(dat[n], "time series starts %Y-%m-%d\n"))
+        if(dat[1] != end)
+            cat(format(dat[1], "time series ends   %Y-%m-%d\n"))
+        jdat <- julian(dat)
+        ind <- jdat - jdat[n] + 1
+        y <- matrix(NA, nr = max(ind), nc = length(nser))
+        y[ind, ] <- as.matrix(x[, nser, drop = FALSE])
+        colnames(y) <- names(x)[nser]
+        return(ts(y, start = jdat[n], end = jdat[1]))
     }
     else stop("provider not implemented")
 }

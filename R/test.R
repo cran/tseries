@@ -185,275 +185,317 @@ adf.test <- function (x, alternative = c("stationary", "explosive"),
 white.test <- function (x, ...) UseMethod("white.test")
 
 white.test.default <- function (x, y, qstar = 2, q = 10, range = 4,
-                                type = c("chisq","F"), scale = TRUE)
+                                type = c("Chisq","F"), scale = TRUE)
 {
-  DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
-  x <- as.matrix(x)
-  y <- as.matrix(y)
-  if (any(is.na(x))) stop ("NAs in x")
-  if (any(is.na(y))) stop ("NAs in y")
-  nin <- dim(x)[2]
-  t <- dim(x)[1]
-  if (dim(x)[1] != dim(y)[1]) 
-    stop("number of rows of x and y must match")
-  if (dim(x)[1] <= 0) 
-    stop("no observations in x and y")
-  if (dim(y)[2] > 1)
-    stop ("handles only univariate outputs")
-  if (!require (mva, quietly=TRUE))
-    stop ("Package mva is needed. Stopping")
-  type <- match.arg (type)
-  if (scale)
-  {
-    x <- scale(x)
-    y <- scale(y)
-  }
-  xnam <- paste ("x[,", 1:nin, "]", sep="")
-  fmla <- as.formula (paste ("y~",paste(xnam,collapse= "+")))
-  rr <- lm (fmla)
-  u <- residuals (rr)
-  ssr0 <- sum (u^2)
-  max <- range/2
-  gamma <- matrix(runif((nin+1)*q,-max,max),nin+1,q)
-  phantom <- (1+exp(-(cbind(rep(1,t),x)%*%gamma)))^(-1)
-  phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
-  xnam2 <- paste ("phantomstar[,", 1:qstar, "]", sep="")
-  xnam2 <- paste(xnam2,collapse="+")
-  fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),xnam2,sep="+")))
-  rr <- lm (fmla)
-  v <- residuals(rr)
-  ssr <- sum(v^2)
-  if (type == "chisq")
-  {
-    STAT <- t*log(ssr0/ssr)
-    PVAL <- 1-pchisq(STAT,qstar)
-    PARAMETER <- qstar
-    names(STAT) <- "X-squared"
-    names(PARAMETER) <- "df"
-  }
-  else if (type == "F")
-  {
-    STAT <- ((ssr0-ssr)/qstar)/(ssr/(t-qstar-nin))
-    PVAL <- 1-pf(STAT,qstar,t-qstar-nin)
-    PARAMETER <- c(qstar,t-qstar-nin)
-    names(STAT) <- "F"
-    names(PARAMETER) <- c("df1","df2")
-  }
-  else
-    stop ("invalid type")
-  ARG <- c(qstar,q,range,scale)
-  names(ARG) <- c("qstar","q","range","scale")
-  METHOD <- "White Neural Network Test"
-  structure(list(statistic = STAT, parameter = PARAMETER, p.value = PVAL, 
-                 method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
+    DNAME <- paste(deparse(substitute(x)),
+                   "and",
+                   deparse(substitute(y)))
+    x <- as.matrix(x)
+    y <- as.matrix(y)
+    if (any(is.na(x))) stop ("NAs in x")
+    if (any(is.na(y))) stop ("NAs in y")
+    nin <- dim(x)[2]
+    t <- dim(x)[1]
+    if (dim(x)[1] != dim(y)[1]) 
+        stop("number of rows of x and y must match")
+    if (dim(x)[1] <= 0) 
+        stop("no observations in x and y")
+    if (dim(y)[2] > 1)
+        stop ("handles only univariate outputs")
+    if (!require (mva, quietly=TRUE))
+        stop ("Package mva is needed. Stopping")
+    if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
+        warning(paste("value `chisq' for `type' is deprecated,",
+                      "use `Chisq' instead"))
+        type <- "Chisq"
+    }
+    else
+        type <- match.arg(type)
+    if (scale) {
+        x <- scale(x)
+        y <- scale(y)
+    }
+    xnam <- paste ("x[,", 1:nin, "]", sep="")
+    fmla <- as.formula (paste ("y~",paste(xnam,collapse= "+")))
+    rr <- lm (fmla)
+    u <- residuals (rr)
+    ssr0 <- sum (u^2)
+    max <- range/2
+    gamma <- matrix(runif((nin+1)*q,-max,max),nin+1,q)
+    phantom <- (1+exp(-(cbind(rep(1,t),x)%*%gamma)))^(-1)
+    phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
+    xnam2 <- paste ("phantomstar[,", 1:qstar, "]", sep="")
+    xnam2 <- paste(xnam2,collapse="+")
+    fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),
+                                          xnam2,sep="+")))
+    rr <- lm (fmla)
+    v <- residuals(rr)
+    ssr <- sum(v^2)
+    if (type == "Chisq") {
+        STAT <- t*log(ssr0/ssr)
+        PVAL <- 1-pchisq(STAT,qstar)
+        PARAMETER <- qstar
+        names(STAT) <- "X-squared"
+        names(PARAMETER) <- "df"
+    }
+    else if (type == "F") {
+        STAT <- ((ssr0-ssr)/qstar)/(ssr/(t-qstar-nin))
+        PVAL <- 1-pf(STAT,qstar,t-qstar-nin)
+        PARAMETER <- c(qstar,t-qstar-nin)
+        names(STAT) <- "F"
+        names(PARAMETER) <- c("df1","df2")
+    }
+    else
+        stop ("invalid type")
+    ARG <- c(qstar,q,range,scale)
+    names(ARG) <- c("qstar","q","range","scale")
+    METHOD <- "White Neural Network Test"
+    structure(list(statistic = STAT,
+                   parameter = PARAMETER,
+                   p.value = PVAL,  
+                   method = METHOD,
+                   data.name = DNAME,
+                   arguments = ARG),
+              class = "htest")
 }
 
 white.test.ts <- function (x, lag = 1, qstar = 2, q = 10, range = 4,
-                           type = c("chisq","F"), scale = TRUE)
+                           type = c("Chisq","F"), scale = TRUE)
 {
-  if (!is.ts(x)) stop ("method is only for time series")
-  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
-  if (any(is.na(x))) stop ("NAs in x")
-  if (lag < 1) 
-    stop("minimum lag is 1")
-  if (!require (mva, quietly=TRUE))
-    stop ("Package mva is needed. Stopping")
-  type <- match.arg (type)
-  DNAME <- deparse(substitute(x))
-  t <- length(x)
-  if (scale) x <- scale(x)
-  y <- embed (x, lag+1)
-  xnam <- paste ("y[,", 2:(lag+1), "]", sep="")
-  fmla <- as.formula (paste ("y[,1]~",paste(xnam,collapse= "+")))
-  rr <- lm (fmla)
-  u <- residuals (rr)
-  ssr0 <- sum (u^2)
-  max <- range/2
-  gamma <- matrix(runif((lag+1)*q,-max,max),lag+1,q)
-  phantom <- (1+exp(-(cbind(rep(1,t-lag),y[,2:(lag+1)])%*%gamma)))^(-1)
-  phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
-  xnam2 <- paste ("phantomstar[,", 1:qstar, "]", sep="")
-  xnam2 <- paste(xnam2,collapse="+")
-  fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),xnam2,sep="+")))
-  rr <- lm (fmla)
-  v <- residuals(rr)
-  ssr <- sum(v^2)
-  if (type == "chisq")
-  {
-    STAT <- t*log(ssr0/ssr)
-    PVAL <- 1-pchisq(STAT,qstar)
-    PARAMETER <- qstar
-    names(STAT) <- "X-squared"
-    names(PARAMETER) <- "df"
-  }
-  else if (type == "F")
-  {
-    STAT <- ((ssr0-ssr)/qstar)/(ssr/(t-lag-qstar))
-    PVAL <- 1-pf(STAT,qstar,t-lag-qstar)
-    PARAMETER <- c(qstar,t-lag-qstar)
-    names(STAT) <- "F"
-    names(PARAMETER) <- c("df1","df2")
-  }
-  else
-    stop ("invalid type")
-  ARG <- c(lag,qstar,q,range,scale)
-  names(ARG) <- c("lag","qstar","q","range","scale")
-  METHOD <- "White Neural Network Test"
-  structure(list(statistic = STAT, parameter = PARAMETER, p.value = PVAL, 
-                 method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
+    if (!is.ts(x)) stop ("method is only for time series")
+    if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+    if (any(is.na(x))) stop ("NAs in x")
+    if (lag < 1) 
+        stop("minimum lag is 1")
+    if (!require (mva, quietly=TRUE))
+        stop ("Package mva is needed. Stopping")
+    if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
+        warning(paste("value `chisq' for `type' is deprecated,",
+                      "use `Chisq' instead"))
+        type <- "Chisq"
+    }
+    else
+        type <- match.arg(type)
+    DNAME <- deparse(substitute(x))
+    t <- length(x)
+    if (scale) x <- scale(x)
+    y <- embed (x, lag+1)
+    xnam <- paste ("y[,", 2:(lag+1), "]", sep="")
+    fmla <- as.formula (paste ("y[,1]~",paste(xnam,collapse= "+")))
+    rr <- lm (fmla)
+    u <- residuals (rr)
+    ssr0 <- sum (u^2)
+    max <- range/2
+    gamma <- matrix(runif((lag+1)*q,-max,max),lag+1,q)
+    phantom <- (1+exp(-(cbind(rep(1,t-lag),y[,2:(lag+1)])%*%gamma)))^(-1)
+    phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
+    xnam2 <- paste ("phantomstar[,", 1:qstar, "]", sep="")
+    xnam2 <- paste(xnam2,collapse="+")
+    fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),
+                                          xnam2,sep="+")))
+    rr <- lm (fmla)
+    v <- residuals(rr)
+    ssr <- sum(v^2)
+    if (type == "Chisq") {
+        STAT <- t*log(ssr0/ssr)
+        PVAL <- 1-pchisq(STAT,qstar)
+        PARAMETER <- qstar
+        names(STAT) <- "X-squared"
+        names(PARAMETER) <- "df"
+    } else if (type == "F") {
+        STAT <- ((ssr0-ssr)/qstar)/(ssr/(t-lag-qstar))
+        PVAL <- 1-pf(STAT,qstar,t-lag-qstar)
+        PARAMETER <- c(qstar,t-lag-qstar)
+        names(STAT) <- "F"
+        names(PARAMETER) <- c("df1","df2")
+    }
+    else
+        stop ("invalid type")
+    ARG <- c(lag,qstar,q,range,scale)
+    names(ARG) <- c("lag","qstar","q","range","scale")
+    METHOD <- "White Neural Network Test"
+    structure(list(statistic = STAT,
+                   parameter = PARAMETER,
+                   p.value = PVAL, 
+                   method = METHOD,
+                   data.name = DNAME,
+                   arguments = ARG),
+              class = "htest")
 }
 
 terasvirta.test <- function (x, ...) UseMethod("terasvirta.test")
 
-terasvirta.test.default <- function (x, y, type = c("chisq","F"), scale = TRUE)
+terasvirta.test.default <-
+function (x, y, type = c("Chisq", "F"), scale = TRUE)
 {
-  DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
-  x <- as.matrix(x)
-  y <- as.matrix(y)
-  if (any(is.na(x))) stop ("NAs in x")
-  if (any(is.na(y))) stop ("NAs in y")
-  nin <- dim(x)[2]
-  if (nin < 1)
-    stop ("invalid x")
-  t <- dim(x)[1]
-  if (dim(x)[1] != dim(y)[1]) 
-    stop("number of rows of x and y must match")
-  if (dim(x)[1] <= 0) 
-    stop("no observations in x and y")
-  if (dim(y)[2] > 1)
-    stop ("handles only univariate outputs")
-  type <- match.arg (type)
-  if (scale)
-  {
-    x <- scale(x)
-    y <- scale(y)
-  }
-  xnam <- paste ("x[,", 1:nin, "]", sep="")
-  fmla <- as.formula (paste ("y~",paste(xnam,collapse= "+")))
-  rr <- lm (fmla)
-  u <- residuals (rr)
-  ssr0 <- sum (u^2)
-  xnam2 <- NULL
-  m <- 0
-  for (i in (1:nin))
-  {
-    for (j in (i:nin))
-    {
-      xnam2 <- c(xnam2,paste("I(x[,",i,"]*x[,",j,"])",sep=""))
-      m <- m+1
+    DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
+    x <- as.matrix(x)
+    y <- as.matrix(y)
+    if (any(is.na(x))) stop ("NAs in x")
+    if (any(is.na(y))) stop ("NAs in y")
+    nin <- dim(x)[2]
+    if (nin < 1)
+        stop ("invalid x")
+    t <- dim(x)[1]
+    if (dim(x)[1] != dim(y)[1]) 
+        stop("number of rows of x and y must match")
+    if (dim(x)[1] <= 0) 
+        stop("no observations in x and y")
+    if (dim(y)[2] > 1)
+        stop ("handles only univariate outputs")
+    if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
+        warning(paste("value `chisq' for `type' is deprecated,",
+                      "use `Chisq' instead"))
+        type <- "Chisq"
     }
-  }
-  xnam2 <- paste(xnam2,collapse="+")
-  xnam3 <- NULL
-  for (i in (1:nin))
-  {
-    for (j in (i:nin))
-    {
-      for (k in (j:nin))
-      {
-        xnam3 <- c(xnam3,paste("I(x[,",i,"]*x[,",j,"]*x[,",k,"])",sep=""))
-        m <- m+1
-      }
+    else
+        type <- match.arg(type)
+    if (scale) {
+        x <- scale(x)
+        y <- scale(y)
     }
-  }
-  xnam3 <- paste(xnam3,collapse="+")
-  fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),xnam2,xnam3,sep="+")))
-  rr <- lm (fmla)
-  v <- residuals(rr)
-  ssr <- sum(v^2)
-  if (type == "chisq")
-  {
-    STAT <- t*log(ssr0/ssr)
-    PVAL <- 1-pchisq(STAT,m)
-    PARAMETER <- m
-    names(STAT) <- "X-squared"
-    names(PARAMETER) <- "df"
-  }
-  else if (type == "F")
-  {
-    STAT <- ((ssr0-ssr)/m)/(ssr/(t-nin-m))
-    PVAL <- 1-pf(STAT,m,t-nin-m)
-    PARAMETER <- c(m,t-nin-m)
-    names(STAT) <- "F"
-    names(PARAMETER) <- c("df1","df2")
-  }
-  else
-    stop ("invalid type")
-  METHOD <- "Teraesvirta Neural Network Test"
-  ARG <- scale
-  names(ARG) <- "scale"
-  structure(list(statistic = STAT, parameter = PARAMETER, p.value = PVAL, 
-                 method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
+    xnam <- paste ("x[,", 1:nin, "]", sep="")
+    fmla <- as.formula (paste ("y~",paste(xnam,collapse= "+")))
+    rr <- lm (fmla)
+    u <- residuals (rr)
+    ssr0 <- sum (u^2)
+    xnam2 <- NULL
+    m <- 0
+    for (i in (1:nin))
+    {
+        for (j in (i:nin))
+        {
+            xnam2 <- c(xnam2,paste("I(x[,",i,"]*x[,",j,"])",sep=""))
+            m <- m+1
+        }
+    }
+    xnam2 <- paste(xnam2,collapse="+")
+    xnam3 <- NULL
+    for (i in (1:nin))
+    {
+        for (j in (i:nin))
+        {
+            for (k in (j:nin))
+            {
+                xnam3 <- c(xnam3, paste("I(x[,", i, "]*x[,", j, "]*x[,",
+                                        k ,"])", sep=""))
+                m <- m+1
+            }
+        }
+    }
+    xnam3 <- paste(xnam3,collapse="+")
+    fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),
+                                          xnam2,xnam3,sep="+")))
+    rr <- lm (fmla)
+    v <- residuals(rr)
+    ssr <- sum(v^2)
+    if (type == "Chisq") {
+        STAT <- t*log(ssr0/ssr)
+        PVAL <- 1-pchisq(STAT,m)
+        PARAMETER <- m
+        names(STAT) <- "X-squared"
+        names(PARAMETER) <- "df"
+    } else if (type == "F") {
+        STAT <- ((ssr0-ssr)/m)/(ssr/(t-nin-m))
+        PVAL <- 1-pf(STAT,m,t-nin-m)
+        PARAMETER <- c(m,t-nin-m)
+        names(STAT) <- "F"
+        names(PARAMETER) <- c("df1","df2")
+    }
+    else
+        stop ("invalid type")
+    METHOD <- "Teraesvirta Neural Network Test"
+    ARG <- scale
+    names(ARG) <- "scale"
+    structure(list(statistic = STAT,
+                   parameter = PARAMETER,
+                   p.value = PVAL, 
+                   method = METHOD,
+                   data.name = DNAME,
+                   arguments = ARG),
+              class = "htest")
 }
 
-terasvirta.test.ts <- function (x, lag = 1, type = c("chisq","F"), scale = TRUE)
+terasvirta.test.ts <-
+function (x, lag = 1, type = c("Chisq", "F"), scale = TRUE)
 {
-  if (!is.ts(x)) stop ("method is only for time series")
-  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
-  if (any(is.na(x))) stop ("NAs in x")
-  if (lag < 1) 
-    stop("minimum lag is 1")
-  type <- match.arg (type)
-  DNAME <- deparse(substitute(x))
-  t <- length(x)
-  if (scale) x <- scale(x)
-  y <- embed (x, lag+1)
-  xnam <- paste ("y[,", 2:(lag+1), "]", sep="")
-  fmla <- as.formula (paste ("y[,1]~",paste(xnam,collapse= "+")))
-  rr <- lm (fmla)
-  u <- residuals (rr)
-  ssr0 <- sum (u^2)
-  xnam2 <- NULL
-  m <- 0
-  for (i in (1:lag))
-  {
-    for (j in (i:lag))
-    {
-      xnam2 <- c(xnam2,paste("I(y[,",i+1,"]*y[,",j+1,"])",sep=""))
-      m <- m+1
+    if (!is.ts(x)) stop ("method is only for time series")
+    if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+    if (any(is.na(x))) stop ("NAs in x")
+    if (lag < 1) 
+        stop("minimum lag is 1")
+    if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
+        warning(paste("value `chisq' for `type' is deprecated,",
+                      "use `Chisq' instead"))
+        type <- "Chisq"
     }
-  }
-  xnam2 <- paste(xnam2,collapse="+")
-  xnam3 <- NULL
-  for (i in (1:lag))
-  {
-    for (j in (i:lag))
+    else
+        type <- match.arg(type)
+    DNAME <- deparse(substitute(x))
+    t <- length(x)
+    if (scale) x <- scale(x)
+    y <- embed (x, lag+1)
+    xnam <- paste ("y[,", 2:(lag+1), "]", sep="")
+    fmla <- as.formula (paste ("y[,1]~",paste(xnam,collapse= "+")))
+    rr <- lm (fmla)
+    u <- residuals (rr)
+    ssr0 <- sum (u^2)
+    xnam2 <- NULL
+    m <- 0
+    for (i in (1:lag))
     {
-      for (k in (j:lag))
-      {
-        xnam3 <- c(xnam3,paste("I(y[,",i+1,"]*y[,",j+1,"]*y[,",k+1,"])",sep=""))
-        m <- m+1
-      }
+        for (j in (i:lag))
+        {
+            xnam2 <- c(xnam2,paste("I(y[,",i+1,"]*y[,",j+1,"])",sep=""))
+            m <- m+1
+        }
     }
-  }
-  xnam3 <- paste(xnam3,collapse="+")
-  fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),xnam2,xnam3,sep="+")))
-  rr <- lm (fmla)
-  v <- residuals(rr)
-  ssr <- sum(v^2)
-  if (type == "chisq")
-  {
-    STAT <- t*log(ssr0/ssr)
-    PVAL <- 1-pchisq(STAT,m)
-    PARAMETER <- m
-    names(STAT) <- "X-squared"
-    names(PARAMETER) <- "df"
-  }
-  else if (type == "F")
-  {
-    STAT <- ((ssr0-ssr)/m)/(ssr/(t-lag-m))
-    PVAL <- 1-pf(STAT,m,t-lag-m)
-    PARAMETER <- c(m,t-lag-m)
-    names(STAT) <- "F"
-    names(PARAMETER) <- c("df1","df2")
-  }
-  else
-    stop ("invalid type")
-  METHOD <- "Teraesvirta Neural Network Test"
-  ARG <- c(lag,scale)
-  names(ARG) <- c("lag","scale")
-  structure(list(statistic = STAT, parameter = PARAMETER, p.value = PVAL, 
-                 method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
+    xnam2 <- paste(xnam2,collapse="+")
+    xnam3 <- NULL
+    for (i in (1:lag))
+    {
+        for (j in (i:lag))
+        {
+            for (k in (j:lag))
+            {
+                xnam3 <- c(xnam3, paste("I(y[,", i+1, "]*y[,", j+1,
+                                        "]*y[,", k+1, "])", sep=""))
+                m <- m+1
+            }
+        }
+    }
+    xnam3 <- paste(xnam3,collapse="+")
+    fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),
+                                          xnam2,xnam3,sep="+")))
+    rr <- lm (fmla)
+    v <- residuals(rr)
+    ssr <- sum(v^2)
+    if (type == "Chisq") {
+        STAT <- t*log(ssr0/ssr)
+        PVAL <- 1-pchisq(STAT,m)
+        PARAMETER <- m
+        names(STAT) <- "X-squared"
+        names(PARAMETER) <- "df"
+    }
+    else if (type == "F") {
+        STAT <- ((ssr0-ssr)/m)/(ssr/(t-lag-m))
+        PVAL <- 1-pf(STAT,m,t-lag-m)
+        PARAMETER <- c(m,t-lag-m)
+        names(STAT) <- "F"
+        names(PARAMETER) <- c("df1","df2")
+    }
+    else
+        stop ("invalid type")
+    METHOD <- "Teraesvirta Neural Network Test"
+    ARG <- c(lag,scale)
+    names(ARG) <- c("lag","scale")
+    structure(list(statistic = STAT,
+                   parameter = PARAMETER,
+                   p.value = PVAL, 
+                   method = METHOD,
+                   data.name = DNAME,
+                   arguments = ARG),
+              class = "htest")
 }
 
 jarque.bera.test <- function (x)

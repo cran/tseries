@@ -9,9 +9,9 @@
   \code{y~x}.
 }
 \usage{
-\method{white.test}{ts}(x, lag = 1, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
+\method{white.test}{ts}(x, lag = 1, qstar = 2, q = 10, range = 4, type = c("Chisq","F"),
             scale = TRUE)
-\method{white.test}{default}(x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
+\method{white.test}{default}(x, y, qstar = 2, q = 10, range = 4, type = c("Chisq","F"),
             scale = TRUE)
 }
 \arguments{
@@ -28,8 +28,8 @@
     power while still conserving degrees of freedom.}
   \item{range}{the input to hidden unit weights are initialized uniformly
     over [-range/2, range/2].}
-  \item{type}{a string indicating whether the Chi-Square test or the
-    F-test is computed. Valid types are \code{"chisq"} and \code{"F"}.}
+  \item{type}{a string indicating whether the Chi-Squared test or the
+    F-test is computed. Valid types are \code{"Chisq"} and \code{"F"}.}
   \item{scale}{a logical indicating whether the data should be scaled 
     before computing the test statistic. The default arguments to
     \code{\link{scale}} are used.}
@@ -38,7 +38,7 @@
   The null is the hypotheses of linearity in ``mean''. This
   type of test is consistent against arbitrary nonlinearity
   in mean. If \code{type} equals \code{"F"}, then the F-statistic
-  instead of the Chi-Square statistic is used in analogy to the
+  instead of the Chi-Squared statistic is used in analogy to the
   classical linear regression. 
   
   Missing values are not allowed.
