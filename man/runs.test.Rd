@@ -10,6 +10,8 @@ runs.test (x)
 \description{
   Computes the runs test statistic for the null of independence for
   the series \code{x}.
+}
+\details{
   This test searches for independence in the observed series by
   examining the frequency of runs. Before computing the statistic,
   zero values of \code{x} are eliminated.

@@ -71,10 +71,10 @@ amif <- function (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, n
   else return (amif)  
 }
 
-plot.amif <- function (object, ci.col = "blue", ...)
+plot.amif <- function (object, ci.col = "blue", ylab = "AMIF", ...)
 {
   if (!inherits(object, "amif")) stop ("method is only for amif objects")
-  plot.acf (x = object, ylab = "AMIF", ...)
+  plot.acf (x = object, ylab = ylab, ...)
   if (!is.null(object$clim))
     lines(object$lag[, 1, 1], object$clim, col = ci.col, lty = 2)
 }

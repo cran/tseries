@@ -1,3 +1,5 @@
+# Copyright (C) 1997-2000  Adrian Trapletti
+#
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
 # License as published by the Free Software Foundation; either
@@ -120,11 +122,13 @@ print.bdstest <- function (object, digits = 4)
   invisible(object)
 }
 
-adf.test <- function (x, k = trunc((length(x)-1)^(1/3)))
+adf.test <- function (x, alternative = c("stationary", "explosive"),
+                      k = trunc((length(x)-1)^(1/3)))
 {
   if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
   if (any(is.na(x))) stop ("NAs in x")
   if (k < 0) stop ("k negative")
+  alternative <- match.arg(alternative)
   DNAME <- deparse(substitute(x))
   k <- k+1
   y <- diff (x)
@@ -157,12 +161,22 @@ adf.test <- function (x, k = trunc((length(x)-1)^(1/3)))
   tableipl <- numeric(tablen)
   for (i in (1:tablen))
     tableipl[i] <- approx (tableT,table[,i],n,rule=2)$y
-  PVAL <- approx (tableipl,tablep,STAT,rule=2)$y
+  interpol <- approx (tableipl,tablep,STAT,rule=2)$y
+  if (is.na(approx (tableipl,tablep,STAT,rule=1)$y))
+    if (interpol == min(tablep))
+      warning ("p-value smaller than printed p-value")
+    else
+      warning ("p-value greater than printed p-value")
+  if (alternative == "stationary")
+    PVAL <- interpol
+  else if (alternative == "explosive")
+    PVAL <- 1-interpol
+  else stop ("irregular alternative") 
   PARAMETER <- k-1
   METHOD <- "Augmented Dickey-Fuller Test"
   names(STAT) <- "Dickey-Fuller"
   names(PARAMETER) <- "Lag order"
-  structure(list(statistic = STAT, parameter = PARAMETER, 
+  structure(list(statistic = STAT, parameter = PARAMETER, alternative = alternative,
                  p.value = PVAL, method = METHOD, data.name = DNAME), 
             class = "htest")
 }
@@ -465,5 +479,202 @@ jarque.bera.test <- function (x)
 		 method = METHOD,
 		 data.name = DNAME),
 	    class = "htest")
+}
+
+pp.test <- function (x, alternative = c("stationary", "explosive"),
+                     type = c("Z(alpha)", "Z(t_alpha)"), lshort = TRUE)
+{
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  type <- match.arg (type)
+  alternative <- match.arg(alternative)
+  DNAME <- deparse(substitute(x))
+  z <- embed (x, 2)
+  yt <- z[,1]
+  yt1 <- z[,2]
+  n <- length (yt)
+  tt <- (1:n)-n/2
+  res <- lm (yt~1+tt+yt1)
+  if (res$rank < 3)
+    stop ("Singularities in regression")
+  res.sum <- summary (res)
+  u <- residuals (res)
+  ssqru <- sum(u^2)/n
+  if (lshort)
+    l <- trunc(4*(n/100)^0.25)
+  else
+    l <- trunc(12*(n/100)^0.25)
+  ssqrtl <- .C ("R_pp_sum", as.vector(u,mode="double"), as.integer(n),
+                as.integer(l), ssqrtl=as.double(ssqru), PACKAGE="tseries")$ssqrtl
+  n2 <- n^2
+  trm1 <- n2*(n2-1)*sum(yt1^2)/12
+  trm2 <- n*sum(yt1*(1:n))^2
+  trm3 <- n*(n+1)*sum(yt1*(1:n))*sum(yt1)
+  trm4 <- (n*(n+1)*(2*n+1)*sum(yt1)^2)/6
+  Dx <- trm1-trm2+trm3-trm4
+  if (type == "Z(alpha)")
+  {
+    alpha <- res.sum$coefficients[3,1]
+    STAT <- n*(alpha-1)-(n^6)/(24*Dx)*(ssqrtl-ssqru)
+    table <- cbind(c(22.5,25.7,27.4,28.4,28.9,29.5),
+                   c(19.9,22.4,23.6,24.4,24.8,25.1),
+                   c(17.9,19.8,20.7,21.3,21.5,21.8),
+                   c(15.6,16.8,17.5,18.0,18.1,18.3),
+                   c(3.66,3.71,3.74,3.75,3.76,3.77),
+                   c(2.51,2.60,2.62,2.64,2.65,2.66),
+                   c(1.53,1.66,1.73,1.78,1.78,1.79),
+                   c(0.43,0.65,0.75,0.82,0.84,0.87))
+  }
+  else if (type == "Z(t_alpha)")
+  {
+    tstat <- (res.sum$coefficients[3,1]-1)/res.sum$coefficients[3,2]
+    STAT <- sqrt(ssqru)/sqrt(ssqrtl)*tstat-(n^3)/(4*sqrt(3)*sqrt(Dx)*sqrt(ssqrtl))*(ssqrtl-ssqru)
+    table <- cbind(c(4.38,4.15,4.04,3.99,3.98,3.96),
+                   c(3.95,3.80,3.73,3.69,3.68,3.66),
+                   c(3.60,3.50,3.45,3.43,3.42,3.41),
+                   c(3.24,3.18,3.15,3.13,3.13,3.12),
+                   c(1.14,1.19,1.22,1.23,1.24,1.25),
+                   c(0.80,0.87,0.90,0.92,0.93,0.94),
+                   c(0.50,0.58,0.62,0.64,0.65,0.66),
+                   c(0.15,0.24,0.28,0.31,0.32,0.33))
+  }
+  else
+    stop ("irregular type")
+  table <- -table
+  tablen <- dim(table)[2]
+  tableT <- c(25,50,100,250,500,100000)
+  tablep <- c(0.01,0.025,0.05,0.10,0.90,0.95,0.975,0.99)
+  tableipl <- numeric(tablen)
+  for (i in (1:tablen))
+    tableipl[i] <- approx (tableT,table[,i],n,rule=2)$y
+  interpol <- approx (tableipl,tablep,STAT,rule=2)$y
+  if (is.na(approx (tableipl,tablep,STAT,rule=1)$y))
+    if (interpol == min(tablep))
+      warning ("p-value smaller than printed p-value")
+    else
+      warning ("p-value greater than printed p-value") 
+  if (alternative == "stationary")
+    PVAL <- interpol
+  else if (alternative == "explosive")
+    PVAL <- 1-interpol
+  else stop ("irregular alternative")
+  PARAMETER <- l
+  METHOD <- "Phillips-Perron Unit Root Test"
+  names(STAT) <- paste("Dickey-Fuller",type)
+  names(PARAMETER) <- "Truncation lag parameter"
+  structure(list(statistic = STAT, parameter = PARAMETER, alternative = alternative,
+                 p.value = PVAL, method = METHOD, data.name = DNAME),
+            class = "htest")
+}
+
+po.test <- function (x, demean = TRUE, lshort = TRUE)
+{
+  if (NCOL(x) <= 1) stop ("x is not a matrix or multivariate time series")
+  DNAME <- deparse(substitute(x))
+  x <- as.matrix(x)
+  dimx <- ncol(x)
+  if (dimx > 6) stop ("no critical values for this dimension")
+  if (demean)
+    res <- lm(x[,1]~x[,-1])
+  else
+    res <- lm(x[,1]~x[,-1]-1)
+  z <- embed (residuals(res), 2)
+  ut <- z[,1]
+  ut1 <- z[,2]
+  n <- length (ut)
+  res <- lm (ut~ut1-1)
+  if (res$rank < 1)
+    stop ("Singularities in regression")
+  res.sum <- summary (res)
+  k <- residuals (res)
+  ssqrk <- sum(k^2)/n
+  if (lshort)
+    l <- trunc(n/100)
+  else
+    l <- trunc(n/30)
+  ssqrtl <- .C ("R_pp_sum", as.vector(k,mode="double"), as.integer(n),
+                as.integer(l), ssqrtl=as.double(ssqrk), PACKAGE="tseries")$ssqrtl
+  alpha <- res.sum$coefficients[1,1]
+  STAT <- n*(alpha-1)-0.5*n^2*(ssqrtl-ssqrk)/(sum(ut1^2))
+  if (demean)
+  {
+    table <- cbind(c(28.32,34.17,41.13,47.51,52.17),
+                   c(23.81,29.74,35.71,41.64,46.53),
+                   c(20.49,26.09,32.06,37.15,41.94),
+                   c(18.48,23.87,29.51,34.71,39.11),
+                   c(17.04,22.19,27.58,32.74,37.01),
+                   c(15.93,21.04,26.23,31.15,35.48),
+                   c(14.91,19.95,25.05,29.88,34.20))
+  }
+  else
+  {
+    table <- cbind(c(22.83,29.27,36.16,42.87,48.52),
+                   c(18.89,25.21,31.54,37.48,42.55),
+                   c(15.64,21.48,27.85,33.48,38.09),
+                   c(13.81,19.61,25.52,30.93,35.51),
+                   c(12.54,18.18,23.92,28.85,33.80),
+                   c(11.57,17.01,22.62,27.40,32.27),
+                   c(10.74,16.02,21.53,26.17,30.90))
+  }
+  table <- -table
+  tablep <- c(0.01,0.025,0.05,0.075,0.10,0.125,0.15)
+  PVAL <- approx (table[dimx-1,],tablep,STAT,rule=2)$y   
+  if (is.na(approx (table[dimx-1,],tablep,STAT,rule=1)$y))
+    if (PVAL == min(tablep))
+      warning ("p-value smaller than printed p-value")
+    else
+      warning ("p-value greater than printed p-value") 
+  PARAMETER <- l
+  METHOD <- "Phillips-Ouliaris Cointegration Test"
+  if (demean)
+    names(STAT) <- "Phillips-Ouliaris demeaned"
+  else
+    names(STAT) <- "Phillips-Ouliaris standard"
+  names(PARAMETER) <- "Truncation lag parameter"
+  structure(list(statistic = STAT, parameter = PARAMETER,
+                 p.value = PVAL, method = METHOD, data.name = DNAME),
+            class = "htest")
+}
+
+kpss.test <- function (x, null = c("Level", "Trend"), lshort = TRUE)
+{
+  if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
+  DNAME <- deparse(substitute(x))
+  null <- match.arg (null)
+  n <- length(x)
+  if (null == "Trend")
+  {
+    t <- 1:n
+    e <- residuals(lm(x~t))
+    table <- c(0.216,0.176,0.146,0.119)
+  }
+  else if (null == "Level")
+  {
+    e <- residuals(lm(x~1))
+    table <- c(0.739,0.574,0.463,0.347)
+  }
+  tablep <- c(0.01,0.025,0.05,0.10)
+  s <- cumsum(e)
+  eta <- sum(s^2)/(n^2)
+  s2 <- sum(e^2)/n
+  if (lshort)
+    l <- trunc(3*sqrt(n)/13)
+  else
+    l <- trunc(10*sqrt(n)/14)
+  s2 <- .C ("R_pp_sum", as.vector(e,mode="double"), as.integer(n),
+            as.integer(l), s2=as.double(s2), PACKAGE="tseries")$s2
+  STAT <- eta/s2
+  PVAL <- approx (table,tablep,STAT,rule=2)$y
+  if (is.na(approx (table,tablep,STAT,rule=1)$y))
+    if (PVAL == min(tablep))
+      warning ("p-value smaller than printed p-value")
+    else
+      warning ("p-value greater than printed p-value") 
+  PARAMETER <- l
+  METHOD <- paste("KPSS Test for", null, "Stationarity")
+  names(STAT) <- paste("KPSS", null)
+  names(PARAMETER) <- "Truncation lag parameter"
+  structure(list(statistic = STAT, parameter = PARAMETER,
+                 p.value = PVAL, method = METHOD, data.name = DNAME),
+            class = "htest")
 }
 

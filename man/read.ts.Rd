@@ -18,7 +18,10 @@ read.ts (file, header = FALSE, sep = "", skip = 0, \dots)
     e.g., \code{start}.}
 }
 \description{
-  Reads a time series file. Each row of the file represents an
+  Reads a time series file.
+}
+\details{
+  Each row of the file represents an
   observation and each column contains a variable. The first row
   possibly contains the names of the variables.
 }

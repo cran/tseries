@@ -15,9 +15,15 @@ read.matrix (file, header = FALSE, sep = "", skip = 0)
     beginning to read data.}
 }
 \description{
-  Reads a matrix data file. Usually each row of the file represents an
+  Reads a matrix data file.
+}
+\details{
+  Usually each row of the file represents an
   observation and each column contains a variable. The first row
   possibly contains the names of the variables (columns).
+
+  \code{read.matrix} might be more efficient than
+  \code{\link{read.table}} for very large data sets.
 }
 \author{A. Trapletti}
 \seealso{

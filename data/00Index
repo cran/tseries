@@ -1,7 +1,9 @@
-NelPlo                   Nelson-Plosser Macroeconomic Time Series
+NelPlo                   Nelson--Plosser Macroeconomic Time Series
 USeconomic               U.S. Economic Variables
+bev                      Beveridge Wheat Price Index, 1500-1869.
 camp                     Mount Campito Yearly Treering Data, -3435-1969.
 ice.river                Icelandic River Data
 nino                     Sea Surface Temperature (SST) Nino 3 and Nino
                          3.4 Indices
-tcm                      Yields on Treasury Securities
+tcm                      Monthly Yields on Treasury Securities
+tcmd                     Daily Yields on Treasury Securities

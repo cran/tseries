@@ -18,16 +18,18 @@ portfolio.optim (x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
 }
 \description{
   Computes an efficient portfolio from the given return series \code{x}
-  in the mean-variance sense. The computed portfolio has the desired
+  in the mean-variance sense.
+}
+\details{
+  The computed portfolio has the desired
   expected return \code{pm} and no other portfolio exists, which has the same
   mean return, but a smaller variance. To solve the quadratic program
   \code{\link{solve.QP}} is used.
 
-  Missing values are not allowed.
-}
-\details{
   \code{portfolio.optim} is a generic function with methods for multivariate
   \code{"ts"} and \code{default} for matrix.
+
+  Missing values are not allowed.
 }
 \value{
   A list containing the following components:

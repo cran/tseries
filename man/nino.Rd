@@ -14,7 +14,11 @@ data (nino)
 }
 \description{
   These data constitutes of Nino Region 3 and Nino Region 3.4 SST 
-  indices in degrees Celsius. The Nino 3 Region is bounded by 90W-150W
+  indices.
+}
+\details{
+  The measurements are given in degrees Celsius.
+  The Nino 3 Region is bounded by 90W-150W
   and 5S-5N. The Nino 3.4 Region is bounded by 120W-170W and 5S-5N. 
 }
 \source{

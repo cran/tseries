@@ -11,7 +11,10 @@ na.remove (x)
 }
 \description{
   Observations with missing values in some of the variables are
-  removed. For \code{na.remove.ts}, this changes the 'intrinsic' time
+  removed.
+}
+\details{
+  For \code{na.remove.ts}, this changes the 'intrinsic' time
   scale. It is assumed that both, the new and the old time scale are
   synchronized at the first and the last valid observation. In between,
   the new series is equally spaced in the new time scale. 

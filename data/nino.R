@@ -1,6 +1,5 @@
 if (!require (ts, quietly=TRUE))
-  stop (paste("Package ts is needed (It should be installed automatically\n",
-              "      for version 0.65.0 and later). Stopping"))
+  stop ("Package ts is needed. Stopping")
 nino3 <- ts(c(
 23.97,
 24.51,

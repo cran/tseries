@@ -17,7 +17,10 @@ data (ice.river)
 } 
 \description{
   Contains the Icelandic river data as presented in Tong (1990),
-  pp. 432-440. The series are daily observations from Jan. 1, 1972 -
+  pp. 432-440.
+}
+\details{
+  The series are daily observations from Jan. 1, 1972 -
   Dec. 31, 1974 on 4 variables: \code{flow.vat}, mean daily flow
   of Vatnsdalsa river (cms), \code{flow.jok}, mean daily flow of Jokulsa
   Eystri river (cms), \code{prec}, daily precipitation in

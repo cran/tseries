@@ -15,7 +15,7 @@
 \alias{real.wages}
 \alias{unemp}
 \title{
-  Nelson-Plosser Macroeconomic Time Series
+  Nelson--Plosser Macroeconomic Time Series
 }
 \usage{
 data (NelPlo)
@@ -28,8 +28,11 @@ data (NelPlo)
   \code{unemp} and the joint series \code{NelPlo}.
 }
 \description{
-  These are the extended Nelson-Plosser Data. The series are of various
-  lengths but all end in 1988. The data set contains the following series:
+  These are the extended Nelson-Plosser Data. 
+}
+\details{
+  The series are of various lengths but all end in 1988.
+  The data set contains the following series:
   consumer price index, industrial production, nominal GNP, velocity,
   employment, interest rate, nominal wages, GNP deflator, money stock,
   real GNP, stock prices (S&P500), GNP per capita, real wages, unemployment.

@@ -27,21 +27,17 @@ print (obj, digits = max(3,.Options$digits-3), ...)
   \item{\dots}{Additional arguments for \code{print}.}
 }
 \description{
-  Simulates \code{nb} bootstrap samples from the original data
-  \code{x}. If \code{type} is \code{"stationary"}, then the stationary
+  Generates \code{nb} bootstrap samples from the original data
+  \code{x} and computes the bootstrap estimate of standard error and
+  bias for \code{statistic}, if \code{statistic} is given.
+}
+\details{
+  If \code{type} is \code{"stationary"}, then the stationary
   bootstrap scheme with mean block length \code{b} generates the
   simulated series. If \code{type} is \code{"block"}, then the moving
   blocks bootstrap with block length \code{b} generates the
   simulated series. 
 
-  If \code{statistic} is given, it is applied to each of the simulated
-  series and to the original series. Furthermore, the bootstrap estimate
-  of standard error and bias of the statistics are computed from the
-  simulated series.
-    
-  Missing values are not allowed.
-}
-\details{
   For consistency, the (mean) block length \code{b} should grow with
   \code{n} as \code{const * n^(1/3)}, where \code{n} is the number of
   observations in \code{x}. Note, that in general \code{const} depends
@@ -50,7 +46,9 @@ print (obj, digits = max(3,.Options$digits-3), ...)
   Gaussian AR(1) (AR(1)-parameter of 0.5, 500 observations) process for
   \code{x}. It is chosen such that the mean square error for
   the bootstrap estimate of the variance of the empirical mean is
-  minimized.  
+  minimized.
+
+  Missing values are not allowed.
 }
 \value{
   If \code{statistic} is \code{NULL}, then it returns a matrix or time

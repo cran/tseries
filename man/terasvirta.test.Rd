@@ -21,7 +21,10 @@ terasvirta.test (x, y, type = c("chisq","F"), scale = TRUE)
 \description{
   Generically computes Teraesvirta's neural network test for neglected
   nonlinearity either for the time series \code{x} or the regression
-  \code{y~x}. The null is the hypotheses of linearity in
+  \code{y~x}.
+}
+\details{
+  The null is the hypotheses of linearity in
   "mean". This test uses a Taylor series expansion of the activation
   function to arrive at a suitable test statistic. If \code{type} equals
   \code{"F"}, then the F-statistic instead of the Chi-Square statistic
@@ -46,6 +49,9 @@ terasvirta.test (x, y, type = c("chisq","F"), scale = TRUE)
   14, 209-220.
 }
 \author{A. Trapletti}
+\seealso{
+  \code{\link{white.test}}
+}
 \examples{
 n <- 1000
 

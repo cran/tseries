@@ -17,8 +17,12 @@ surrogate (x, ns = 1, fft = FALSE, amplitude = FALSE, statistic = NULL, ...)
     passed unchanged each time it is called.}
 }
 \description{
-  Simulates \code{ns} surrogate samples from the original data
-  \code{x}. If \code{fft} is \code{FALSE}, then \code{x} is mixed in
+  Generates \code{ns} surrogate samples from the original data
+  \code{x} and computes the standard error and the bias of \code{statistic}
+  as in a bootstrap setup, if \code{statistic} is given. 
+}
+\details{
+  If \code{fft} is \code{FALSE}, then \code{x} is mixed in
   temporal order, so that all temporal dependencies are eliminated, but
   the histogram of the original data is preserved. If \code{fft} is
   \code{TRUE}, then surrogate data with the same spectrum as \code{x} is
@@ -26,11 +30,12 @@ surrogate (x, ns = 1, fft = FALSE, amplitude = FALSE, statistic = NULL, ...)
   \code{x}.If in addition \code{amplitude} is \code{TRUE}, then also the
   amplitude distribution of the original series is preserved.
 
-  If \code{statistic} is given, it is applied to each of the simulated
-  series and to the original series. Furthermore, the standard error and
-  the bias of the statistics are computed from the simulated series as in
-  a bootstrap setup. Note, that the interpretation of these measures is
-  different than in a bootstrap setup.
+  Note, that the interpretation of the computed standard error and bias
+  is different than in a bootstrap setup.
+
+  To compute the phase randomized surrogate and the amplitude adjusted
+  data algorithm 1 and 2 from Theiler et al. (1992), pp. 183, 184 are
+  used.
   
   Missing values are not allowed.
 }
@@ -57,11 +62,6 @@ surrogate (x, ns = 1, fft = FALSE, amplitude = FALSE, statistic = NULL, ...)
   Nonlinearity in Time Series, in \emph{Nonlinear Modelling and
   Forecasting}, Eds. M. Casdagli and S. Eubank, Santa Fe Institute,
   Addison Wesley, pp. 163-188.
-}
-\details{
-  To compute the phase randomized surrogate and the amplitude adjusted
-  data algorithm 1 and 2 from Theiler et al. (1992), pp. 183, 184 are
-  used. 
 }
 \author{A. Trapletti}
 \seealso{

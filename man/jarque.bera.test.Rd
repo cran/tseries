@@ -1,5 +1,5 @@
 \name{jarque.bera.test}
-\title{Jarque-Bera Test}
+\title{Jarque--Bera Test}
 \usage{
 jarque.bera.test (x)
 }
@@ -9,7 +9,10 @@ jarque.bera.test (x)
 }
 \description{
   Tests the null of normality for \code{x} using the Jarque-Bera
-  test statistic. It is a joint statistic using skewness and kurtosis
+  test statistic.
+}
+\details{
+  This test is a joint statistic using skewness and kurtosis
   coefficients.
   
   Missing values are not allowed.

@@ -4,7 +4,7 @@
 amif (x, lag.max = NULL, maxbit = 20, confidence = 0.2, ci = 0.95, nsurr = 20, 
       fft = FALSE, amplitude = FALSE, normalized = TRUE, trace = FALSE,
       plot = TRUE, \dots)
-plot (object, ci.col = "blue", \dots)
+plot (object, ci.col = "blue", ylab = "AMIF", \dots)
 }
 \alias{amif}
 \alias{plot.amif}
@@ -37,12 +37,16 @@ plot (object, ci.col = "blue", \dots)
   \item{\dots}{additional arguments to \code{\link{plot.amif}}.}
   \item{object}{an object of class \code{"amif"}.}
   \item{ci.col}{color to plot the confidence bound.}
+  \item{ylab}{the title for the y axis.}
   \item{\dots}{additional arguments to \code{\link{plot.acf}}.}
 }
 \description{
   Computes and plots the sample (normalized) auto mutual information function
-  of \code{x} up to lag \code{lag.max}. If \code{plot} is \code{TRUE}, then
-  the AMIF is plotted. Also the confidence bound for the null of
+  of \code{x} up to lag \code{lag.max}.
+}
+\details{
+  If \code{plot} is \code{TRUE}, then
+  the AMIF is plotted. Further, the confidence bound for the null of
   surrogate data is computed by Monte-Carlo simulation percentiles
   and plotted. If any temporal dependence is
   under question, then the null is an i.i.d. series and scrambled
@@ -60,10 +64,9 @@ plot (object, ci.col = "blue", \dots)
   \code{maxbit} and \code{confidence}.
 
   Missing values are not allowed.
-}
-\details{
-  To compute the AMIF, an implementation of the algorithm of Fraser and
-  Swinney (1986) is used.
+
+  To compute the mutual information between two random variables, an
+  implementation of the algorithm of Fraser and Swinney (1986) is used.
 }
 \value{
   An object of class \code{"amif","acf"}.

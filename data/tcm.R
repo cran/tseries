@@ -1,6 +1,5 @@
 if (!require (ts, quietly=TRUE))
-  stop (paste("Package ts is needed (It should be installed automatically\n",
-              "      for version 0.65.0 and later). Stopping"))
+  stop ("Package ts is needed. Stopping")
 tcm1y <- ts(c(
  2.36
 ,2.48

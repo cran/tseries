@@ -1,6 +1,6 @@
 Package: tseries
-Version: 0.5-2
-Date: 2000/03/02
+Version: 0.6-5
+Date: 2000/07/04
 Title: Package for time series analysis
 Author: Compiled by Adrian Trapletti <A.Trapletti@ci.tuwien.ac.at>.
 Description: Package for time series analysis with emphasize on non-linear 

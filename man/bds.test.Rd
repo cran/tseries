@@ -21,7 +21,10 @@ print (object, digits = 4)
 }
 \description{
   Computes and prints the BDS test statistic for the null that \code{x} is a series
-  of i.i.d. random variables. This test examines the "spatial dependence"
+  of i.i.d. random variables.
+}
+\details{
+  This test examines the "spatial dependence"
   of the observed series. To do this, the series is embedded in
   \code{m}-space and the dependence of \code{x} is examined by 
   counting "near" points. Points for which the distance is less than

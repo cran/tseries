@@ -106,6 +106,9 @@ print.summary (object, digits = max(3,.Options$digits-3),
 \author{
   A. Trapletti
 }
+\seealso{
+  \code{\link{arima0}}, \code{\link{ar}}
+}
 \examples{
 data (tcm)  
 r <- diff(tcm10y)

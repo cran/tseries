@@ -24,8 +24,10 @@ seqplot.ts (x, y, colx = "black", coly = "red", typex = "l",
   \item{main}{an overall title for the plot.}
 }
 \description{
-  Plot two time series on the same plot frame. Unlike
-  \code{\link{plot.ts}} the series can have different time bases,
+  Plot two time series on the same plot frame.
+}
+\details{
+  Unlike \code{\link{plot.ts}} the series can have different time bases,
   but they should have the same frequency. Unlike \code{\link{ts.plot}}
   the series can be plotted in different styles and for multivariate
   \code{x} and \code{y} the common variables are plotted together in a

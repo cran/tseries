@@ -32,7 +32,10 @@ white.test (x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
 \description{
   Generically computes the White neural network test for neglected
   nonlinearity either for the time series \code{x} or the regression
-  \code{y~x}. The null is the hypotheses of linearity in "mean". This
+  \code{y~x}.
+}
+\details{
+  The null is the hypotheses of linearity in "mean". This
   type of test is consistent against arbitrary nonlinearity
   in mean. If \code{type} equals \code{"F"}, then the F-statistic
   instead of the Chi-Square statistic is used in analogy to the
@@ -57,6 +60,9 @@ white.test (x, y, qstar = 2, q = 10, range = 4, type = c("chisq","F"),
   Econometrics} \bold{56}, 269-290.
 }
 \author{A. Trapletti}
+\seealso{
+  \code{\link{terasvirta.test}}
+}
 \examples{
 n <- 1000
 
