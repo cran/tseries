@@ -1,3 +1,10 @@
+2003-11-06  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-17.
+	* man/summary.garch.Rd: 
+	* man/summary.arma.Rd: 
+	Fix codoc default value problem/typo.
+
 2003-10-10  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-16.
@@ -59,8 +66,7 @@
 
 	* DESCRIPTION (Version): New version is 0.9-10.	
 	
-	* R/finance.R: change check for the case of an 
-	unknown quote. 
+	* R/finance.R: change check for the case of an unknown quote.
 
 	* man/arma-methods.Rd
 	* man/garch-methods.Rd
@@ -72,9 +78,9 @@
 	* man/terasvirta.test.Rd
 	* man/white.test.Rd: cosmetic changes.
 	
-	* R/irts.R
-	* man/irts-functions.Rd
-	* man/irts-methods.Rd
+	* R/irts.R:
+	* man/irts-functions.Rd:
+	* man/irts-methods.Rd:
 	* man/irts.Rd: add new class for irregularly spaced 
 	time-series.
 	

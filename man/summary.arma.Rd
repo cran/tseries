@@ -7,7 +7,7 @@
 }
 \usage{
 \method{summary}{arma}(object, \dots)
-\method{print}{summary.arma}(x, digits = max(3, getOptions("digits") - 3),
+\method{print}{summary.arma}(x, digits = max(3, getOption("digits") - 3),
       signif.stars = getOption("show.signif.stars"), \dots)
 }
 \arguments{
