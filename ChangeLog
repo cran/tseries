@@ -1,9 +1,31 @@
+2002-04-26  Adrian Trapletti <a.trapletti@bluewin.ch>
+	* DESCRIPTION (Version): New version is 0.9-0.	
+
+	* man/amif.Rd:
+	* man/plot.amif.Rd:
+	* R/cor.R:
+	* misc/README:
+	* misc/mutinfo-1.21b.tar.gz
+	* src/tsutils.c: Removed non-GPL code.
+	
+	* man/bootstrap.Rd:
+	* man/surrogate.Rd:
+	* man/tsbootstrap.Rd:
+	* R/tsutils.R: Improved version of time series 
+	bootstrap which allows a block of blocks bootstrap. 
+	The function bootstrap is renamed to tsbootstrap.
+
+	* DESCRIPTION:
+	* README: Cleanup.
+
+	* man/arma.Rd: Cosmetic change.
+	
 2001-11-30  Adrian Trapletti <a.trapletti@bluewin.ch>
 	* DESCRIPTION (Version): New version is 0.8-4.	
 
-	* man/plotOHLC.Rd: improve documentation
+	* man/plotOHLC.Rd: Improve documentation.
 	
-	* R/zzz.R: cosmetic change
+	* R/zzz.R: Cosmetic change.
 	
 2001-11-08  Adrian Trapletti <a.trapletti@bluewin.ch>
 

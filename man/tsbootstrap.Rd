@@ -1,21 +1,23 @@
-\name{bootstrap}
-\alias{bootstrap}
+\name{tsbootstrap}
+\alias{tsbootstrap}
 \alias{print.resample.statistic}
 \title{Bootstrap for General Stationary Data}
 \description{
-  \code{bootstrap} generates bootstrap samples for general stationary
+  \code{tsbootstrap} generates bootstrap samples for general stationary
   data and computes the bootstrap estimate of standard error and bias
   if a statistic is given.
 }
 \usage{
-bootstrap(x, nb = 1, statistic = NULL, b = NULL,
-          type = c("stationary","block"), \dots)
+tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
+            type = c("stationary","block"), \dots)
 }
 \arguments{
   \item{x}{a numeric vector or time series giving the original data.}
   \item{nb}{the number of bootstrap series to compute.}
   \item{statistic}{a function which when applied to a time series
     returns a vector containing the statistic(s) of interest.}
+  \item{m}{the length of the basic blocks in the block of blocks
+    bootstrap.} 
   \item{b}{if \code{type} is \code{"stationary"}, then \code{b} is the
     mean block length. If \code{type} is \code{"block"}, then \code{b}
     is the fixed block length.}
@@ -30,28 +32,45 @@ bootstrap(x, nb = 1, statistic = NULL, b = NULL,
 \details{
   If \code{type} is \code{"stationary"}, then the stationary
   bootstrap scheme with mean block length \code{b} according to Politis
-  and Romano (1994) is used to generate the simulated series. For
-  \code{type} equals \code{"block"}, the blockwise bootstrap with block
-  length \code{b} according to Kuensch (1989) is used.
+  and Romano (1994) is computed. For \code{type} equals \code{"block"},
+  the blockwise bootstrap with block length \code{b} according to
+  Kuensch (1989) is used. 
 
-  Note, that this bootstrap procedure does not implement the block of
-  blocks bootstrap. Hence, it may only be used for symmetric statistics,
-  i.e., for statistics which are invariant under permutations of
-  \code{x}.
+  If \code{m > 1}, then the block of blocks bootstrap is computed
+  (see Kuensch, 1989). The basic sampling scheme is the same as for 
+  the case \code{m = 1}, except that the bootstrap is applied to a series
+  \code{y} containing blocks of length \code{m}, where each block of \code{y} is
+  defined as \eqn{y[t] = (x[t], \dots, x[t-m+1])}. Hence, for the block
+  of blocks bootstrap the first argument of \code{statistic} is given by
+  a \code{n x m} matrix \code{yb}, where each row of \code{yb} contains one
+  bootstrapped basic block observation \eqn{y[t]} (\code{n} is the number of
+  observations in \code{x}). 
+
+  Note, that for statistics which are functions of the empirical
+  \code{m}-dimensional marginal (\code{m > 1}), only this procedure
+  yields asymptotically valid bootstrap estimates. Hence, the 
+  case \code{m = 1} may only be used for symmetric statistics (i.e., for
+  statistics which are invariant under permutations of \code{x}). Note,
+  that \code{\link{tsboot}} does not implement the block of blocks
+  bootstrap. Therefore, the first example in \code{\link{tsboot}} gives
+  inconsistent estimates.
   
   For consistency, the (mean) block length \code{b} should grow with
   \code{n} at an appropriate rate. If \code{b} is not given, then a
-  default growth rate of \code{const * n^(1/3)} is used (\code{n} is the
-  number of observations in \code{x}). This rate is "optimal" under
-  certain conditions (see the references for more details). However, in
-  general the growth rate depends on the specific properties of the
-  process which has generated \code{x}. Therefore, a default value for
+  default growth rate of \code{const * n^(1/3)} is used. This rate is
+  "optimal" under certain conditions (see the references for more
+  details). However, in general the growth rate depends on the specific
+  properties of the data generation process. A default value for
   \code{const} has been determined by a Monte Carlo simulation using a
   Gaussian AR(1) process (AR(1)-parameter of 0.5, 500
   observations). \code{const} has been chosen such that the mean square
   error for the bootstrap estimate of the variance of the empirical mean
-  is minimized. 
+  is minimized.  
 
+  Note, that the computationally intensive parts are fully implemented
+  in \code{C} which makes \code{tsbootstrap} about 10 to 30 times faster
+  than \code{\link{tsboot}}.  
+  
   Missing values are not allowed.
 
   There is a special print method for objects of class
@@ -71,7 +90,7 @@ bootstrap(x, nb = 1, statistic = NULL, b = NULL,
     original series.}
   \item{bias}{the bootstrap estimate of the bias of \code{statistic}.}
   \item{se}{the bootstrap estimate of the standard error of \code{statistic}.}
-  \item{call}{the original call of \code{bootstrap}.}
+  \item{call}{the original call of \code{tsbootstrap}.}
 }
 \references{
   H. R. Kuensch (1989):
@@ -86,7 +105,8 @@ bootstrap(x, nb = 1, statistic = NULL, b = NULL,
 \author{A. Trapletti}
 \seealso{
   \code{\link{sample}},
-  \code{\link{surrogate}}
+  \code{\link{surrogate}},
+  \code{\link{tsboot}}
 }
 \examples{
 n <- 500  # Generate AR(1) process
@@ -99,10 +119,21 @@ for(i in 2:(n+100)) {
 }
 x <- ts(x[-(1:100)])
 
-bootstrap(x, nb=500, statistic=mean)  # ok 
-bootstrap(x, nb=500, statistic=mean, type="block", b=1)  # wrong here
+tsbootstrap(x, nb=500, statistic=mean)
 
-# std. error for mean should approximately be
+# Asymptotic formula for the std. error of the mean
 sqrt(1/(n*(1-a)^2))
+
+acflag1 <- function(x)
+{
+  xo <- c(x[,1], x[1,2])
+  xm <- mean(xo)
+  return(mean((x[,1]-xm)*(x[,2]-xm))/mean((xo-xm)^2))
+}
+
+tsbootstrap(x, nb=500, statistic=acflag1, m=2)
+
+# Asymptotic formula for the std. error of the acf at lag one
+sqrt(((1+a^2)-2*a^2)/n)
 }
 \keyword{ts}

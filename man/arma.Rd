@@ -36,9 +36,9 @@ arma(x, order = c(1, 1), lag = NULL, coef = NULL,
   \deqn{y[t] = a[0] + a[1]y[t-1] + \dots + a[p]y[t-p] + b[1]e[t-1] +
     \dots + b[q]e[t-q] + e[t],}
   
-  where \code{a[0]} is set to zero if no intercept is included. By using
+  where \eqn{a[0]} is set to zero if no intercept is included. By using
   the argument \code{lag}, it is possible to fit a parsimonious submodel
-  by setting arbitrary \code{a[i]} and \code{b[i]} to zero.
+  by setting arbitrary \eqn{a[i]} and \eqn{b[i]} to zero.
   
   \code{arma} uses \code{\link{optim}} to minimize the conditional
   sum-of-squared errors. The gradient is computed, if it is needed, by

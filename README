@@ -1,19 +1,16 @@
-Package for time series analysis
+Package for time series analysis and computational finance
 
 Authors:
   B. LeBaron (./src/bdstest.c)
   D. M. Gay (./src/dsumsl.f)
-  K. Krischer and T. M. Kruel (./src/muin2ser.f,
-     ./misc/mutinfo-1.21b.tar.gz)
-  The remainder is by A. Trapletti
+  A. Trapletti (remainder)
 
   In addition, the following people have contributed 
   code, bug reports, and documentation:
-  D. Eddelbuettel, K. Hornik, W. Koller
+  P. Buehlmann, D. Eddelbuettel, K. Hornik, W. Koller, 
+  F. Leisch, M. Maechler
 
-License: GPL, except ./src/muin2ser.f and ./misc which are free for 
-  non-commercial purposes. Only the function amif depends 
-  on the non GPLed code.
+License: GPL
 
 Depends on the following R packages:
   ts (included in the R distribution),
@@ -25,4 +22,4 @@ The package has been tested using the following environment:
   Linux version 2.2.16
   g77 version 2.95.2 19991024 (release)
   gcc version 2.95.2 19991024 (release)
-  R : Version 1.3.0
+  R : Version 1.5.0

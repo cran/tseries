@@ -17,54 +17,6 @@
    Support functions for time series utilities */
 
 
-#include <math.h>
-#include <R.h>
-
-
-extern void F77_NAME(muin2ser) ();
-
-void R_amif (double *x, int *lx, double *inf, int *k, int *maxbit, 
-	     double *confidence, int *norm, int *trace)
-{
-  double information, freq;
-  double *x0, *y0;
-  int *intx, *inty, *s, *q, *q_unsort, *indices_x, *indices_y, *position;
-  int ixmax, i, j;
-
-  freq = 1.0;
-  (*lx) -= (*k);
-  x0 = Calloc ((*lx), double); 
-  y0 = Calloc ((*lx), double);
-  intx = Calloc ((*lx), int);
-  inty = Calloc ((*lx), int);
-  s = Calloc ((*lx), int);
-  q = Calloc ((*lx), int);
-  q_unsort = Calloc ((*lx), int);
-  indices_x = Calloc ((*lx), int);
-  indices_y = Calloc ((*lx), int);
-  ixmax = (int) pow (2.0, (double) (*maxbit));
-  position = Calloc (ixmax+1, int);
-  for (i=0; i<=(*k); i++)
-  {
-    for (j=0; j<(*lx); j++)
-    {
-      x0[j] = x[j]; y0[j] = x[j+i];
-    }
-    F77_CALL(muin2ser) (&information, lx, &freq, x0, y0, intx, inty, 
-			  s, q, q_unsort, indices_x, indices_y, 
-			  position, maxbit, confidence, trace);
-    if (*norm) inf[i] = sqrt(1.0-exp((-2.0)*information));
-    else inf[i] = information;
-  }
-  if (*norm) inf[0] = 1.0;
-  Free (x0); Free (y0);
-  Free (intx); Free (inty);
-  Free (s); Free (q);
-  Free (q_unsort);
-  Free (indices_x); Free (indices_y);
-  Free (position);
-}
-
 void R_quad_map (double *x, double *xi, double *a, int *n)
 {
   int i;

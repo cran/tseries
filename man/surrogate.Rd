@@ -66,7 +66,7 @@ surrogate(x, ns = 1, fft = FALSE, amplitude = FALSE,
 }
 \author{A. Trapletti}
 \seealso{
-  \code{\link{sample}}, \code{\link{bootstrap}}
+  \code{\link{sample}}, \code{\link{tsbootstrap}}
 }
 \examples{
 x <- 1:10  # Simple example

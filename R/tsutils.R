@@ -282,9 +282,8 @@ function(x, b, type)
               PACKAGE = "tseries")$x)
 }
 
-bootstrap <-
-function(x, nb = 1, statistic = NULL, b = NULL,
-         type = c("stationary","block"), ...)
+tsbootstrap <- function(x, nb = 1, statistic = NULL, m = 1, b = NULL,
+                        type = c("stationary","block"), ...)
 {
     call <- match.call()
     type <- match.arg(type)
@@ -294,7 +293,9 @@ function(x, nb = 1, statistic = NULL, b = NULL,
         stop("NAs in x")
     if(nb < 1)
         stop("nb is not positive")
-    n <- length(x)
+    n <- NROW(x)
+    if (n <= m)
+        stop("x should contain more than m observations")
     const <- 3.15
     if(type == "stationary") {
         type <- 0
@@ -312,6 +313,8 @@ function(x, nb = 1, statistic = NULL, b = NULL,
                        "for the blockwise bootstrap"))
     }
     if(is.null(statistic)) {
+        if (m > 1)
+            stop("Can only return bootstrap data for m = 1")
         ists <- is.ts(x)
         if(ists) xtsp <- tsp(x)
         boot <- matrix(x, nrow=n, ncol=nb)
@@ -323,15 +326,17 @@ function(x, nb = 1, statistic = NULL, b = NULL,
         return(drop(boot))
     }
     else {
-        orig.statistic <- statistic(x, ...)
+        y <- embed(x, m)
+        yi <- 1:NROW(y)
+        orig.statistic <- statistic(drop(y), ...)
         l.stat <- length(orig.statistic)
         names(orig.statistic) <- paste("t", 1:l.stat, sep="")
         stat <- matrix(0, nb, l.stat)
         for(i in 1:nb)
-            stat[i,] <- statistic(boot.sample(x, b, type), ...)
+            stat[i,] <- statistic(y[boot.sample(yi, b, type), , drop=TRUE], ...)
         colnames(stat) <- names(orig.statistic)
-        bias <- apply(stat,2,mean)-orig.statistic
-        se <- apply(stat,2,sd)
+        bias <- apply(stat, 2, mean)-orig.statistic
+        se <- apply(stat, 2, sd)
         res <- list(statistic = drop(stat),
                     orig.statistic = drop(orig.statistic),
                     bias = drop(bias),
