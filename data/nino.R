@@ -1198,4 +1198,5 @@ nino3.4 <- ts(c(
 25.70,
 25.63),
 start=c(1950,1), end=c(1999,10), frequency=12)
+require(ts)
 nino <- ts.union (nino3, nino3.4)

@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "S.h"
-#include "PrtUtil.h"
+#include "Rinternals.h"
 
       
 /* NBITS is the number of useable bits per word entry.  Technically

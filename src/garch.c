@@ -21,13 +21,11 @@
 
 
 #include "S.h"
-#include "PrtUtil.h"
-
+#include "Rinternals.h"
 
 extern void F77_SYMBOL(dsumsl) ();
 extern void F77_SYMBOL(dsmsno) ();
 extern void F77_SYMBOL(ddeflt) ();
-
 
 #define BIG 1.0e+10  /* function value if the parameters are invalid */
 

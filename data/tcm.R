@@ -2238,4 +2238,5 @@ tcm10y <- ts(c(
 ,5.94
 ,5.92),
 start=c(1953,4), end=c(1999,9), frequency=12)
+require(ts)
 tcm <- ts.union (tcm1y, tcm3y, tcm5y, tcm10y)

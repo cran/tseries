@@ -1427,6 +1427,7 @@ unemp <- ts(c(
        1.8245493,
        1.7047481),
 end = 1988, frequency = 1)
+require(ts)
 NelPlo <- ts.union (cpi, ip, gnp.nom, vel, emp, int.rate, nom.wages,
                     gnp.def, money.stock, gnp.real, stock.prices, 
                     gnp.capita, real.wages, unemp)

@@ -550,4 +550,5 @@ rl <- ts(c(
 0.090833333,
 0.092400000),
 start=c(1954,1), end=c(1987,4), frequency=4)
+require(ts)
 USeconomic <- ts.union (log(M1), log(GNP), rs, rl)
