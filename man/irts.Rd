@@ -2,6 +2,8 @@
 \alias{irts}
 \alias{is.irts}
 \alias{as.irts}
+\alias{as.irts.default}
+\alias{as.irts.zoo}
 \title{Irregularly Spaced Time-Series}
 \description{
   The function \code{irts} is used to create irregular time-series

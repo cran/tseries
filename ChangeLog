@@ -1,3 +1,12 @@
+2004-11-12  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-24.
+
+	* R/finance.R (get.hist.quote): 
+	* man/get.hist.quote.Rd:
+	Add argument 'compression' to get.hist.quote(), provided by BBands
+	<BBands@bollingerbands.com>.
+
 2004-08-05  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-23.

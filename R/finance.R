@@ -136,7 +136,12 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
 get.hist.quote <-
 function (instrument = "^gdax", start, end,
           quote = c("Open", "High", "Low", "Close"),
-          provider = "yahoo", method = "auto", origin = "1899-12-30") 
+          provider = "yahoo", method = "auto",
+          origin = "1899-12-30", compression = "d")
+    ## Added new argument 'compression'.
+    ## May be "d", "w" or "m", for daily weekly or monthly.
+    ## Defaults to "d".
+    ## John Bollinger, 2004-10-27, www.BollingerBands.com, bbands@yahoo.com
 {
     if(missing(start)) start <- "1991-01-02"
     if(missing(end)) end <- format(Sys.time() - 86400, "%Y-%m-%d")
@@ -160,8 +165,8 @@ function (instrument = "^gdax", start, end,
                                as.character(as.numeric(format(end, "%m"))-1),
                                "&e=%d&f=%Y",
                                sep = "")), 
-                  "&g=d&q=q&y=0&z=",
-                  instrument,
+                  "&g=", compression,
+                  "&q=q&y=0&z=", instrument,
                   "&x=.csv",
                   sep = "")
         destfile <- tempfile()

@@ -9,7 +9,7 @@
 get.hist.quote(instrument = "^gdax", start, end,
                quote = c("Open", "High", "Low", "Close"),
                provider = "yahoo", method = "auto",
-               origin = "1899-12-30") 
+               origin = "1899-12-30", compression = "d") 
 }
 \arguments{
   \item{instrument}{a character string giving the name of the quote
@@ -37,6 +37,9 @@ get.hist.quote(instrument = "^gdax", start, end,
   \item{origin}{an R object specifying the origin of the Julian dates, see
     above.  Defaults to 1899-12-30 (Popular spreadsheet programs
     internally also use Julian dates with this origin).}
+  \item{compression}{Governs the granularity of the retrieved data;
+    \code{"d"} for daily, \code{"w"} for weekly or \code{"m"} for
+    monthly.  Defaults to \code{"d"}.}
 }
 \value{
   A time series containing the data in physical time, i.e., weekends,

@@ -45,10 +45,21 @@ function(object)
     return(inherits(object, "irts"))
 }
 
-as.irts <-
+as.irts <- function(object) UseMethod("as.irts")
+
+as.irts.default <-
 function(object)
 {
     return(irts(object[,1], object[,-1]))
+}
+
+as.irts.zoo <-
+function(object, ...)
+{
+    index <- attr(object, "index")
+    stopifnot(inherits(index, "POSIXct"))
+    attr(object, "index") <- NULL
+    irts(index, unclass(object))  
 }
 
 value.irts <-
