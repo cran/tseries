@@ -84,8 +84,10 @@ c---  get the limits for the chi^2-Test given the confidence level
 c     (also: significance niveau) 'alpha':
       if (((confidence .gt. 1.0) .or. (confidence .lt. 0.0))
      +      .and. trace) then
-         write (0,*) 'WARNING: Confidence level illegal; '//
-     +               'set to default value of 20%'
+         call intpr ('WARNING: Confidence level illegal; '//
+     +               'set to default value of 20%', -1, 0, 0)
+c         write (0,*) 'WARNING: Confidence level illegal; '//
+c     +               'set to default value of 20%'
          ichi = 11
          goto 15
       endif
@@ -99,8 +101,10 @@ c     (also: significance niveau) 'alpha':
          endif
  10   continue
       if ((confidence .ne. alpha(ichi)) .and. trace) then
-         write (0,'(a,i3,a)') 'NOTE: Confidence level has been '//
-     +          'rounded to ', nint(100*alpha(ichi)), '%'
+         call intpr ('NOTE: Confidence level has been '//
+     +               'rounded to percent', -1, nint(100*alpha(ichi)), 1)
+c         write (0,'(a,i3,a)') 'NOTE: Confidence level has been '//
+c     +          'rounded to ', nint(100*alpha(ichi)), '%'
       endif
 
  15   chi3alpha  = sqchi3(ichi)
@@ -126,8 +130,10 @@ c     in ascending order:
 
 c---  write the head of output:
       if (trace) then
-         write (*,'(i5,a)')   maxprec,     '     ! max.bit'
-         write (*,'(f5.2,a)') alpha(ichi), '     ! confidence level'
+         call intpr ('! max.bit', -1, maxprec, 1)
+c         write (*,'(i5,a)')   maxprec,     '     ! max.bit'
+         call dblepr ('! confidence level', -1, alpha(ichi), 1)
+c         write (*,'(f5.2,a)') alpha(ichi), '     ! confidence level'
       endif
 
 c---  compute the mutual information:
@@ -136,16 +142,22 @@ c---  compute the mutual information:
          information = 0.0
       endif
       if (trace) then
-         write (*,'(a,g14.7,a)') 'information = ', information, ' bit'
+         call dblepr ('information in bit ', -1, information, 1)
+c         write (*,'(a,g14.7,a)') 'information = ', information, ' bit'
       endif
       if (trace .and. (nabbruch .gt. 0)) then
-         write (0,'(a,i2,a)')
-     +         'WARNING: There exists substructure '//
-     +         'beyond the maximum resolution of ',
-     +         maxbit, ' bit.'
-         write (0,'(a,g14.7,a,i6,a)')
-     +      '         information =', information,
-     +      '; substructure in', nabbruch, ' elements.'
+         call intpr ('WARNING: There exists substructure '//
+     +               'beyond the maximum resolution of bit',
+     +               -1, maxbit, 1)
+c         write (0,'(a,i2,a)')
+c     +         'WARNING: There exists substructure '//
+c     +         'beyond the maximum resolution of ',
+c     +         maxbit, ' bit.'
+         call dblepr ('information =', -1, information, 1)
+         call intpr ('substructure in elements', -1, nabbruch, 1)
+c         write (0,'(a,g14.7,a,i6,a)')
+c     +      '         information =', information,
+c     +      '; substructure in', nabbruch, ' elements.'
       endif
 
       return
@@ -200,24 +212,32 @@ c---  compute the precision of the data [in bit]:
       x_precision = log (xextent/xdiffmin) / log(2.0)
       y_precision = log (yextent/ydiffmin) / log(2.0)
       if (trace) then
-         write (0,'(a,f6.3,a)') 'The resolution of the 1st time '//
-     +                          'series is ', x_precision, ' bit.'
-         write (0,'(a,f6.3,a)') 'The resolution of the 2nd time '//
-     +                          'series is ', y_precision, ' bit.'
+         call dblepr ('The resolution of the 1st time '//
+     +                'series is bit', -1, x_precision, 1)
+c         write (0,'(a,f6.3,a)') 'The resolution of the 1st time '//
+c     +                          'series is ', x_precision, ' bit.'
+         call dblepr ('The resolution of the 2nd time '//
+     +                'series is bit', -1, y_precision, 1)
+c         write (0,'(a,f6.3,a)') 'The resolution of the 2nd time '//
+c     +                          'series is ', y_precision, ' bit.'
       endif
 
 c---  limit the maximum possible resolution:
       intx_precision = min (dble(maxprec), x_precision)
       inty_precision = min (dble(maxprec), y_precision)
       if (trace .and. (intx_precision .lt. x_precision)) then
-         write (0,'(a,i2,a)')
-     +      'The precision of the 1st time series has been '//
-     +      'limited to ', maxprec, ' bit.'
+         call intpr ('The precision of the 1st time series has been '//
+     +               'limited to bit', -1, maxprec, 1)
+c         write (0,'(a,i2,a)')
+c     +      'The precision of the 1st time series has been '//
+c     +      'limited to ', maxprec, ' bit.'
       endif
       if (trace .and. (inty_precision .lt. y_precision)) then
-         write (0,'(a,i2,a)')
-     +      'The precision of the 2nd time series has been '//
-     +      'limited to ', maxprec, ' bit.'
+         call intpr ('The precision of the 2nd time series has been '//
+     +               'limited to bit', -1, maxprec, 1)
+c         write (0,'(a,i2,a)')
+c     +      'The precision of the 2nd time series has been '//
+c     +      'limited to ', maxprec, ' bit.'
       endif
 
 c---  compute the maximum necessary integer value for the rescaled
@@ -240,10 +260,12 @@ c---  rescaling factor:
       intmax = min(2**maxprec+1,intmax)
       if (trace) then
          len = int(log(float(intmax))/log(10.0))+1
-         write (runform,'(a,i1,a)') '(a,i', len, ',a)'
-         write (0,runform) 'The original time series were rescaled '//
-     +                     'to the interval [1,', intmax,'].'
-         write (0,*)
+c         write (runform,'(a,i1,a)') '(a,i', len, ',a)'
+         call intpr ('The original time series were rescaled '//
+     +               'to the interval from 1 to', -1, intmax, 1)
+c         write (0,runform) 'The original time series were rescaled '//
+c     +                     'to the interval [1,', intmax,'].'
+c         write (0,*)
       endif
 
       return

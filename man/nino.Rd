@@ -1,5 +1,7 @@
 \name{nino}
 \alias{nino}
+\alias{nino3}
+\alias{nino3.4}
 \title{
   Sea Surface Temperature (SST) Nino 3 and Nino 3.4 Indices
 }

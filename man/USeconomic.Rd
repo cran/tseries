@@ -1,5 +1,9 @@
 \name{USeconomic}
 \alias{USeconomic}
+\alias{M1}
+\alias{GNP}
+\alias{rs}
+\alias{rl}
 \title{
   U.S. Economic Variables
 }

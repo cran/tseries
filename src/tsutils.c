@@ -18,7 +18,7 @@
 
 
 #include <math.h>
-#include "S.h"
+#include "R.h"
 
 
 extern void F77_SYMBOL(muin2ser) ();

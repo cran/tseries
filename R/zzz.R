@@ -6,7 +6,7 @@
                 "      for version 0.65.0 and later). Stopping"))
   provide(tseries)
   if (interactive() || .Options$verbose)
-    cat("\n      `tseries' is a library for time series analysis with emphasize\n",
+    cat("\n      `tseries' is a package for time series analysis with emphasize\n",
         "     on non-linear modelling.\n",
         "     See `library (help=tseries)' for details.\n\n")
 }

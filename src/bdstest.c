@@ -22,7 +22,7 @@
 
 #include <stdio.h>
 #include <math.h>
-#include "S.h"
+#include "R.h"
 #include "Rinternals.h"
 
       

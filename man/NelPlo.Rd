@@ -1,5 +1,19 @@
 \name{NelPlo}
 \alias{NelPlo}
+\alias{cpi}
+\alias{ip}
+\alias{gnp.nom}
+\alias{vel}
+\alias{emp}
+\alias{int.rate}
+\alias{nom.wages}
+\alias{gnp.def}
+\alias{money.stock}
+\alias{gnp.real}
+\alias{stock.prices}
+\alias{gnp.capita}
+\alias{real.wages}
+\alias{unemp}
 \title{
   Nelson-Plosser Macroeconomic Time Series
 }

@@ -67,6 +67,7 @@ garch <- function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
   sigt <- sqrt(pred$e)
   sigt[1:max(order[1],order[2])] <- rep (NA, max(order[1],order[2]))
   f <- cbind(sigt,-sigt)
+  colnames(f) <- c("sigt","-sigt")
   e <- as.vector(x)/sigt  
   if (ists)
   {

@@ -1,4 +1,4 @@
-This package contains a library for time series analysis.
+Package for time series analysis with emphasize on non-linear modelling
 
 Authors: B. LeBaron (./src/bdstest.c), D. M. Gay (./src/dsumsl.f),
          K. Krischer, and T. M. Kruel (./src/muin2ser.f, ./misc/mutinfo-1.21b.tar.gz).

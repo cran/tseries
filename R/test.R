@@ -53,7 +53,7 @@ runs.test <- function (x)
 	    class = "htest")
 }
 
-bds.test <- function (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
+bds.test <- function (x, m = 3, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
 {
   if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
   if (any(is.na(x))) stop ("NAs in x")

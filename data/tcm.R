@@ -1,3 +1,6 @@
+if (!require (ts, quietly=TRUE))
+  stop (paste("Package ts is needed (It should be installed automatically\n",
+              "      for version 0.65.0 and later). Stopping"))
 tcm1y <- ts(c(
  2.36
 ,2.48
@@ -2238,5 +2241,4 @@ tcm10y <- ts(c(
 ,5.94
 ,5.92),
 start=c(1953,4), end=c(1999,9), frequency=12)
-require(ts)
 tcm <- ts.union (tcm1y, tcm3y, tcm5y, tcm10y)

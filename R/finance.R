@@ -82,24 +82,44 @@ portfolio.optim.default <- function (x, pm = mean(x), riskless = FALSE, shorts =
 }
 
 get.hist.quote <- function (instrument = "^gdax", start, end,
-                            quote = c("Open", "High", "Low", "Close"), provider = "yahoo",
-                            method = "auto")
+                            quote = c("Open", "High", "Low", "Close", "Volume"),
+                            provider = "yahoo", method = "auto")
 {
+  
+  strsplit2 <- function (str)
+  {
+    unlist(lapply(strsplit(str," "),function(x)x[x!=""]))
+  }
+
+  convert.to.julian <- function (dates)
+  {
+    mn <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+    ld <- length(dates)
+    dm <- matrix(unlist(lapply(dates,strsplit,"-")),ld,3,byrow=T)
+    dd <- as.numeric(dm[,1])
+    mm <- unlist(lapply(dm[,2],pmatch,mn))
+    yy <- as.numeric(dm[,3])
+    yy <- (yy<50)*(2000+yy)+(yy>=50)*(1900+yy)
+    return (julian(mm,dd,yy))
+  }
+
   if (!require (chron, quietly=TRUE))
     stop ("Package chron is needed. Stopping")
   quote <- match.arg(quote)
   provider <- match.arg(provider)
   mm <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
   if (missing(start)) start <- "1 2 1991"
-  if (missing(end)) end <- paste (pmatch(strsplit(date(), " ")[[1]][2],mm),
-                                  as.numeric(strsplit(date(), " ")[[1]][3])-1,
-                                  strsplit(date(), " ")[[1]][5])
-  start <- c(as.numeric(strsplit(start, " ")[[1]][1]),
-             as.numeric(strsplit(start, " ")[[1]][2]),
-             as.numeric(strsplit(start, " ")[[1]][3]))
-  end <- c(as.numeric(strsplit(end, " ")[[1]][1]),
-           as.numeric(strsplit(end, " ")[[1]][2]),
-           as.numeric(strsplit(end, " ")[[1]][3]))
+  if (missing(end)) end <- paste (pmatch(strsplit2(date())[2],mm),
+                                  as.numeric(strsplit2(date())[3]),
+                                  strsplit2(date())[5])
+  start <- c(as.numeric(strsplit2(start)[1]),
+             as.numeric(strsplit2(start)[2]),
+             as.numeric(strsplit2(start)[3]))
+  end <- c(as.numeric(strsplit2(end)[1]),
+           as.numeric(strsplit2(end)[2]),
+           as.numeric(strsplit2(end)[3]))
+  end <- month.day.year(julian(end[1],end[2],end[3])-1)
+  end <- c(end$month,end$day,end$year)
   if (provider == "yahoo")
   {
     url <- paste ("http://chart.yahoo.com/table.csv?s=", instrument, sep="")
@@ -121,18 +141,28 @@ get.hist.quote <- function (instrument = "^gdax", start, end,
     }
     x <- read.table (destfile, header=T, sep=",")
     unlink (destfile)
-    nser <- pmatch (quote, c("Open", "High", "Low", "Close")) + 1
+    nser <- pmatch (quote, c("Open", "High", "Low", "Close", "Volume")) + 1
+    if (nser > ncol(x)) stop ("This quote is not available")
     n <- nrow(x)
-    ser <- as.vector(x[n:1,nser])
-    dat <- dates(gsub("-", " ", as.character(x[n:1,1])), format="day mon y")
-    seqdat <- seq.dates (as.numeric(dat)[1],as.numeric(dat)[n])
-    idx <- match(as.numeric(dat),as.numeric(seqdat))
+    dat <- gsub(" ", "0", as.character(x[n:1,1]))
+    dat <- convert.to.julian (dat)
+    ser <- as.vector(x[n:1,nser]) 
+    seqdat <- dat[1]:dat[n]
+    idx <- match(dat,seqdat)
     newser <- rep(NA,length(seqdat))
     newser[idx] <- ser
-    if (as.numeric(dat)[1] != dates(paste(start[1],start[2],start[3]), format = "m d y"))
-      cat (paste("time series starts ", dat[1], "\n", sep=""))
-    if (as.numeric(dat)[n] != dates(paste(end[1],end[2],end[3]), format = "m d y"))
-      cat (paste("time series ends   ", dat[n], "\n", sep=""))
+    if (dat[1] != julian(start[1],start[2],start[3]))
+    {
+      st <- month.day.year(dat[1])
+      cat (paste("time series starts ",
+                 paste(st$month,st$day,st$year,sep= " "), "\n", sep=""))
+    }
+    if (dat[n] != julian(end[1],end[2],end[3]))
+    {
+      en <- month.day.year(dat[n])
+      cat (paste("time series ends   ",
+                 paste(en$month,en$day,en$year,sep= " "), "\n", sep=""))
+    }
     return (ts(newser, start = as.numeric(dat)[1], end = as.numeric(dat)[n]))
   }
   else stop ("provider not implemented")

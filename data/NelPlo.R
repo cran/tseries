@@ -1,3 +1,6 @@
+if (!require (ts, quietly=TRUE))
+  stop (paste("Package ts is needed (It should be installed automatically\n",
+              "      for version 0.65.0 and later). Stopping"))
 cpi <- ts(c(
        3.2958369,
        3.2958369,
@@ -1427,7 +1430,6 @@ unemp <- ts(c(
        1.8245493,
        1.7047481),
 end = 1988, frequency = 1)
-require(ts)
 NelPlo <- ts.union (cpi, ip, gnp.nom, vel, emp, int.rate, nom.wages,
                     gnp.def, money.stock, gnp.real, stock.prices, 
                     gnp.capita, real.wages, unemp)

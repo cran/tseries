@@ -2,7 +2,7 @@
 \title{Download Historical Finance Data}
 \usage{
 get.hist.quote (instrument = "^gdax", start, end,
-                quote = c("Open", "High", "Low", "Close"),
+                quote = c("Open", "High", "Low", "Close", "Volume"),
                 provider = "yahoo",
                 method = "auto")
 }
@@ -13,7 +13,7 @@ get.hist.quote (instrument = "^gdax", start, end,
   \item{start, end}{strings representing the start and end date
     of the period to download. The format is \code{"mm dd yyyy"}.
     Default values are \code{"1 2 1991"} and yesterday.}
-  \item{quote}{download opening, high, low, or closing quotes?}
+  \item{quote}{download opening-, high-, low-, closing-quotes, or volume?}
   \item{provider}{the name of the data provider. Currently implemented
     is \code{"yahoo"}. See \url{http://quote.yahoo.com/} for more
     information.}

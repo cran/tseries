@@ -1,5 +1,9 @@
 \name{tcm}
 \alias{tcm}
+\alias{tcm1y}
+\alias{tcm3y}
+\alias{tcm5y}
+\alias{tcm10y}
 \title{
   Yields on Treasury Securities
 }

@@ -18,24 +18,8 @@
 
 
 #include <math.h>
-#include "S.h"
+#include "R.h"
 
-
-#define RANDIN seed_in ((long *) NULL)
-#define RANDOUT seed_out ((long *) NULL)
-#define UNIF unif_rand ()
-
-
-static double expdev (void)
-{
-  double r;
-  
-  RANDIN;
-  do r = UNIF;
-  while (r == 0.0);
-  RANDOUT;
-  return -log(r);
-}
 
 static int geodev (double p)
      /* Return geometric distributed random deviate with p(i) = p*(1-p)^i,
@@ -45,7 +29,7 @@ static int geodev (double p)
   double b, y, z;
   
   b = (-1.0)/log(1.0-p);
-  y = expdev();
+  y = exp_rand();
   z = b*y;
   return (int)z;
 }
@@ -55,9 +39,7 @@ static int disuni (int n)
 {
   double temp;
   
-  RANDIN;
-  temp = UNIF*(double)n+1.0;
-  RANDOUT;
+  temp = unif_rand()*(double)n+1.0;
   return (int)temp;
 }
 
@@ -114,9 +96,11 @@ static void SimpBlockBoot (double x[], double xBoot[], int n, int l)
 
 void boot (double *x, double *xb, int *n, double *b, int *type)
 {
+  GetRNGstate();
   if (*type == 0) StatBoot (x-1, xb-1, *n, *b);
   else if (*type == 1) SimpBlockBoot (x-1, xb-1, *n, (int)*b);
   else error ("this type of bootstrap is not yet implemented\n");
+  PutRNGstate();
 }
 
 

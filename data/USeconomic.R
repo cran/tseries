@@ -1,3 +1,6 @@
+if (!require (ts, quietly=TRUE))
+  stop (paste("Package ts is needed (It should be installed automatically\n",
+              "      for version 0.65.0 and later). Stopping"))
 M1 <- ts(c(
 450.9,
 453.0,
@@ -550,5 +553,4 @@ rl <- ts(c(
 0.090833333,
 0.092400000),
 start=c(1954,1), end=c(1987,4), frequency=4)
-require(ts)
 USeconomic <- ts.union (log(M1), log(GNP), rs, rl)
