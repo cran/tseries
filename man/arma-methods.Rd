@@ -19,7 +19,7 @@
 \arguments{
   \item{object, x}{an object of class \code{"arma"}; usually, a result
     of a call to \code{\link{arma}}.}
-  \item{digits, signif.stars}{see \code{\link{print.coefmat}}.}
+  \item{digits}{see \code{\link{print.coefmat}}.}
   \item{ask}{Should the \code{plot} method work interactively?  See
     \code{\link{interactive}}.}
   \item{\dots}{further arguments passed to or from other methods.} 
