@@ -1,30 +1,13 @@
-acf                      Autocorrelation Function
+NelPlo                   Nelson-Plosser Macroeconomic Time Series
 adf.test                 Augmented Dickey-Fuller Test
 amif                     Auto Mutual Information Function
 bds.test                 BDS Test
-box.test                 Box-Pierce and Box-Ljung Test
-ccf                      Crosscorrelation Function
-cross spectra            Cross Spectra Estimation
-cumulative.periodogram   Cumulative Periodogram
-embed                    Embedding a Time Series
-finance                  Daily Closing Prices of Major European Stock
-                         Indices, 1991-1998.
-intgrt                   Discrete Integrals
-is.univariate.ts         Test for Univariate Time Series
-kernel                   Smoothing Kernel Objects
-pacf                     Partial Autocorrelation Function
 portfolio.optim          Portfolio Optimization
-pp.test                  Phillips-Perron Unit Root Test
-print.bdstest            Print BDS Test
 quadmap                  Quadratic Map (Logistic Equation)
 read.matrix              Read Matrix Data
 read.ts                  Read Time Series Data
 runs.test                Runs Test
-sales                    Sales Data with Leading Indicator.
-spectrum                 Spectrum Estimation
-sunspot                  Yearly Sunspot Data, 1700-1988.   Monthly
-                         Sunspot Data, 1749-1997.
 surrogate                Generate Surrogate Data
-toeplitz                 Form Symmetric Toeplitz Matrix
-treering                 Yearly Treering Data, -6000-1979.
-tsparam                  Time Series Paramater Object
+tcm                      Yields on Treasury Securities
+terasvirta.test          Teraesvirta Neural Network Test for Nonlinearity
+white.test               White Neural Network Test for Nonlinearity

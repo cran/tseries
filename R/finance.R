@@ -23,7 +23,8 @@ portfolio.optim <- function (obj, ...) { UseMethod ("portfolio.optim") }
 
 portfolio.optim.ts <- function (x, ...)
 {
-  if (is.univariate.ts(x)) stop ("x is a univariate time series")
+  if (!is.ts(x) & !is.mts(x)) stop ("method is only for time series")
+  if (!is.matrix(x)) stop ("x is not a multivariate time series")
   res <- portfolio.optim.default (as.matrix(x), ...)
   res$px <- ts(res$px,start=start(x),frequency=frequency(x))
   return (res)
@@ -31,7 +32,7 @@ portfolio.optim.ts <- function (x, ...)
 
 portfolio.optim.default <- function (x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
 {
-  if (!require (quadprog, quietly=T)) stop ("Stopping")
+  if (!require (quadprog, quietly=TRUE)) stop ("Stopping")
   if (!is.matrix(x)) stop ("x is not a matrix")
   k <- dim(x)[2]
   Dmat <- cov(x)
@@ -77,3 +78,4 @@ portfolio.optim.default <- function (x, pm = mean(x), riskless = FALSE, shorts =
   ans <- list (pw=res$solution, px=y, pm=mean(y), ps=sd(y))
   return (ans)
 }
+

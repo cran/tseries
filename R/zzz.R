@@ -1,4 +1,6 @@
 .First.lib <- function (lib, pkg)
 {
-  library.dynam("tsutils", pkg, lib)
+  library.dynam("tseries", pkg, lib)
+  provide(tseries)
+  require(ts)
 }

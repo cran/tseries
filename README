@@ -1,18 +1,16 @@
 This package contains a library for time series analysis.
 
-Author: A. Trapletti <A.Trapletti@ci.tuwien.ac.at>, 
-        B. LeBaron ("./src/bdstest.c"),
-        K. Krischer, and T. M. Kruel ("./src/muin2ser.f", 
-        "./misc/mutinfo-1.21b.tar.gz")
+Authors: B. LeBaron (./src/bdstest.c),
+         K. Krischer, and T. M. Kruel (./src/muin2ser.f, ./misc/mutinfo-1.21b.tar.gz).
+	 The remainder is by A. Trapletti <A.Trapletti@ci.tuwien.ac.at>. 
 
-License: "./src/muin2ser.f", "./misc/mutinfo-1.21b.tar.gz" are 
-        free for non-commercial purposes. "./src/bdstest.c" is 
-        free. The remainder is covered by GPL version 2 or 
-        newer; see file COPYING
+License: GPL, except ./src/muin2ser.f and ./misc which are free for 
+         non-commercial purposes. Only the function amif depends 
+	 on the non GPL code. 
 
 The package has been tested using the following environment:
 Redhat 5.2, linux-2.0.36
-R : Version 0.64.2  
+R : Version 0.65.0
 
 
 

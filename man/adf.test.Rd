@@ -39,13 +39,14 @@ adf.test (x, k = trunc((length(x)-1)^(1/3)))
   
   S. E. Said and D. A. Dickey (1984): Testing for Unit Roots in
   Autoregressive-Moving Average Models of Unknown
-  Order. \emph{Biometrika} 71, 599-607.
+  Order. \emph{Biometrika} \bold{71}, 599-607.
 }
 \author{A. Trapletti}
 \examples{
-x <- rnorm (1000)
+x <- rnorm (1000)  # no unit-root
 adf.test (x)
-y <- intgrt (x)
+
+y <- diffinv (x)  # contains a unit-root
 adf.test (y)
 }
 \keyword{ts}

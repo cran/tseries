@@ -13,45 +13,14 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #
-# Time series tests
+# Mostly time series tests
 #
 
 
-box.test <- function (x, lag = 1, pierce = TRUE)
-{
-  if (!is.vector(x) & !is.univariate.ts(x))
-    stop ("x is not a vector or univariate time series")
-  cor <- acf (x, lag = lag, pl = FALSE)
-  n <- length(x)
-  DNAME <- deparse(substitute(x))
-  PARAMETER <- lag
-  obs <- cor$y[2:(lag+1)]
-  if (pierce)
-  {
-    METHOD <- "Box-Pierce test"
-    STATISTIC <- n*sum(obs^2)
-    PVAL <- 1-pchisq(STATISTIC,lag)
-  }
-  else
-  {
-    METHOD <- "Box-Ljung test"
-    STATISTIC <- n*(n+2)*sum(1/seq(n-1,n-lag)*obs^2)
-    PVAL <- 1-pchisq(STATISTIC,lag)
-  } 
-  names(STATISTIC) <- "X-squared"
-  names(PARAMETER) <- "df"
-  structure(list(statistic = STATISTIC,
-                 parameter = PARAMETER,
-		 p.value = PVAL,
-		 method = METHOD,
-		 data.name = DNAME),
-	    class = "htest")
-}
-
 runs.test <- function (x)
 {
-  if (!is.vector(x) & !is.univariate.ts(x))
-    stop ("x is not a vector or univariate time series")
+  if (is.matrix(x)) 
+    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
   DNAME <- deparse (substitute(x))
   if (any (x == 0.0))
   {
@@ -84,64 +53,10 @@ runs.test <- function (x)
 	    class = "htest")
 }
 
-pp.test <- function (x, lshort = TRUE)
-{
-  if (!is.vector(x) & !is.univariate.ts(x))
-    stop ("x is not a vector or univariate time series")
-  DNAME <- deparse(substitute(x))
-  z <- embed (x, 2)
-  yt <- z[,1]
-  yt1 <- z[,2]
-  n <- length (yt)
-  tt <- (1:n)-n/2
-  res <- lm (yt~1+tt+yt1)
-  res.sum <- summary (res)
-  tstat <- (res.sum$coefficients[3,1]-1)/res.sum$coefficients[3,2]
-  u <- residuals (res)
-  ssqru <- sum(u^2)/n
-  if (lshort)
-    l <- trunc(4*(n/100)^0.25)
-  else
-    l <- trunc(12*(n/100)^0.25)
-  ssqrtl <- .C ("R_pp_sum", as.vector(u,mode="double"), as.integer(n),
-                as.integer(l), trm=as.double(ssqru))
-  ssqrtl <- ssqrtl$trm
-  n2 <- n^2
-  trm1 <- n2*(n2-1)*sum(yt1^2)/12
-  trm2 <- n*sum(yt1*(1:n))^2
-  trm3 <- n*(n+1)*sum(yt1*(1:n))*sum(yt1)
-  trm4 <- (n*(n+1)*(2*n+1)*sum(yt1)^2)/6
-  Dx <- trm1-trm2+trm3-trm4
-  STAT <- sqrt(ssqru)/sqrt(ssqrtl)*tstat-(n^3)/(4*sqrt(3)*sqrt(Dx)*sqrt(ssqrtl))*(ssqrtl-ssqru)
-  table <- cbind(c(4.38,4.15,4.04,3.99,3.98,3.96),
-                 c(3.95,3.80,3.73,3.69,3.68,3.66),
-                 c(3.60,3.50,3.45,3.43,3.42,3.41),
-                 c(3.24,3.18,3.15,3.13,3.13,3.12),
-                 c(1.14,1.19,1.22,1.23,1.24,1.25),
-                 c(0.80,0.87,0.90,0.92,0.93,0.94),
-                 c(0.50,0.58,0.62,0.64,0.65,0.66),
-                 c(0.15,0.24,0.28,0.31,0.32,0.33))
-  table <- -table
-  tablen <- dim(table)[2]
-  tableT <- c(25,50,100,250,500,100000)
-  tablep <- c(0.01,0.025,0.05,0.10,0.90,0.95,0.975,0.99)
-  tableipl <- numeric(tablen)
-  for (i in (1:tablen))
-    tableipl[i] <- approx (tableT,table[,i],n,rule=2)$y
-  PVAL <- approx (tableipl,tablep,STAT,rule=2)$y
-  PARAMETER <- l
-  METHOD <- "Phillips-Perron Unit Root Test"
-  names(STAT) <- "Dickey-Fuller"
-  names(PARAMETER) <- "Truncation lag parameter"
-  structure(list(statistic = STAT, parameter = PARAMETER, 
-                 p.value = PVAL, method = METHOD, data.name = DNAME), 
-            class = "htest")
-}
-
 bds.test <- function (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
 {
-  if (!is.vector(x) & !is.univariate.ts(x))
-    stop ("x is not a vector or univariate time series")
+  if (is.matrix(x)) 
+    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
   if (m < 2) stop ("m is less than 2")
   if (any(eps<=0)) stop ("invalid eps")
   DNAME <- deparse(substitute(x))
@@ -168,43 +83,43 @@ bds.test <- function (x, m = 2, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = F
             class = "bdstest")
 }
 
-print.bdstest <- function (x, digits = 4)
+print.bdstest <- function (obj, digits = 4)
 {
-  cat("\n\t", x$method, "\n\n")
-  cat("data: ", x$data.name, "\n\n")
-  if (!is.null(x$parameter))
+  cat("\n\t", obj$method, "\n\n")
+  cat("data: ", obj$data.name, "\n\n")
+  if (!is.null(obj$parameter))
   {
-    cat("Embedding dimension = ", format(round(x$parameter$m, digits)), sep = " ", "\n\n")
-    cat("Epsilon for close points = ", format(round(x$parameter$eps, digits)), sep = " ", "\n\n")
+    cat("Embedding dimension = ", format(round(obj$parameter$m, digits)), sep = " ", "\n\n")
+    cat("Epsilon for close points = ", format(round(obj$parameter$eps, digits)), sep = " ", "\n\n")
   }
-  if (!is.null(x$statistic))
+  if (!is.null(obj$statistic))
   {
-    colnames(x$statistic) <- round (as.numeric(colnames(x$statistic)), digits)
-    colnames(x$statistic) <- paste("[",colnames(x$statistic),"]")
-    rownames(x$statistic) <- round (as.numeric(rownames(x$statistic)), digits)
-    rownames(x$statistic) <- paste("[",rownames(x$statistic),"]")
+    colnames(obj$statistic) <- round (as.numeric(colnames(obj$statistic)), digits)
+    colnames(obj$statistic) <- paste("[",colnames(obj$statistic),"]")
+    rownames(obj$statistic) <- round (as.numeric(rownames(obj$statistic)), digits)
+    rownames(obj$statistic) <- paste("[",rownames(obj$statistic),"]")
     cat("Standard Normal = \n")
-    print (round(x$statistic, digits))
+    print (round(obj$statistic, digits))
     cat("\n")
   }
-  if (!is.null(x$p.value))
+  if (!is.null(obj$p.value))
   {
-    colnames(x$p.value) <- round (as.numeric(colnames(x$p.value)), digits)
-    colnames(x$p.value) <- paste("[",colnames(x$p.value),"]")
-    rownames(x$p.value) <- round (as.numeric(rownames(x$p.value)), digits)
-    rownames(x$p.value) <- paste("[",rownames(x$p.value),"]")
+    colnames(obj$p.value) <- round (as.numeric(colnames(obj$p.value)), digits)
+    colnames(obj$p.value) <- paste("[",colnames(obj$p.value),"]")
+    rownames(obj$p.value) <- round (as.numeric(rownames(obj$p.value)), digits)
+    rownames(obj$p.value) <- paste("[",rownames(obj$p.value),"]")
     cat("p-value = \n")
-    print (round(x$p.value, digits))
+    print (round(obj$p.value, digits))
     cat("\n")
   }
   cat("\n")
-  invisible(x)
+  invisible(obj)
 }
 
 adf.test <- function (x, k = trunc((length(x)-1)^(1/3)))
 {
-  if (!is.vector(x) & !is.univariate.ts(x))
-    stop ("x is not a vector or univariate time series")
+  if (is.matrix(x)) 
+    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
   if (k < 0) stop ("k negative")
   DNAME <- deparse(substitute(x))
   k <- k+1
@@ -247,3 +162,265 @@ adf.test <- function (x, k = trunc((length(x)-1)^(1/3)))
                  p.value = PVAL, method = METHOD, data.name = DNAME), 
             class = "htest")
 }
+
+white.test <- function (obj, ...) { UseMethod("white.test") }
+
+white.test.default <- function (x, y, qstar = 2, q = 10, range = 4, type = "chisq", scale = TRUE)
+{
+  DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
+  x <- as.matrix(x)
+  y <- as.matrix(y)
+  nin <- dim(x)[2]
+  t <- dim(x)[1]
+  if (dim(x)[1] != dim(y)[1]) 
+    stop("number of rows of x and y must match")
+  if (dim(x)[1] <= 0) 
+    stop("no observations in x and y")
+  if (dim(y)[2] > 1)
+    stop ("handles only univariate outputs")
+  if (!require (mva, quietly=TRUE)) stop ("Stopping")
+  if (scale)
+  {
+    x <- scale(x)
+    y <- scale(y)
+  }
+  xnam <- paste ("x[,", 1:nin, "]", sep="")
+  fmla <- as.formula (paste ("y~",paste(xnam,collapse= "+")))
+  rr <- lm (fmla)
+  u <- residuals (rr)
+  ssr0 <- sum (u^2)
+  max <- range/2
+  gamma <- matrix(runif((nin+1)*q,-max,max),nin+1,q)
+  phantom <- (1+exp(-(cbind(rep(1,t),x)%*%gamma)))^(-1)
+  phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
+  xnam2 <- paste ("phantomstar[,", 1:qstar, "]", sep="")
+  xnam2 <- paste(xnam2,collapse="+")
+  fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),xnam2,sep="+")))
+  rr <- lm (fmla)
+  v <- residuals(rr)
+  ssr <- sum(v^2)
+  if (type == "chisq")
+  {
+    STAT <- t*log(ssr0/ssr)
+    PVAL <- 1-pchisq(STAT,qstar)
+    PARAMETER <- qstar
+    names(STAT) <- "X-squared"
+    names(PARAMETER) <- "df"
+  }
+  else if (type == "F")
+  {
+    STAT <- ((ssr0-ssr)/qstar)/(ssr/(t-qstar-nin))
+    PVAL <- 1-pf(STAT,qstar,t-qstar-nin)
+    PARAMETER <- c(qstar,t-qstar-nin)
+    names(STAT) <- "F"
+    names(PARAMETER) <- c("df1","df2")
+  }
+  else
+    stop ("invalid type")
+  ARG <- c(qstar,q,range,scale)
+  names(ARG) <- c("qstar","q","range","scale")
+  METHOD <- "White Neural Network Test"
+  structure(list(statistic = STAT, parameter = PARAMETER, p.value = PVAL, 
+                 method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
+}
+
+white.test.ts <- function (x, lag = 1, qstar = 2, q = 10, range = 4, type = "chisq", scale = TRUE)
+{
+  if (!is.ts(x)) stop ("method is only for time series")
+  if (is.matrix(x)) 
+    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
+  if (lag < 1) 
+    stop("minimum lag is 1")
+  if (!require (mva, quietly=TRUE)) stop ("Stopping")
+  DNAME <- deparse(substitute(x))
+  t <- length(x)
+  if (scale) x <- scale(x)
+  y <- embed (x, lag+1)
+  xnam <- paste ("y[,", 2:(lag+1), "]", sep="")
+  fmla <- as.formula (paste ("y[,1]~",paste(xnam,collapse= "+")))
+  rr <- lm (fmla)
+  u <- residuals (rr)
+  ssr0 <- sum (u^2)
+  max <- range/2
+  gamma <- matrix(runif((lag+1)*q,-max,max),lag+1,q)
+  phantom <- (1+exp(-(cbind(rep(1,t-lag),y[,2:(lag+1)])%*%gamma)))^(-1)
+  phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
+  xnam2 <- paste ("phantomstar[,", 1:qstar, "]", sep="")
+  xnam2 <- paste(xnam2,collapse="+")
+  fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),xnam2,sep="+")))
+  rr <- lm (fmla)
+  v <- residuals(rr)
+  ssr <- sum(v^2)
+  if (type == "chisq")
+  {
+    STAT <- t*log(ssr0/ssr)
+    PVAL <- 1-pchisq(STAT,qstar)
+    PARAMETER <- qstar
+    names(STAT) <- "X-squared"
+    names(PARAMETER) <- "df"
+  }
+  else if (type == "F")
+  {
+    STAT <- ((ssr0-ssr)/qstar)/(ssr/(t-lag-qstar))
+    PVAL <- 1-pf(STAT,qstar,t-lag-qstar)
+    PARAMETER <- c(qstar,t-lag-qstar)
+    names(STAT) <- "F"
+    names(PARAMETER) <- c("df1","df2")
+  }
+  else
+    stop ("invalid type")
+  ARG <- c(lag,qstar,q,range,scale)
+  names(ARG) <- c("lag","qstar","q","range","scale")
+  METHOD <- "White Neural Network Test"
+  structure(list(statistic = STAT, parameter = PARAMETER, p.value = PVAL, 
+                 method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
+}
+
+terasvirta.test <- function (obj, ...) { UseMethod("terasvirta.test") }
+
+terasvirta.test.default <- function (x, y, type = "chisq", scale = TRUE)
+{
+  DNAME <- paste(deparse(substitute(x)), "and", deparse(substitute(y)))
+  x <- as.matrix(x)
+  y <- as.matrix(y)
+  nin <- dim(x)[2]
+  t <- dim(x)[1]
+  if (dim(x)[1] != dim(y)[1]) 
+    stop("number of rows of x and y must match")
+  if (dim(x)[1] <= 0) 
+    stop("no observations in x and y")
+  if (dim(y)[2] > 1)
+    stop ("handles only univariate outputs")
+  if (scale)
+  {
+    x <- scale(x)
+    y <- scale(y)
+  }
+  xnam <- paste ("x[,", 1:nin, "]", sep="")
+  fmla <- as.formula (paste ("y~",paste(xnam,collapse= "+")))
+  rr <- lm (fmla)
+  u <- residuals (rr)
+  ssr0 <- sum (u^2)
+  xnam2 <- NULL
+  m <- 0
+  for (i in (1:nin))
+  {
+    for (j in (i:nin))
+    {
+      xnam2 <- c(xnam2,paste("I(x[,",i,"]*x[,",j,"])",sep=""))
+      m <- m+1
+    }
+  }
+  xnam2 <- paste(xnam2,collapse="+")
+  xnam3 <- NULL
+  for (i in (1:nin))
+  {
+    for (j in (i:nin))
+    {
+      for (k in (j:nin))
+      {
+        xnam3 <- c(xnam3,paste("I(x[,",i,"]*x[,",j,"]*x[,",k,"])",sep=""))
+        m <- m+1
+      }
+    }
+  }
+  xnam3 <- paste(xnam3,collapse="+")
+  fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),xnam2,xnam3,sep="+")))
+  rr <- lm (fmla)
+  v <- residuals(rr)
+  ssr <- sum(v^2)
+  if (type == "chisq")
+  {
+    STAT <- t*log(ssr0/ssr)
+    PVAL <- 1-pchisq(STAT,m)
+    PARAMETER <- m
+    names(STAT) <- "X-squared"
+    names(PARAMETER) <- "df"
+  }
+  else if (type == "F")
+  {
+    STAT <- ((ssr0-ssr)/m)/(ssr/(t-nin-m))
+    PVAL <- 1-pf(STAT,m,t-nin-m)
+    PARAMETER <- c(m,t-nin-m)
+    names(STAT) <- "F"
+    names(PARAMETER) <- c("df1","df2")
+  }
+  else
+    stop ("invalid type")
+  METHOD <- "Teraesvirta Neural Network Test"
+  ARG <- scale
+  names(ARG) <- "scale"
+  structure(list(statistic = STAT, parameter = PARAMETER, p.value = PVAL, 
+                 method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
+}
+
+terasvirta.test.ts <- function (x, lag = 1, type = "chisq", scale = TRUE)
+{
+  if (!is.ts(x)) stop ("method is only for time series")
+  if (is.matrix(x)) 
+    if (ncol(x) != 1) stop ("x is not a vector or univariate time series")
+  if (lag < 1) 
+    stop("minimum lag is 1")
+  DNAME <- deparse(substitute(x))
+  t <- length(x)
+  if (scale) x <- scale(x)
+  y <- embed (x, lag+1)
+  xnam <- paste ("y[,", 2:(lag+1), "]", sep="")
+  fmla <- as.formula (paste ("y[,1]~",paste(xnam,collapse= "+")))
+  rr <- lm (fmla)
+  u <- residuals (rr)
+  ssr0 <- sum (u^2)
+  xnam2 <- NULL
+  m <- 0
+  for (i in (1:lag))
+  {
+    for (j in (i:lag))
+    {
+      xnam2 <- c(xnam2,paste("I(y[,",i+1,"]*y[,",j+1,"])",sep=""))
+      m <- m+1
+    }
+  }
+  xnam2 <- paste(xnam2,collapse="+")
+  xnam3 <- NULL
+  for (i in (1:lag))
+  {
+    for (j in (i:lag))
+    {
+      for (k in (j:lag))
+      {
+        xnam3 <- c(xnam3,paste("I(y[,",i+1,"]*y[,",j+1,"]*y[,",k+1,"])",sep=""))
+        m <- m+1
+      }
+    }
+  }
+  xnam3 <- paste(xnam3,collapse="+")
+  fmla <- as.formula (paste ("u~",paste(paste(xnam,collapse= "+"),xnam2,xnam3,sep="+")))
+  rr <- lm (fmla)
+  v <- residuals(rr)
+  ssr <- sum(v^2)
+  if (type == "chisq")
+  {
+    STAT <- t*log(ssr0/ssr)
+    PVAL <- 1-pchisq(STAT,m)
+    PARAMETER <- m
+    names(STAT) <- "X-squared"
+    names(PARAMETER) <- "df"
+  }
+  else if (type == "F")
+  {
+    STAT <- ((ssr0-ssr)/m)/(ssr/(t-lag-m))
+    PVAL <- 1-pf(STAT,m,t-lag-m)
+    PARAMETER <- c(m,t-lag-m)
+    names(STAT) <- "F"
+    names(PARAMETER) <- c("df1","df2")
+  }
+  else
+    stop ("invalid type")
+  METHOD <- "Teraesvirta Neural Network Test"
+  ARG <- c(lag,scale)
+  names(ARG) <- c("lag","scale")
+  structure(list(statistic = STAT, parameter = PARAMETER, p.value = PVAL, 
+                 method = METHOD, data.name = DNAME, arguments = ARG), class = "htest")
+}
+
+

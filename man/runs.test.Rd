@@ -30,7 +30,10 @@ runs.test (x)
 }
 \author{A. Trapletti}
 \examples{
-x <- rnorm (100)
+x <- rnorm (100)  # no runs
+runs.test (x)
+
+x <- 1:100  # one big run
 runs.test (x)
 }
 \keyword{ts}

@@ -23,47 +23,6 @@
 
 extern void muin2ser_ ();
 
-
-void R_intgrt_vec (double* x, double* y, int* lag, int* n)
-{
-  int i;
-
-  for (i=*lag; i<*lag+*n; i++)
-    y[i] = x[i-*lag]+y[i-*lag];
-}
-
-void R_embed_vec (double* x, double* y, int* dim, int* n)
-{
-  int i, j, nr, nc;
-
-  nr = *n-*dim+1;
-  nc = *dim;
-  for (i=0; i<nc; i++)
-    for (j=0; j<nr; j++)  
-      y[j+nr*(nc-i-1)] = x[i+j];
-}
-
-void R_pp_sum (double* u, int* n, int* l, double* sum)
-{
-  int i, j;
-  double tmp1, tmp2;
-  
-  tmp1 = 0.0;
-  for (i=1; i<=(*l); i++)
-  {
-    tmp2 = 0.0;
-    for (j=i; j<(*n); j++)  
-    {
-      tmp2 += u[j]*u[j-i];
-    }
-    tmp2 *= 1.0-((double)i/((double)(*l)+1.0));
-    tmp1 += tmp2;
-  }
-  tmp1 /= (double)(*n);
-  tmp1 *= 2.0;
-  (*sum) += tmp1;
-}
-
 void R_amif (double *x, int *lx, double *inf, int *k, int *maxbit, 
 	     double *confidence, int *norm, int *trace)
 {
@@ -114,23 +73,3 @@ void R_quad_map (double *x, double *xi, double *a, int *n)
     x[i] = (*a)*(1-x[i-1])*x[i-1];
 }
 
-void R_Durbin (double* cor, double* pacf, int* lag)
-{
-  int l, j;
-  double sum1, sum2;
-
-  pacf[0] = cor[0];
-  for (l=2; l<=(*lag); l++)
-  {
-    sum1 = sum2 = 0.0;
-    for (j=1; j<=l-1; j++)
-    {
-      sum1 += pacf[l-2+(*lag)*(j-1)]*cor[l-j-1];
-      sum2 += pacf[l-2+(*lag)*(j-1)]*cor[j-1];
-    }
-    pacf[l-1+(*lag)*(l-1)] = (cor[l-1]-sum1)/(1-sum2);
-    for (j=1; j<=l-1; j++)
-      pacf[l-1+(*lag)*(j-1)] = pacf[l-2+(*lag)*(j-1)]
-	-pacf[l-1+(*lag)*(l-1)]*pacf[l-2+(*lag)*(l-j-1)];
-  }
-}
