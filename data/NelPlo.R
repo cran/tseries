@@ -1,5 +1,5 @@
-if (!require (ts, quietly=TRUE))
-  stop ("Package ts is needed. Stopping")
+if (!require ("stats", quietly=TRUE))
+    stop("package", sQuote("stats"), "is needed.  Stopping")
 cpi <- ts(c(
        3.2958369,
        3.2958369,

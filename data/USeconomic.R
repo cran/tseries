@@ -1,5 +1,5 @@
-if (!require (ts, quietly=TRUE))
-  stop ("Package ts is needed. Stopping")
+if (!require ("stats", quietly=TRUE))
+    stop("package", sQuote("stats"), "is needed.  Stopping")
 M1 <- ts(c(
 450.9,
 453.0,

@@ -226,9 +226,6 @@ function(x, y, qstar = 2, q = 10, range = 4,
         stop("no observations in x and y")
     if(dim(y)[2] > 1)
         stop("handles only univariate outputs")
-    if(!("package:stats" %in% search()) &&
-       !require("mva", quietly = TRUE))
-        stop("package", sQuote("mva"), "is needed.  Stopping")
     if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
         warning(paste("value `chisq' for `type' is deprecated,",
                       "use `Chisq' instead"))
@@ -296,9 +293,6 @@ function(x, lag = 1, qstar = 2, q = 10, range = 4,
         stop("NAs in x")
     if(lag < 1) 
         stop("minimum lag is 1")
-    if(!("package:stats" %in% search()) &&
-       !require("mva", quietly=TRUE))
-        stop("package", sQuote("mva"), "is needed.  Stopping")
     if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
         warning(paste("value `chisq' for `type' is deprecated,",
                       "use `Chisq' instead"))

@@ -13,6 +13,5 @@ Authors:
 License: GPL
 
 Depends on the following R packages:
-  ts (included in the R distribution),
-  white.test needs package mva, 
+  stats (included in the R distribution),
   portfolio.optim needs package quadprog
