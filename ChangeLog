@@ -1,3 +1,14 @@
+2001-10-12  Adrian Trapletti <a.trapletti@bluewin.ch>
+
+	* DESCRIPTION (Version): New version is 0.8-0.
+
+	* R/tsutils.R: Call .C with mode = "double" everywhere. 
+
+	* man/maxdrawdown.Rd:
+	* R/finance.R:
+	* src/tsutils.c:
+	Implementation of max drawdown statistic.
+
 2001-08-27  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION (Version): New version is 0.7-6.

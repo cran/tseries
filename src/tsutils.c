@@ -1,4 +1,4 @@
-/* Copyright (C) 1997-1999  Adrian Trapletti
+/* Copyright (C) 1997-2001  Adrian Trapletti
   
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -74,3 +74,26 @@ void R_quad_map (double *x, double *xi, double *a, int *n)
     x[i] = (*a)*(1-x[i-1])*x[i-1];
 }
 
+void R_maxdrawdown (double *x, int *n, double* mdd)
+{
+  double min, max;
+  int i;
+  
+  min = max = x[0];
+  for (i=1; i<(*n); i++)
+  {
+    if(x[i] > max) 
+    {
+      (*mdd) = ((max - min) > (*mdd) ? (max - min) : (*mdd));
+      min = max = x[i];
+    }
+    else
+    {
+      if(x[i] < min)
+      {
+	min = x[i];
+      } 
+    }
+  }
+  (*mdd) = ((max - min) > (*mdd) ? (max - min) : (*mdd));
+}

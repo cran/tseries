@@ -1,4 +1,4 @@
-## Copyright (C) 1997-1999  Adrian Trapletti
+## Copyright (C) 1997-2001 Adrian Trapletti
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -274,8 +274,8 @@ boot.sample <-
 function(x, b, type)
 {
     return(.C("boot",
-              as.vector(x),
-              x = as.vector(x),
+              as.vector(x, mode = "double"),
+              x = as.vector(x, mode = "double"),
               as.integer(length(x)),
               as.double(b),
               as.integer(type),

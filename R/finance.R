@@ -194,3 +194,19 @@ function(instrument = "^gdax", start, end,
     }
     else stop("provider not implemented")
 }
+
+maxdrawdown <-
+function(x)
+{
+    if(NCOL(x) > 1)
+        stop("x is not a vector or univariate time series")
+    if(any(is.na(x)))
+        stop("NAs in x")
+    n <- length(x)
+    res <- .C("R_maxdrawdown",
+              as.vector(x, mode = "double"),
+              as.integer(n),
+              mddX = as.double(0.0),
+              PACKAGE="tseries")
+    return(res$mddX)
+}
