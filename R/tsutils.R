@@ -355,7 +355,7 @@ function(x, digits = max(3, getOption("digits") - 3), ...)
     stat <- cbind(x$orig.statistic, x$bias, x$se)
     colnames(stat) <- nam
     cat("Resampled Statistic(s):\n")
-    print(drop(stat), digits, ...)
+    print(drop(stat), digits = digits, ...)
     cat("\n")
     invisible(x)
 }

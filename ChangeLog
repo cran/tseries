@@ -1,3 +1,10 @@
+2003-01-22  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-7.
+
+	* R/tsutils.R (print.resample.statistic): Call print with named
+	'digits' argument [S4 method dispatch].
+
 2002-11-22  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-6.
