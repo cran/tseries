@@ -8,7 +8,7 @@
   removed.
 }
 \usage{
-na.remove(object, \dots)
+na.remove (object, \dots)
 }
 \arguments{
   \item{object}{a numeric matrix, vector, univariate, or multivariate

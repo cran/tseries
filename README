@@ -5,11 +5,11 @@ Authors:
   D. M. Gay (./src/dsumsl.f),
   K. Krischer and T. M. Kruel (./src/muin2ser.f,
      ./misc/mutinfo-1.21b.tar.gz)
-  The remainder is by A. Trapletti <A.Trapletti@ci.tuwien.ac.at>.
+  The remainder is by A. Trapletti
 
 License: GPL, except ./src/muin2ser.f and ./misc which are free for 
-         non-commercial purposes.  Only the function amif depends 
-	 on the non GPLed code.
+  non-commercial purposes. Only the function amif depends 
+  on the non GPLed code.
 
 Depends on the following R packages:
   ts (included in the R distribution),
@@ -18,8 +18,8 @@ Depends on the following R packages:
   get.hist.quote needs package chron.
 
 The package has been tested using the following environment:
-Suse 7.0
-Linux version 2.2.16
-g77 version 2.95.2 19991024 (release)
-gcc version 2.95.2 19991024 (release)
-R : Version 1.2.0
+  Suse 7.0
+  Linux version 2.2.16
+  g77 version 2.95.2 19991024 (release)
+  gcc version 2.95.2 19991024 (release)
+  R : Version 1.3.0

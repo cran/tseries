@@ -19,6 +19,7 @@
 ## Mostly time series tests
 ##
 
+
 runs.test <- function (x)
 {
   if (NCOL(x) > 1) stop ("x is not a vector or univariate time series")
