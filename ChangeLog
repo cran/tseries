@@ -1,3 +1,11 @@
+2002-11-21  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-5.
+
+	* R/garch.R (predict.garch): .C("predict_garch") needs to pass
+	'genuine' as well (spotted by Fan <xiao.gang.fan1@libertysurf.fr>
+	and Duncan Murdoch <dmurdoch@pair.com>).
+
 2002-09-09  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION (Version): New version is 0.9-3.	

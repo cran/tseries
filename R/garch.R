@@ -245,6 +245,7 @@ function(object, newdata, genuine = FALSE, ...)
                as.vector(object$coef, mode = "double"),
                as.integer(object$order[1]),
                as.integer(object$order[2]),
+               as.integer(genuine),
                PACKAGE="tseries")
     pred$h <- sqrt(pred$h)
     pred$h[1:max(object$order[1],object$order[2])] <-
