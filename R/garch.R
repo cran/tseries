@@ -68,6 +68,7 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
                as.vector(fit$coef, mode = "double"),
                as.integer(order[1]),
                as.integer(order[2]),
+               as.integer(FALSE),
                PACKAGE = "tseries")
     com.hess <- .C("ophess_garch",
                    as.vector(x, mode = "double"),
