@@ -15,4 +15,5 @@ fftsurr (x)
   These are not to be called by the user.
 }
 \author{A. Trapletti}
-\keyword{ts,misc}
+\keyword{misc}
+\keyword{ts}

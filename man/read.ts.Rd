@@ -38,5 +38,5 @@ x <- read.ts ("sunspots", start=st, frequency=fr)
 plot (x)
 unlink ("sunspots")
 }
-\keyword{ts, file}
-
+\keyword{file}
+\keyword{ts}

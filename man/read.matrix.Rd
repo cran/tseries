@@ -36,5 +36,5 @@ x <- read.matrix ("test")
 x
 unlink ("test")
 }
-\keyword{file, ts}
-
+\keyword{file}
+\keyword{ts}

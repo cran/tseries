@@ -1,9 +1,10 @@
 Package: tseries
-Version: 0.7-0
-Date: 2000/20/12
+Version: 0.7-1
+Date: 2001/05/14
 Title: Package for time series analysis
 Author: Compiled by Adrian Trapletti <adrian@olsen.ch>.
-Description: Package for time series analysis with emphasize on non-linear 
+Maintainer: Adrian Trapletti <adrian@olsen.ch>
+Description: Package for time series analysis with emphasis on non-linear 
              and non-stationary modelling
 Depends: package ts (included in the R release), white.test needs package mva, 
          portfolio.optim needs package quadprog, get.hist.quote needs package

@@ -47,4 +47,5 @@ m.ar <- ar (x, method = "ols", order.max = 5)
 y <- predict (m.ar, x, n.ahead = 200, se.fit = F)
 seqplot.ts (x, y)
 }
-\keyword{ts, hplot}
+\keyword{hplot}
+\keyword{ts}
