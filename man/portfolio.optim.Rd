@@ -9,7 +9,8 @@
 }
 \usage{
 \method{portfolio.optim}{default}(x, pm = mean(x), riskless = FALSE,
-                shorts = FALSE, rf = 0.0, \dots)
+                shorts = FALSE, rf = 0.0, reslow = NULL, reshigh = NULL,
+                covmat = cov(x), \dots)
 }
 \arguments{
   \item{x}{a numeric matrix or multivariate time series consisting of a
@@ -20,13 +21,21 @@
   \item{shorts}{a logical indicating whether shortsales on the risky
     securities are allowed.} 
   \item{rf}{the riskfree interest rate.}
+  \item{reslow}{a vector specifying the (optional) lower bound on
+    allowed portfolio weights.}  
+  \item{reshigh}{a vector specifying the (optional) upper bound on
+    allowed portfolio weights.} 
+  \item{covmat}{the covariance matrix of asset returns.}
   \item{\dots}{further arguments to be passed from or to methods.}
 }
 \details{
   The computed portfolio has the desired expected return \code{pm} and
   no other portfolio exists, which has the same mean return, but a
-  smaller variance.  To solve the quadratic program,
-  \code{\link[quadprog]{solve.QP}} is used.
+  smaller variance. Inequality restrictions of the form \eqn{w_l \le w
+  \le w_h}{w_l <= w <= w_h} can be imposed using the \code{reslow} and
+  \code{reshigh} vectors. An alternative covariance matrix estimate can
+  be supplied via the \code{covmat} argument. To solve the quadratic
+  program, \code{\link[quadprog]{solve.QP}} is used.
 
   \code{portfolio.optim} is a generic function with methods for
   multivariate \code{"ts"} and \code{default} for matrix.

@@ -1,4 +1,4 @@
-/* Copyright (C) 1997-2000  Adrian Trapletti
+/* Copyright (C) 1997-2001  Adrian Trapletti
   
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -26,7 +26,7 @@ void arma (double *x, double *u, double *a, int *ar, int *ma, int *arl,
   
   for (i=(*max); i<(*n); i++)
   {
-    if (intercept) sum = a[(*mal)+(*arl)];
+    if (*intercept) sum = a[(*mal)+(*arl)];
     else sum = 0.0;
     for (j=0; j<(*arl); j++)
       sum += a[j]*x[i-ar[j]];

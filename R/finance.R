@@ -1,4 +1,4 @@
-## Copyright (C) 1997-1999  Adrian Trapletti
+## Copyright (C) 1997-2001  Adrian Trapletti
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ function (x, ...)
 
 portfolio.optim.default <-
 function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
-         rf = 0.0, ...)
+         rf = 0.0, reslow = NULL, reshigh = NULL, covmat = cov(x), ...) 
 {
     if(!require(quadprog, quietly=TRUE))
         stop("Package quadprog is needed. Stopping")
@@ -44,8 +44,37 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
     if(any(is.na(x)))
         stop("NAs in x")
     k <- dim(x)[2]
-    Dmat <- cov(x)
+    if(!is.matrix(covmat)) {
+        stop("covmat is not a matrix")
+    }
+    if((dim(covmat)[1] !=k) | (dim(covmat)[2] !=k)) {
+      stop("covmat has not the right dimension")
+    }
+    Dmat <- covmat
     dvec <- rep(0, k)
+    big <- 1e+100
+    if(!is.null(reslow) & is.null(reshigh)) {
+        reshigh <- rep(big, k)
+    }
+    if(is.null(reslow) & !is.null(reshigh)) {
+        reslow <- -rep(big, k)
+    }
+    if(!is.null(reslow)) {
+        if(!is.vector(reslow)) {
+            stop("reslow is not a vector")
+        }
+        if(length(reslow) != k) {
+            stop("reslow has not the right dimension")
+        }
+    }
+    if(!is.null(reshigh)) {
+        if(!is.vector(reshigh)) {
+            stop("reshigh is not a vector")
+        }
+        if(length(reshigh) != k) {
+            stop("reshigh has not the right dimension")
+        }
+    }
     if(riskless) {
         a1 <- apply(x, 2, mean)-rf
         if(shorts) {
@@ -57,24 +86,46 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
             diag(a2) <- 1
             b2 <- rep(0, k)
         }
-        Amat <- t(rbind(a1, a2))
-        b0 <- c(pm-rf, b2)
+        if(!is.null(reslow) & !is.null(reshigh)) {
+            a3 <- matrix(0, k, k)
+            diag(a3) <- 1
+            Amat <- t(rbind(a1, a2, a3, -a3))
+            b0 <- c(pm-rf, b2, reslow, -reshigh)
+        }
+        else {
+            Amat <- t(rbind(a1, a2))
+            b0 <- c(pm-rf, b2)
+        }
         res <- solve.QP(Dmat, dvec, Amat, bvec=b0, meq=1)
     }
     else {
         a1 <- rep(1, k)
         a2 <- apply(x, 2, mean)
         if(shorts) {
-            a3 <- NULL
-            b3 <- NULL
+            if(!is.null(reslow) & !is.null(reshigh)) {
+                a3 <- matrix(0, k, k)
+                diag(a3) <- 1
+                Amat <- t(rbind(a1, a2, a3, -a3))
+                b0 <- c(1, pm, reslow, -reshigh)
+            }
+            else {
+                Amat <- t(rbind(a1, a2))
+                b0 <- c(1, pm)
+            }              
         }
         else {
             a3 <- matrix(0, k, k)
             diag(a3) <- 1
             b3 <- rep(0, k)
+            if(!is.null(reslow) & !is.null(reshigh)) {
+                Amat <- t(rbind(a1, a2, a3, a3, -a3))
+                b0 <- c(1, pm, b3, reslow, -reshigh)
+            }
+            else {
+                Amat <- t(rbind(a1, a2, a3))
+                b0 <- c(1, pm, b3)
+            }
         }
-        Amat <- t(rbind(a1, a2, a3))
-        b0 <- c(1, pm, b3)
         res <- solve.QP(Dmat, dvec, Amat, bvec=b0, meq=2)
     }
     y <- t(res$solution%*%t(x))
