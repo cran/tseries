@@ -19,25 +19,30 @@
 ## Financial time series analysis
 ##
 
-
 portfolio.optim <- function (x, ...) UseMethod ("portfolio.optim")
 
-portfolio.optim.ts <- function (x, ...)
+portfolio.optim.ts <-
+function (x, ...)
 {
-    if(!is.ts(x)) stop("method is only for time series")
-    if(NCOL(x) == 1) stop("x is not a multivariate time series")
+    if(!is.ts(x))
+        stop("method is only for time series")
+    if(NCOL(x) == 1)
+        stop("x is not a multivariate time series")
     res <- portfolio.optim.default(as.matrix(x), ...)
     res$px <- ts(res$px, start = start(x), frequency = frequency(x))
     return(res)
 }
 
 portfolio.optim.default <-
-function(x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
+function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
+         rf = 0.0, ...)
 {
     if(!require(quadprog, quietly=TRUE))
         stop("Package quadprog is needed. Stopping")
-    if(NCOL(x) == 1) stop("x is not a matrix")
-    if(any(is.na(x))) stop("NAs in x")
+    if(NCOL(x) == 1)
+        stop("x is not a matrix")
+    if(any(is.na(x)))
+        stop("NAs in x")
     k <- dim(x)[2]
     Dmat <- cov(x)
     dvec <- rep(0, k)

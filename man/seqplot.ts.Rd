@@ -1,14 +1,18 @@
 \name{seqplot.ts}
-\title{Plot Two Time Series}
-\usage{
-seqplot.ts (x, y, colx = "black", coly = "red", typex = "l",
-            typey = "l", pchx = 1, pchy = 1, ltyx = "solid",
-            ltyy = "solid", oma = c(6, 0, 5, 0), ann = par("ann"),
-            xlab = "Time", ylab = deparse(substitute(x)), main = NULL)
-}
 \alias{seqplot.ts}
+\title{Plot Two Time Series}
+\description{
+  Plot two time series on the same plot frame.
+}
+\usage{
+seqplot.ts(x, y, colx = "black", coly = "red", typex = "l",
+           typey = "l", pchx = 1, pchy = 1, ltyx = "solid",
+           ltyy = "solid", oma = c(6, 0, 5, 0), ann = par("ann"),
+           xlab = "Time", ylab = deparse(substitute(x)), main = NULL)
+}
+
 \arguments{
-  \item{x, y}{the time series}
+  \item{x, y}{the time series.}
   \item{colx, coly}{color code or name for the \code{x} and \code{y}
     series, see \code{\link{colors}}, \code{\link{palette}}.}
   \item{typex, typey}{what type of plot should be drawn for the \code{x}
@@ -22,9 +26,6 @@ seqplot.ts (x, y, colx = "black", coly = "red", typex = "l",
   \item{ann}{annotate the plots? See \code{\link{par}}.}
   \item{xlab, ylab}{titles for the x and y axis.}
   \item{main}{an overall title for the plot.}
-}
-\description{
-  Plot two time series on the same plot frame.
 }
 \details{
   Unlike \code{\link{plot.ts}} the series can have different time bases,
@@ -43,9 +44,9 @@ seqplot.ts (x, y, colx = "black", coly = "red", typex = "l",
 \examples{
 data (USeconomic)
 x <- ts.union(log(M1), log(GNP), rs, rl)
-m.ar <- ar (x, method = "ols", order.max = 5)
-y <- predict (m.ar, x, n.ahead = 200, se.fit = F)
-seqplot.ts (x, y)
+m.ar <- ar(x, method = "ols", order.max = 5)
+y <- predict(m.ar, x, n.ahead = 200, se.fit = FALSE)
+seqplot.ts(x, y)
 }
 \keyword{hplot}
 \keyword{ts}

@@ -1,4 +1,5 @@
-.First.lib <- function (lib, pkg)
+.First.lib <-
+function(lib, pkg)
 {
     library.dynam("tseries", pkg, lib)
     if(!require(ts, quietly = TRUE))
@@ -12,6 +13,6 @@
               "\ton non-linear modelling.\n",
               "\tSee `library (help=tseries)' for details.\n\n",
               sep = "")
-    if(interactive() || .Options$verbose)
-        cat(paste (vertxt, introtxt))
+    if(interactive() || getOption("verbose"))
+        cat(paste(vertxt, introtxt))
 }

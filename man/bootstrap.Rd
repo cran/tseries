@@ -1,14 +1,18 @@
 \name{bootstrap}
-\title{Generate Bootstrap Data and Statistics}
-\usage{
-bootstrap (x, nb = 1, statistic = NULL, b = NULL, type =
-           c("stationary","block"), ...)
-print (obj, digits = max(3,.Options$digits-3), ...)
-}
 \alias{bootstrap}
 \alias{print.resample.statistic}
+\title{Generate Bootstrap Data and Statistics}
+\description{
+  Generates bootstrap samples from the original data and computes the
+  bootstrap estimate of standard error and bias for a given statistic
+  (if this is given).
+}
+\usage{
+bootstrap(x, nb = 1, statistic = NULL, b = NULL,
+          type = c("stationary","block"), \dots)
+}
 \arguments{
-  \item{x}{a numeric vector or time series.}
+  \item{x}{a numeric vector or time series giving the original data.}
   \item{nb}{the number of bootstrap series to compute.}
   \item{statistic}{a function which when applied to a time series
     returns a vector containing the statistic(s) of interest.}
@@ -16,21 +20,12 @@ print (obj, digits = max(3,.Options$digits-3), ...)
     mean block length. If \code{type} is \code{"block"}, then \code{b}
     is the fixed block length.}
   \item{type}{the type of bootstrap to generate the simulated time
-    series. The possible input values are \code{"stationary"}
+    series.  The possible input values are \code{"stationary"}
     (stationary bootstrap with mean block length \code{b}) and
     \code{"block"} (moving blocks bootstrap with block length
     \code{b}).}
-  \item{object}{a list with class \code{"resample.statistic"}.}
-  \item{digits}{the number of digits to format real numbers.}
-  \item{\dots}{either additional arguments for \code{statistic} which are
-    passed unchanged each time \code{statistic} is called
-    (\code{bootstrap}), or additional arguments for \code{print}
-    (\code{print.resample.statistic}).}
-}
-\description{
-  Generates \code{nb} bootstrap samples from the original data
-  \code{x} and computes the bootstrap estimate of standard error and
-  bias for \code{statistic}, if \code{statistic} is given.
+  \item{\dots}{additional arguments for \code{statistic} which are
+    passed unchanged each time \code{statistic} is called.}
 }
 \details{
   If \code{type} is \code{"stationary"}, then the stationary
@@ -50,6 +45,10 @@ print (obj, digits = max(3,.Options$digits-3), ...)
   minimized.
 
   Missing values are not allowed.
+
+  There is a special print method for objects of class
+  \code{"resample.statistic"} which by default uses
+  \code{max(3, getOption("digits") - 3)} digits to format real numbers.
 }
 \value{
   If \code{statistic} is \code{NULL}, then it returns a matrix or time
@@ -69,33 +68,33 @@ print (obj, digits = max(3,.Options$digits-3), ...)
   \item{call}{the original call of \code{bootstrap}.}
 }
 \references{
-  H. R. Kuensch (1989): The Jackknife and the Bootstrap for General
-  Stationary Observations. \emph{The Annals of Statistics} \bold{17},
-  1217-1241.
+  H. R. Kuensch (1989):
+  The Jackknife and the Bootstrap for General Stationary Observations.
+  \emph{The Annals of Statistics} \bold{17}, 1217--1241.
 
-  D. N. Politis and J. P. Romano (1994): The Stationary
-  Bootstrap. \emph{J. Amer. Statist. Assoc.} \bold{89}, 1303-1313.
+  D. N. Politis and J. P. Romano (1994):
+  The Stationary Bootstrap.
+  \emph{Journal of the American Statistical Association} \bold{89},
+  1303--1313.
 }
 \author{A. Trapletti}
 \seealso{
-  \code{\link{sample}}, \code{\link{surrogate}}
+  \code{\link{sample}},
+  \code{\link{surrogate}}
 }
 \examples{
 n <- 500  # Generate AR(1) process
-e <- rnorm (n)  
-x <- double (n)
-x[1] <- rnorm (1)
-for (i in 2:n)
-{
-  x[i] <- 0.5*x[i-1]+e[i]
+e <- rnorm(n)  
+x <- double(n)
+x[1] <- rnorm(1)
+for(i in 2:n) {
+  x[i] <- 0.5 * x[i-1] + e[i]
 }
 x <- ts(x)
 
-theta <- function (x)  # Autocorrelations up to lag 10
-  return (acf(x, plot=FALSE)$acf[2:11])
+theta <- function(x)  # Autocorrelations up to lag 10
+  return(acf(x, plot=FALSE)$acf[2:11])
 
-bootstrap (x, nb=50, statistic=theta) 
+bootstrap(x, nb=50, statistic=theta) 
 }
 \keyword{ts}
-
-

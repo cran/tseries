@@ -1,34 +1,35 @@
 \name{surrogate}
-\title{Generate Surrogate Data and Statistics}
-\usage{
-surrogate (x, ns = 1, fft = FALSE, amplitude = FALSE, statistic = NULL, ...)
-}
 \alias{surrogate}
+\title{Generate Surrogate Data and Statistics}
+\description{
+  Generates \code{ns} surrogate samples from the original data \code{x}
+  and computes the standard error and the bias of \code{statistic} as in
+  a bootstrap setup, if \code{statistic} is given.
+}
+\usage{
+surrogate(x, ns = 1, fft = FALSE, amplitude = FALSE,
+          statistic = NULL, \dots)
+}
 \arguments{
   \item{x}{a numeric vector or time series.}
   \item{ns}{the number of surrogate series to compute.}
   \item{fft}{a logical indicating whether phase randomized surrogate
     data is generated.}
-  \item{amplitude}{a logical indicating whether
-    amplitude-adjusted surrogate data is computed.}
+  \item{amplitude}{a logical indicating whether amplitude-adjusted
+    surrogate data is computed.}
   \item{statistic}{a function which when applied to a time series
     returns a vector containing the statistic(s) of interest.}
   \item{\dots}{Additional arguments for \code{statistic} which are
     passed unchanged each time it is called.}
 }
-\description{
-  Generates \code{ns} surrogate samples from the original data
-  \code{x} and computes the standard error and the bias of \code{statistic}
-  as in a bootstrap setup, if \code{statistic} is given. 
-}
 \details{
-  If \code{fft} is \code{FALSE}, then \code{x} is mixed in
-  temporal order, so that all temporal dependencies are eliminated, but
-  the histogram of the original data is preserved. If \code{fft} is
+  If \code{fft} is \code{FALSE}, then \code{x} is mixed in temporal
+  order, so that all temporal dependencies are eliminated, but the
+  histogram of the original data is preserved.  If \code{fft} is
   \code{TRUE}, then surrogate data with the same spectrum as \code{x} is
   computed by randomizing the phases of the Fourier coefficients of
-  \code{x}. If in addition \code{amplitude} is \code{TRUE}, then also the
-  amplitude distribution of the original series is preserved.
+  \code{x}.  If in addition \code{amplitude} is \code{TRUE}, then also
+  the amplitude distribution of the original series is preserved.
 
   Note, that the interpretation of the computed standard error and bias
   is different than in a bootstrap setup.
@@ -61,7 +62,7 @@ surrogate (x, ns = 1, fft = FALSE, amplitude = FALSE, statistic = NULL, ...)
   (1992): Using Surrogate Data to Detect
   Nonlinearity in Time Series, in \emph{Nonlinear Modelling and
   Forecasting}, Eds. M. Casdagli and S. Eubank, Santa Fe Institute,
-  Addison Wesley, pp. 163-188.
+  Addison Wesley, 163--188.
 }
 \author{A. Trapletti}
 \seealso{
@@ -69,23 +70,20 @@ surrogate (x, ns = 1, fft = FALSE, amplitude = FALSE, statistic = NULL, ...)
 }
 \examples{
 x <- 1:10  # Simple example
-surrogate (x)
+surrogate(x)
 
 n <- 500  # Generate AR(1) process
-e <- rnorm (n)  
-x <- double (n)
-x[1] <- rnorm (1)
-for (i in 2:n)
-{
-  x[i] <- 0.4*x[i-1]+e[i]
+e <- rnorm(n)  
+x <- double(n)
+x[1] <- rnorm(1)
+for (i in 2:n) {
+  x[i] <- 0.4 * x[i-1] + e[i]
 }
 x <- ts(x)
 
-theta <- function (x)  # Autocorrelations up to lag 10
-  return (acf(x, plot=FALSE)$acf[2:11])
+theta <- function(x)  # Autocorrelations up to lag 10
+  return(acf(x, plot=FALSE)$acf[2:11])
 
-surrogate (x, ns=50, fft=TRUE, statistic=theta) 
+surrogate(x, ns=50, fft=TRUE, statistic=theta) 
 }
 \keyword{ts}
-
-

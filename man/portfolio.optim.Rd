@@ -8,7 +8,8 @@
   in the mean-variance sense.
 }
 \usage{
-\method{portfolio.optim}{default}(x, pm = mean(x), riskless = FALSE, shorts = FALSE, rf = 0.0)
+\method{portfolio.optim}{default}(x, pm = mean(x), riskless = FALSE,
+                shorts = FALSE, rf = 0.0, \dots)
 }
 \arguments{
   \item{x}{a numeric matrix or multivariate time series consisting of a
@@ -19,6 +20,7 @@
   \item{shorts}{a logical indicating whether shortsales on the risky
     securities are allowed.} 
   \item{rf}{the riskfree interest rate.}
+  \item{\dots}{further arguments to be passed from or to methods.}
 }
 \details{
   The computed portfolio has the desired expected return \code{pm} and

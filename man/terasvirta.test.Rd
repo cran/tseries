@@ -9,8 +9,10 @@
   \code{y~x}.
 }
 \usage{
-\method{terasvirta.test}{ts}(x, lag = 1, type = c("Chisq","F"), scale = TRUE)
-\method{terasvirta.test}{default}(x, y, type = c("Chisq","F"), scale = TRUE)
+\method{terasvirta.test}{ts}(x, lag = 1, type = c("Chisq","F"),
+                scale = TRUE, \dots)
+\method{terasvirta.test}{default}(x, y, type = c("Chisq","F"),
+                scale = TRUE, \dots)
 }
 \arguments{
   \item{x}{a numeric vector, matrix, or time series.}
@@ -22,6 +24,7 @@
   \item{scale}{a logical indicating whether the data should be scaled 
     before computing the test statistic. The default arguments to
     \code{\link{scale}} are used.}
+  \item{\dots}{further arguments to be passed from or to methods.}
 }
 \details{
   The null is the hypotheses of linearity in
@@ -55,19 +58,20 @@
 \examples{
 n <- 1000
 
-x <- runif (1000, -1, 1)  # Non-linear in ``mean'' regression 
+x <- runif(1000, -1, 1)  # Non-linear in ``mean'' regression 
 y <- x^2 - x^3 + 0.1*rnorm(x)
-terasvirta.test (x, y)
+terasvirta.test(x, y)
 
-terasvirta.test (cbind(x,x^2,x^3), y)  # Is the polynomial of order 2 misspecified?
+## Is the polynomial of order 2 misspecified?
+terasvirta.test(cbind(x,x^2,x^3), y)
 
+## Generate time series which is nonlinear in ``mean''
 x[1] <- 0.0
-for (i in (2:n))  # Generate time series which is nonlinear in ``mean''
-{
+for(i in (2:n)) {
   x[i] <- 0.4*x[i-1] + tanh(x[i-1]) + rnorm (1, sd=0.5)
 }
 x <- as.ts(x)
-plot (x)
-terasvirta.test (x)
+plot(x)
+terasvirta.test(x)
 }
 \keyword{ts}

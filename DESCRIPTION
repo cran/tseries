@@ -1,9 +1,9 @@
 Package: tseries
-Version: 0.7-4
-Date: 2001-07-14
+Version: 0.7-5
+Date: 2001-08-20
 Title: Package for time series analysis
 Author: Compiled by Adrian Trapletti <adrian@olsen.ch>.
-Maintainer: Adrian Trapletti <adrian@olsen.ch>
+Maintainer: Kurt.Hornik <Kurt.Hornik@ci.tuwien.ac.at>
 Description: Package for time series analysis with emphasis on non-linear 
   and non-stationary modelling
 Depends: ts, mva, quadprog

@@ -1,25 +1,15 @@
 \name{arma}
-\title{Fit ARMA Models to Time Series}
-\usage{
-arma (x, order = c(1, 1), lag = NULL, coef = NULL, include.intercept = TRUE,
-      series = NULL, qr.tol = 1e-07, ...)
-coef (object)
-residuals (object)
-fitted (object)
-print (object, digits = max(3,.Options$digits-3))
-summary (object)
-plot (object, ask = interactive())
-print.summary (object, digits = max(3,.Options$digits-3),
-               signif.stars = .Options$show.signif.stars, \dots)
-}
 \alias{arma}
-\alias{coef.arma}
-\alias{residuals.arma}
-\alias{fitted.arma}
-\alias{print.arma}
-\alias{summary.arma}
-\alias{plot.arma}
-\alias{print.summary.arma}
+\title{Fit ARMA Models to Time Series}
+\description{
+  Fit an ARMA model to a univariate time series by conditional least
+  squares.  For exact maximum likelihood estimation see
+  \code{\link{arima0}}. 
+}
+\usage{
+arma(x, order = c(1, 1), lag = NULL, coef = NULL,
+     include.intercept = TRUE, series = NULL, qr.tol = 1e-07, \dots)
+}
 \arguments{
   \item{x}{a numeric vector or time series.}
   \item{order}{a two dimensional integer vector giving the orders of the
@@ -39,16 +29,6 @@ print.summary (object, digits = max(3,.Options$digits-3),
     the asymptotic standard errors of \code{coef}.}
   \item{\dots}{additional arguments for \code{\link{optim}} when fitting
     the model.}
-  \item{object}{a fit from \code{arma}.}
-  \item{digits, signif.stars}{see \code{\link{print.coefmat}}.}
-  \item{ask}{Should the \code{plot} method work interactively? See
-    \code{\link{interactive}}.}
-  \item{\dots}{additional arguments for \code{\link{print}}.} 
-}
-\description{
-  Fit an ARMA model to a univariate time series by conditional least
-  squares. For exact maximum likelihood estimation see
-  \code{\link{arima0}}. 
 }
 \details{
   The following parametrization is used for the ARMA(p,q) model:
@@ -67,16 +47,9 @@ print.summary (object, digits = max(3,.Options$digits-3),
   The estimated residuals are then used for computing a least squares
   estimator of the full ARMA model. See Hannan and Rissanen (1982) for
   details.
-  
-  \code{summary} computes the asymptotic standard errors of the
-  coefficient estimates from the numerically differentiated Hessian
-  matrix approximation. The AIC is computed from the conditional
-  sum-of-squared errors and not from the true maximum likelihood
-  function. That may be problematic.
 }
 \value{
-  For \code{arma} and its methods \code{print} and \code{plot} a list
-  of class \code{"arma"} with the following elements:
+  A list of class \code{"arma"} with the following elements:
   \item{lag}{the lag specification of the fitted model.}
   \item{coef}{estimated ARMA coefficients for the fitted model.}
   \item{css}{the conditional sum-of-squared errors.}
@@ -91,47 +64,42 @@ print.summary (object, digits = max(3,.Options$digits-3),
   \item{convergence}{The \code{convergence} integer code from
     \code{\link{optim}}.}
   \item{include.intercept}{Does the model contain an intercept?}
-  
-  For \code{coef}, a numeric vector, for \code{residuals} and
-  \code{fitted} a univariate time series.
-  
-  For \code{summary} and \code{print.summary} a list of
-  class \code{"summary.arma"}.
 }
 \references{
-  E. J. Hannan and J. Rissanen (1982): Recursive Estimation of Mixed
-  Autoregressive-Moving Average Order. \emph{Biometrika} \bold{69},
-  81-94. 
+  E. J. Hannan and J. Rissanen (1982):
+  Recursive Estimation of Mixed Autoregressive-Moving Average
+  Order.
+  \emph{Biometrika} \bold{69}, 81--94. 
 }
 \author{
   A. Trapletti
 }
 \seealso{
-  \code{\link{arima0}}, \code{\link{ar}}
+  \code{\link{summary.arma}} for summarizing ARMA model fits;
+  \code{\link{arma-methods}} for further methods;
+  \code{\link{arima0}}, \code{\link{ar}}.
 }
 \examples{
-data (tcm)  
+data(tcm)  
 r <- diff(tcm10y)
-summary (r.arma <- arma (r, order = c(1, 0)))
-summary (r.arma <- arma (r, order = c(2, 0)))
-summary (r.arma <- arma (r, order = c(0, 1)))
-summary (r.arma <- arma (r, order = c(0, 2)))
-summary (r.arma <- arma (r, order = c(1, 1)))
-plot (r.arma)
+summary(r.arma <- arma(r, order = c(1, 0)))
+summary(r.arma <- arma(r, order = c(2, 0)))
+summary(r.arma <- arma(r, order = c(0, 1)))
+summary(r.arma <- arma(r, order = c(0, 2)))
+summary(r.arma <- arma(r, order = c(1, 1)))
+plot(r.arma)
 
-data (nino)
+data(nino)
 s <- nino3.4
-summary (s.arma <- arma (s, order=c(20,0)))
-summary (s.arma
-         <- arma (s, lag=list(ar=c(1,3,7,10,12,13,16,17,19),ma=NULL)))
-acf (residuals(s.arma), na.action=na.remove)
-pacf (residuals(s.arma), na.action=na.remove)
-summary (s.arma
-         <- arma (s, lag=list(ar=c(1,3,7,10,12,13,16,17,19),ma=12)))
-summary (s.arma
-         <- arma (s, lag=list(ar=c(1,3,7,10,12,13,16,17),ma=12)))
-plot (s.arma)
+summary(s.arma <- arma(s, order=c(20,0)))
+summary(s.arma
+         <- arma(s, lag=list(ar=c(1,3,7,10,12,13,16,17,19),ma=NULL)))
+acf(residuals(s.arma), na.action=na.remove)
+pacf(residuals(s.arma), na.action=na.remove)
+summary(s.arma
+         <- arma(s, lag=list(ar=c(1,3,7,10,12,13,16,17,19),ma=12)))
+summary(s.arma
+         <- arma(s, lag=list(ar=c(1,3,7,10,12,13,16,17),ma=12)))
+plot(s.arma)
 }
 \keyword{ts}
-
-

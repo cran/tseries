@@ -1,19 +1,20 @@
 \name{adf.test}
-\title{Augmented Dickey--Fuller Test}
-\usage{
-adf.test (x, alternative = c("stationary", "explosive"), k = trunc((length(x)-1)^(1/3)))
-}
 \alias{adf.test}
+\title{Augmented Dickey--Fuller Test}
+\description{
+  Computes the Augmented Dickey-Fuller test for the null that \code{x} has
+  a unit root.
+}
+\usage{
+adf.test(x, alternative = c("stationary", "explosive"),
+         k = trunc((length(x)-1)^(1/3)))
+}
 \arguments{
   \item{x}{a numeric vector or time series.}
   \item{alternative}{indicates the alternative hypothesis and must be
     one of \code{"stationary"} (default) or \code{"explosive"}. You can
     specify just the initial letter.}
   \item{k}{the lag order to calculate the test statistic.}
-}
-\description{
-  Computes the Augmented Dickey-Fuller test for the null that \code{x} has
-  a unit root.
 }
 \details{
   The general regression equation which incorporates a constant and a
@@ -44,22 +45,23 @@ adf.test (x, alternative = c("stationary", "explosive"), k = trunc((length(x)-1)
 \references{
   A. Banerjee, J. J. Dolado, J. W. Galbraith, and D. F. Hendry (1993):
   \emph{Cointegration, Error Correction, and the Econometric Analysis of
-  Non-Stationary Data}, Oxford University Press, Oxford.
+    Non-Stationary Data},
+  Oxford University Press, Oxford.
   
-  S. E. Said and D. A. Dickey (1984): Testing for Unit Roots in
-  Autoregressive-Moving Average Models of Unknown
-  Order. \emph{Biometrika} \bold{71}, 599-607.
+  S. E. Said and D. A. Dickey (1984):
+  Testing for Unit Roots in Autoregressive-Moving Average Models of
+  Unknown Order.
+  \emph{Biometrika} \bold{71}, 599--607.
 }
 \author{A. Trapletti}
 \seealso{
   \code{\link{pp.test}}
 }
 \examples{
-x <- rnorm (1000)  # no unit-root
-adf.test (x)
+x <- rnorm(1000)  # no unit-root
+adf.test(x)
 
-y <- diffinv (x)  # contains a unit-root
-adf.test (y)
+y <- diffinv(x)   # contains a unit-root
+adf.test(y)
 }
 \keyword{ts}
-
