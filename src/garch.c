@@ -131,12 +131,6 @@ static void F77_SUB(ufparm) ()
 }
 
 
-void F77_SUB(error) (char *string)
-{
-  error (string);
-}
-
-
 void fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax, 
 		double *eps, double *fret, int *agrad, int *trace)
      /* fit a GARCH (p, q) model 
