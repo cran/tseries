@@ -1,9 +1,9 @@
 Package for time series analysis and computational finance
 
 Authors:
+  A. Trapletti
   B. LeBaron (./src/bdstest.c)
   D. M. Gay (./src/dsumsl.f)
-  A. Trapletti (remainder)
 
   In addition, the following people have contributed 
   code, bug reports, and documentation:
@@ -18,8 +18,8 @@ Depends on the following R packages:
   portfolio.optim needs package quadprog,
 
 The package has been tested using the following environment:
-  Suse 7.0
-  Linux version 2.2.16
-  g77 version 2.95.2 19991024 (release)
-  gcc version 2.95.2 19991024 (release)
-  R : Version 1.5.0
+  Suse 7.3
+  Linux version 2.4.10
+  g77 version 3.1.1
+  gcc version 3.1.1
+  R : Version 1.5.1

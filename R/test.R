@@ -1,4 +1,4 @@
-## Copyright (C) 1997-2000  Adrian Trapletti
+## Copyright (C) 1997-2002  Adrian Trapletti
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -20,37 +20,34 @@
 ##
 
 runs.test <-
-function (x)
+function (x, alternative = c("two.sided", "less", "greater"))
 {
-    if(NCOL(x) > 1)
-        stop("x is not a vector or univariate time series")
+    if(!is.factor(x))
+        stop("x is not a factor")
     if(any(is.na(x)))
         stop("NAs in x")
+    if(length(levels(x)) != 2)
+        stop("x does not contain dichotomous data")
+    alternative <- match.arg(alternative)
     DNAME <- deparse(substitute(x))
-    if(any(x == 0.0)) {
-        cat("Removed", length(x[x==0.0]), "zero(es)\n")
-        x <- x[x != 0.0]
-    }
-    d <- diff(sign(x))
-    f <- factor(d)
-    sp <- split(d, f)
-    resS <- sapply(sp, length)
-    resL <- lapply(sp, length)
     n <- length(x)
-    sum2 <- sum(resS^2)
-    sum3 <- sum(resS^3)
-    m <- (n*(n+1)-sum2)/n
-    s <- (sum2*(sum2+n*(n+1))-2*n*sum3-n^3)/(n^2*(n-1))
-    R <- 1
-    if(!is.null(resL$"-2"))
-        R <- R+resL$"-2"
-    if(!is.null(resL$"2"))
-        R <- R+resL$"2"
-    STATISTIC <- ((R+0.5)-m)/s
+    R <- 1 + sum(as.numeric(x[-1] != x[-n]))
+    n1 <- sum(levels(x)[1] == x)
+    n2 <- sum(levels(x)[2] == x)
+    m <- 1 + 2*n1*n2 / (n1+n2)
+    s <- sqrt(2*n1*n2 * (2*n1*n2 - n1 - n2) / ((n1+n2)^2 * (n1+n2-1)))
+    STATISTIC <- (R - m) / s
     METHOD <- "Runs Test"
-    PVAL <- 2 * pnorm(-abs(STATISTIC))
+    if(alternative == "two.sided")
+        PVAL <- 2 * pnorm(-abs(STATISTIC))
+    else if(alternative == "less")
+        PVAL <- pnorm(STATISTIC)
+    else if(alternative == "greater")
+        PVAL <- pnorm(STATISTIC, lower.tail = FALSE)
+    else stop("irregular alternative")
     names(STATISTIC) <- "Standard Normal"
     structure(list(statistic = STATISTIC,
+                   alternative = alternative,
                    p.value = PVAL,
                    method = METHOD,
                    data.name = DNAME),

@@ -1,13 +1,16 @@
+
 NelPlo                  Nelson--Plosser Macroeconomic Time Series 
 USeconomic              U.S. Economic Variables 
 adf.test                Augmented Dickey--Fuller Test
 arma-methods            Methods for Fitted ARMA Models
 arma                    Fit ARMA Models to Time Series
 bds.test                BDS Test
+bds.test                BDS Test
 bev                     Beveridge Wheat Price Index, 1500--1869. 
 camp                    Mount Campito Yearly Treering Data,
                         -3435--1969. 
 garch-methods           Methods for Fitted GARCH Models
+garch                   Fit GARCH Models to Time Series
 garch                   Fit GARCH Models to Time Series
 get.hist.quote          Download Historical Finance Data
 ice.river               Icelandic River Data 
@@ -25,6 +28,7 @@ quadmap                 Quadratic Map (Logistic Equation)
 read.matrix             Read Matrix Data
 read.ts                 Read Time Series Data
 runs.test               Runs Test
+runs.test               Runs Test
 seqplot.ts              Plot Two Time Series
 sharpe                  Sharpe Ratio
 sterling                Sterling Ratio
@@ -35,6 +39,7 @@ tcm                     Monthly Yields on Treasury Securities
 tcmd                    Daily Yields on Treasury Securities 
 terasvirta.test         Teraesvirta Neural Network Test for
                         Nonlinearity
+tsbootstrap             Bootstrap for General Stationary Data
 tsbootstrap             Bootstrap for General Stationary Data
 tseries-internal        Internal tseries functions
 white.test              White Neural Network Test for Nonlinearity

@@ -40,20 +40,20 @@ tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
   (see Kuensch, 1989). The basic sampling scheme is the same as for 
   the case \code{m = 1}, except that the bootstrap is applied to a series
   \code{y} containing blocks of length \code{m}, where each block of \code{y} is
-  defined as \eqn{y[t] = (x[t], \dots, x[t-m+1])}. Hence, for the block
+  defined as \eqn{y[t] = (x[t], \dots, x[t-m+1])}. Therefore, for the block
   of blocks bootstrap the first argument of \code{statistic} is given by
   a \code{n x m} matrix \code{yb}, where each row of \code{yb} contains one
   bootstrapped basic block observation \eqn{y[t]} (\code{n} is the number of
   observations in \code{x}). 
 
   Note, that for statistics which are functions of the empirical
-  \code{m}-dimensional marginal (\code{m > 1}), only this procedure
-  yields asymptotically valid bootstrap estimates. Hence, the 
+  \code{m}-dimensional marginal (\code{m > 1}) only this procedure
+  yields asymptotically valid bootstrap estimates. The 
   case \code{m = 1} may only be used for symmetric statistics (i.e., for
-  statistics which are invariant under permutations of \code{x}). Note,
-  that \code{\link{tsboot}} does not implement the block of blocks
-  bootstrap. Therefore, the first example in \code{\link{tsboot}} gives
-  inconsistent estimates.
+  statistics which are invariant under permutations of \code{x}).
+  \code{\link{tsboot}} does not implement the block of blocks
+  bootstrap, and, therefore, the first example in \code{\link{tsboot}}
+  yields inconsistent estimates.
   
   For consistency, the (mean) block length \code{b} should grow with
   \code{n} at an appropriate rate. If \code{b} is not given, then a

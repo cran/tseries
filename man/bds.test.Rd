@@ -7,7 +7,7 @@
   is a series of i.i.d. random variables.
 }
 \usage{
-bds.test(x, m = 2, eps = seq(0.5 * sd(x), 2 * sd(x), length = 4),
+bds.test(x, m = 3, eps = seq(0.5 * sd(x), 2 * sd(x), length = 4),
          trace = FALSE)
 }
 \arguments{
@@ -51,12 +51,12 @@ bds.test(x, m = 2, eps = seq(0.5 * sd(x), 2 * sd(x), length = 4),
 \author{B. LeBaron, Ported to R by A. Trapletti}
 \examples{
 x <- rnorm(100)
-bds.test(x, m = 3)  # i.i.d. example
+bds.test(x)  # i.i.d. example
 
 x <- c(rnorm(50), runif(50))
-bds.test(x, m = 3)  # not identically distributed
+bds.test(x)  # not identically distributed
 
 x <- quadmap(xi = 0.2, a = 4.0, n = 100)
-bds.test(x, m = 3)  # not independent
+bds.test(x)  # not independent
 }
 \keyword{ts}

@@ -1,3 +1,19 @@
+2002-09-09  Adrian Trapletti <a.trapletti@bluewin.ch>
+
+	* DESCRIPTION (Version): New version is 0.9-3.	
+
+	* INDEX:
+	* README: cleanup and update.
+
+	* man/garch.Rd
+	* man/bds.test.Rd: correct bugs in documentation.
+
+	* man/tsbootstrap.Rd: improve documentation.
+
+	* man/runs.test.Rd:
+	* R/test.R: new implementation of runs.test which was wrong
+	for versions <= 0.9-2.
+
 2002-06-28  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION: New version is 0.9-2.
@@ -6,6 +22,7 @@
 	is deprecated in R 1.6.
 
 2002-06-19  Adrian Trapletti <a.trapletti@bluewin.ch>
+
 	* DESCRIPTION (Version): New version is 0.9-1.	
 
 	* INDEX:
@@ -19,6 +36,7 @@
 	and new functions sharpe and sterling.
 	
 2002-04-26  Adrian Trapletti <a.trapletti@bluewin.ch>
+
 	* DESCRIPTION (Version): New version is 0.9-0.	
 
 	* man/amif.Rd:
@@ -41,6 +59,7 @@
 	* man/arma.Rd: Cosmetic change.
 	
 2001-11-30  Adrian Trapletti <a.trapletti@bluewin.ch>
+
 	* DESCRIPTION (Version): New version is 0.8-4.	
 
 	* man/plotOHLC.Rd: Improve documentation.
