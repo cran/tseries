@@ -73,27 +73,3 @@ void R_quad_map (double *x, double *xi, double *a, int *n)
   for (i=1; i<(*n); i++)
     x[i] = (*a)*(1-x[i-1])*x[i-1];
 }
-
-void R_maxdrawdown (double *x, int *n, double* mdd)
-{
-  double min, max;
-  int i;
-  
-  min = max = x[0];
-  for (i=1; i<(*n); i++)
-  {
-    if(x[i] > max) 
-    {
-      (*mdd) = ((max - min) > (*mdd) ? (max - min) : (*mdd));
-      min = max = x[i];
-    }
-    else
-    {
-      if(x[i] < min)
-      {
-	min = x[i];
-      } 
-    }
-  }
-  (*mdd) = ((max - min) > (*mdd) ? (max - min) : (*mdd));
-}

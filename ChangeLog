@@ -1,13 +1,37 @@
-2001-10-12  Adrian Trapletti <a.trapletti@bluewin.ch>
+2001-10-29  Adrian Trapletti <a.trapletti@bluewin.ch>
 
-	* DESCRIPTION (Version): New version is 0.8-0.
-
-	* R/tsutils.R: Call .C with mode = "double" everywhere. 
+	* DESCRIPTION (Version): New version is 0.8-2.
+	
+	* man/get.hist.quote.Rd:
+	* R/finance.R:
+	Change default value for argument `quote' of `get.hist.quote()'.
 
 	* man/maxdrawdown.Rd:
 	* R/finance.R:
 	* src/tsutils.c:
-	Implementation of max drawdown statistic.
+	Simpler and more informative implementation of max drawdown 
+	statistic.
+
+	* man/plotOHLC.Rd:
+	* R/finance.R: 
+	New function which plots open-high-low-close bar charts.
+	
+2001-10-18  Adrian Trapletti <a.trapletti@bluewin.ch>
+
+	* DESCRIPTION: Cleanup. New version is 0.8-1.
+	
+	* README: Cleanup.
+
+2001-10-12  Adrian Trapletti <a.trapletti@bluewin.ch>
+
+	* DESCRIPTION (Version): New version is 0.8-0.
+
+	* R/tsutils.R: Call .C with `mode = "double"' everywhere. 
+
+	* man/maxdrawdown.Rd:
+	* R/finance.R:
+	* src/tsutils.c:
+	Fast implementation of max drawdown statistic.
 
 2001-08-27  Adrian Trapletti <a.trapletti@bluewin.ch>
 
@@ -18,9 +42,9 @@
 
 	* man/portfolio.optim.Rd:
 	* R/finance.R:
-	Extension of `portfolio.optim()' to allow inequality restrictions
-	on the portfolio weights and to allow a specification of the 
-	covariance matrix.
+	Integration of a patch of Dirk Eddelbuettel for `portfolio.optim()' 
+	that allows inequality restrictions on the portfolio weights and 
+	a specification of the covariance matrix.
 
 2001-08-20  Kurt Hornik  <Kurt.Hornik@ci.tuwien.ac.at>
 

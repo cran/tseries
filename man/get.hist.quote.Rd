@@ -7,7 +7,8 @@
 }
 \usage{
 get.hist.quote(instrument = "^gdax", start, end,
-               quote = "Open", provider = "yahoo", method = "auto")
+               quote = c("Open", "High", "Low", "Close"),
+               provider = "yahoo", method = "auto") 
 }
 \arguments{
   \item{instrument}{a character string giving the name of the quote

@@ -18,16 +18,37 @@ maxdrawdown(x)
   a buy-and-hold strategy invested in \code{x}.
 }
 \value{
-  A double representing the max drawdown or max loss statistic.
+  A list containing the following two components:
+  \item{maxdrawdown}{double representing the max drawdown or max
+    loss statistic.}
+  \item{from}{the index where the max drawdown period starts.}
+  \item{to}{the index where the max drawdown period ends.}
 }
 \author{A. Trapletti}
 \examples{
+# Toy example
 x <- c(1:10, 9:7, 8:14, 13:8, 9:20)
-maxdrawdown(x)
+mdd <- maxdrawdown(x)
+mdd
 
 plot(x)
-lines(x = c(20, 28), y = c(14, 14), col="grey")
-lines(x = c(20, 28), y = c(8, 8), col="grey")
-arrows(26, 14, 26, 8, , col="red", length = 0.16)
+segments(mdd$from, x[mdd$from], mdd$to, x[mdd$from], col="grey")
+segments(mdd$from, x[mdd$to], mdd$to, x[mdd$to], col="grey")
+mid <- (mdd$from + mdd$to)/2
+arrows(mid, x[mdd$from], mid, x[mdd$to], col="red", length = 0.16)
+
+# Realistic example
+data(EuStockMarkets)
+dax <- log(EuStockMarkets[,"DAX"])
+mdd <- maxdrawdown(dax)
+mdd
+
+plot(dax)
+segments(time(dax)[mdd$from], dax[mdd$from],
+         time(dax)[mdd$to], dax[mdd$from], col="grey")
+segments(time(dax)[mdd$from], dax[mdd$to],
+         time(dax)[mdd$to], dax[mdd$to], col="grey")
+mid <- time(dax)[(mdd$from + mdd$to)/2]
+arrows(mid, dax[mdd$from], mid, dax[mdd$to], col="red", length = 0.16)
 }
 \keyword{ts}

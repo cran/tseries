@@ -1,11 +1,15 @@
-Package for time series analysis with emphasis on non-linear modelling
+Package for time series analysis
 
 Authors:
   B. LeBaron (./src/bdstest.c)
-  D. M. Gay (./src/dsumsl.f),
+  D. M. Gay (./src/dsumsl.f)
   K. Krischer and T. M. Kruel (./src/muin2ser.f,
      ./misc/mutinfo-1.21b.tar.gz)
   The remainder is by A. Trapletti
+
+  In addition, the following people have contributed 
+  code, bug reports, and documentation:
+  D. Eddelbuettel, K. Hornik, W. Koller
 
 License: GPL, except ./src/muin2ser.f and ./misc which are free for 
   non-commercial purposes. Only the function amif depends 
@@ -15,7 +19,6 @@ Depends on the following R packages:
   ts (included in the R distribution),
   white.test needs package mva, 
   portfolio.optim needs package quadprog,
-  get.hist.quote needs package chron.
 
 The package has been tested using the following environment:
   Suse 7.0

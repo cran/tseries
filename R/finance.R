@@ -135,7 +135,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
 
 get.hist.quote <-
 function(instrument = "^gdax", start, end,
-         quote = "Open", provider = "yahoo", method = "auto")
+         quote = c("Open", "High", "Low", "Close") , provider = "yahoo", method = "auto")
 {
     if(missing(start)) start <- "1991-01-02"
     if(missing(end)) end <- format(Sys.time() - 86400, "%Y-%m-%d")
@@ -202,11 +202,63 @@ function(x)
         stop("x is not a vector or univariate time series")
     if(any(is.na(x)))
         stop("NAs in x")
-    n <- length(x)
-    res <- .C("R_maxdrawdown",
-              as.vector(x, mode = "double"),
-              as.integer(n),
-              mddX = as.double(0.0),
-              PACKAGE="tseries")
-    return(res$mddX)
+    cmaxx <- cummax(x)-x
+    mdd <- max(cmaxx)
+    to <- which(mdd == cmaxx)
+    from <- max(which(cmaxx[1:to] == 0))
+    return(list(maxdrawdown = mdd, from = from, to = to))
+}
+
+plotOHLC <- function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
+                     col = par("col"), bg = par("bg"), axes = TRUE,
+                     frame.plot = axes, ann = par("ann"), main = NULL,
+                     date = c("calendar", "julian"), format = "%Y-%m-%d", ...)
+{
+  if ((!is.mts(x)) ||
+      (colnames(x)[1] != "Open") ||
+      (colnames(x)[2] != "High") ||
+      (colnames(x)[3] != "Low") ||
+      (colnames(x)[4] != "Close"))
+      stop("x is not a open/high/low/close time series")
+  xlabel <- if (!missing(x)) 
+      deparse(substitute(x))
+  else NULL
+  if (missing(ylab)) 
+      ylab <- xlabel
+  date <- match.arg(date)
+  time.x <- time(x)
+  dt <- min(lag(time.x)-time.x)/3
+  ylim <- c(min(x, na.rm = TRUE), max(x, na.rm = TRUE))
+  if (is.null(xlim)) 
+      xlim <- range(time.x)
+  if (is.null(ylim)) 
+      ylim <- range(x[is.finite(x)])
+  plot.new()
+  plot.window(xlim, ylim, ...)
+  for (i in 1:NROW(x)) {
+      segments(time.x[i], x[i,"High"], time.x[i], x[i,"Low"],
+               col = col[1], bg = bg)
+      segments(time.x[i] - dt, x[i,"Open"], time.x[i], x[i,"Open"],
+               col = col[1], bg = bg)
+      segments(time.x[i], x[i,"Close"], time.x[i] + dt, x[i,"Close"],
+               col = col[1], bg = bg)
+  }
+  if (ann) 
+      title(main = main, xlab = xlab, ylab = ylab, ...)  
+  if (axes) {
+      if (date == "julian") {
+          axis(1, ...)
+          axis(2, ...)
+      }
+      else {
+          n <- NROW(x)
+          lab.ind <- round(seq(1, n, length=5))
+          D <- as.vector(time.x[lab.ind]*86400) + as.POSIXct("1970-01-01", tz = "GMT")
+          DD <- format.POSIXct(D, format = format, tz ="GMT")
+          axis(1, at=time.x[lab.ind], lab=DD, ...)
+          axis(2, ...)
+      }
+  }
+  if (frame.plot) 
+      box(...)
 }
