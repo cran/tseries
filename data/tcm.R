@@ -1,6 +1,4 @@
-if (!require ("stats", quietly=TRUE))
-    stop("package", sQuote("stats"), "is needed.  Stopping")
-tcm1y <- ts(c(
+tcm1y <- stats::ts(c(
  2.36
 ,2.48
 ,2.45
@@ -560,7 +558,7 @@ tcm1y <- ts(c(
 ,5.20
 ,5.25),
 start=c(1953,4), end=c(1999,9), frequency=12)
-tcm3y <- ts(c(        
+tcm3y <- stats::ts(c(        
  2.51
 ,2.72
 ,2.74
@@ -1120,7 +1118,7 @@ tcm3y <- ts(c(
 ,5.77
 ,5.75),
 start=c(1953,4), end=c(1999,9), frequency=12)
-tcm5y <- ts(c(
+tcm5y <- stats::ts(c(
  2.62
 ,2.87
 ,2.94
@@ -1680,7 +1678,7 @@ tcm5y <- ts(c(
 ,5.84
 ,5.80),
 start=c(1953,4), end=c(1999,9), frequency=12)            
-tcm10y <- ts(c(   
+tcm10y <- stats::ts(c(   
  2.83
 ,3.05
 ,3.11
@@ -2240,4 +2238,4 @@ tcm10y <- ts(c(
 ,5.94
 ,5.92),
 start=c(1953,4), end=c(1999,9), frequency=12)
-tcm <- ts.union (tcm1y, tcm3y, tcm5y, tcm10y)
+tcm <- stats::ts.union (tcm1y, tcm3y, tcm5y, tcm10y)

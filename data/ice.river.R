@@ -1,6 +1,4 @@
-if (!require ("stats", quietly=TRUE))
-    stop("package", sQuote("stats"), "is needed.  Stopping")
-flow.vat <- ts(c(
+flow.vat <- stats::ts(c(
 16.1,
 19.2,
 14.5,
@@ -1100,7 +1098,7 @@ flow.vat <- ts(c(
 5.34,
 5.34),
 start=c(1972,1),end=c(1974,365),frequency=365)
-flow.jok <- ts(c(
+flow.jok <- stats::ts(c(
 30.2,
 29.0,
 28.4,
@@ -2198,7 +2196,7 @@ flow.jok <- ts(c(
 24.6,
 25.7),
 start=c(1972,1),end=c(1974,365),frequency=365)                 
-prec <- ts(c(
+prec <- stats::ts(c(
 8.1,
 4.4,
 7.0,
@@ -3296,7 +3294,7 @@ prec <- ts(c(
 0.3,
 8.1),
 start=c(1972,1),end=c(1974,365),frequency=365)             
-temp <- ts(c(
+temp <- stats::ts(c(
 0.9,
 1.6,
 0.1,
@@ -4394,4 +4392,4 @@ temp <- ts(c(
 -2.4,
 -5.4),
 start=c(1972,1),end=c(1974,365),frequency=365)
-ice.river <- ts.union (flow.vat,flow.jok,prec,temp)
+ice.river <- stats::ts.union (flow.vat, flow.jok, prec,temp)

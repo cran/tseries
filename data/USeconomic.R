@@ -1,6 +1,4 @@
-if (!require ("stats", quietly=TRUE))
-    stop("package", sQuote("stats"), "is needed.  Stopping")
-M1 <- ts(c(
+M1 <- stats::ts(c(
 450.9,
 453.0,
 459.1,
@@ -138,7 +136,7 @@ M1 <- ts(c(
 630.1,
 630.5),
 start=c(1954,1), end=c(1987,4), frequency=4)
-GNP <- ts(c(
+GNP <- stats::ts(c(
 1406.8,
 1401.2,
 1418.0,
@@ -276,7 +274,7 @@ GNP <- ts(c(
 3865.3,
 3923.0),
 start=c(1954,1), end=c(1987,4), frequency=4)
-rs <- ts(c(
+rs <- stats::ts(c(
 0.010800000,
 0.0081333333,
 0.0087000000,
@@ -414,7 +412,7 @@ rs <- ts(c(
 0.060333333,
 0.060033333),
 start=c(1954,1), end=c(1987,4), frequency=4)
-rl <- ts(c(
+rl <- stats::ts(c(
 0.026133333,
 0.025233333,
 0.024900000,
@@ -552,4 +550,4 @@ rl <- ts(c(
 0.090833333,
 0.092400000),
 start=c(1954,1), end=c(1987,4), frequency=4)
-USeconomic <- ts.union (log(M1), log(GNP), rs, rl)
+USeconomic <- stats::ts.union (log(M1), log(GNP), rs, rl)

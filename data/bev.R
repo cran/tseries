@@ -1,6 +1,4 @@
-if (!require ("stats", quietly=TRUE))
-    stop("package", sQuote("stats"), "is needed.  Stopping")
-bev <- ts(c(
+bev <- stats::ts(c(
 17,
 19,
 20,

@@ -1,3 +1,11 @@
+2004-08-05  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-23.
+
+	* data/*.R: 
+	Remove explicit calls to require() for package stats, and instead
+	use stats::ts() to ensure that stats gets attached.
+
 2004-07-20  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-22.

@@ -1,6 +1,4 @@
-if (!require ("stats", quietly=TRUE))
-    stop("package", sQuote("stats"), "is needed.  Stopping")
-cpi <- ts(c(
+cpi <- stats::ts(c(
        3.2958369,
        3.2958369,
        3.4011974,
@@ -131,7 +129,7 @@ cpi <- ts(c(
        5.8300457,
        5.8705860),
 end = 1988, frequency = 1)
-ip <- ts(c(
+ip <- stats::ts(c(
      -0.10536052,
      -0.10536052,
      -0.10536052,
@@ -262,7 +260,7 @@ ip <- ts(c(
        5.1731196,
        5.2285646),
 end = 1988, frequency = 1)
-gnp.nom <-  ts(c(
+gnp.nom <-  stats::ts(c(
        10.416311,
        10.471638,
        10.485703,
@@ -344,7 +342,7 @@ gnp.nom <-  ts(c(
        15.324973,
        15.400779),
 end = 1988, frequency = 1)
-vel <- ts(c(
+vel <- stats::ts(c(
        1.7245507,
        1.6409366,
        1.5325569,
@@ -466,7 +464,7 @@ vel <- ts(c(
       0.67576289,
       0.66780240),
 end = 1988, frequency = 1)
-emp <- ts(c(
+emp <- stats::ts(c(
        10.024687,
        10.034165,
        10.082972,
@@ -567,7 +565,7 @@ emp <- ts(c(
        11.645505,
        11.667165),
 end = 1988, frequency = 1)
-int.rate <- ts(c( 
+int.rate <- stats::ts(c( 
        3.3000000,
        3.2500000,
        3.3000000,
@@ -658,7 +656,7 @@ int.rate <- ts(c(
        8.9990000,
        9.3390000),
 end = 1988, frequency = 1)
-nom.wages <- ts(c( 
+nom.wages <- stats::ts(c( 
        6.1882641,
        6.2363696,
        6.2859981,
@@ -749,7 +747,7 @@ nom.wages <- ts(c(
        10.101049,
        10.130371),
 end = 1988, frequency = 1)
-gnp.def <- ts(c( 
+gnp.def <- stats::ts(c( 
        3.2542430,
        3.2347492,
        3.2148678,
@@ -851,7 +849,7 @@ gnp.def <- ts(c(
        5.9441231,
        5.9768030),
 end = 1988, frequency = 1)
-money.stock <-  ts(c( 
+money.stock <-  stats::ts(c( 
        1.2809338,
        1.3660917,
        1.4060970,
@@ -953,7 +951,7 @@ money.stock <-  ts(c(
        7.5444435,
        7.5945765),
 end = 1988, frequency = 1)
-gnp.real <-  ts(c( 
+gnp.real <-  stats::ts(c( 
        4.7604631,
        4.7883247,
        4.8138091,
@@ -1035,7 +1033,7 @@ gnp.real <-  ts(c(
        7.0455416,
        7.0888837),
 end = 1988, frequency = 1)
-stock.prices <- ts(c(
+stock.prices <- stats::ts(c(
        1.5454326,
        1.6154200,
        1.5686159,
@@ -1155,7 +1153,7 @@ stock.prices <- ts(c(
        5.6588897,
        5.5827065),
 end = 1988, frequency = 1)
-gnp.capita <- ts(c(
+gnp.capita <- stats::ts(c(
        7.1631724,
        7.1701195,
        7.1793080,
@@ -1237,7 +1235,7 @@ gnp.capita <- ts(c(
        8.4564770,
        8.4908482),
 end = 1988, frequency = 1)
-real.wages <- ts(c(
+real.wages <- stats::ts(c(
        2.9693883,
        3.0174938,
        3.0277153,
@@ -1328,7 +1326,7 @@ real.wages <- ts(c(
        4.2710033,
        4.2597845),
 end = 1988, frequency = 1)
-unemp <- ts(c(
+unemp <- stats::ts(c(
        1.3862944,
        1.6863990,
        1.0986123,
@@ -1429,6 +1427,7 @@ unemp <- ts(c(
        1.8245493,
        1.7047481),
 end = 1988, frequency = 1)
-NelPlo <- ts.union (cpi, ip, gnp.nom, vel, emp, int.rate, nom.wages,
-                    gnp.def, money.stock, gnp.real, stock.prices, 
-                    gnp.capita, real.wages, unemp)
+NelPlo <-
+    stats::ts.union (cpi, ip, gnp.nom, vel, emp, int.rate, nom.wages,
+                     gnp.def, money.stock, gnp.real, stock.prices, 
+                     gnp.capita, real.wages, unemp)

@@ -1,6 +1,4 @@
-if (!require ("stats", quietly=TRUE))
-    stop("package", sQuote("stats"), "is needed.  Stopping")
-nino3 <- ts(c(
+nino3 <- stats::ts(c(
 23.97,
 24.51,
 26.65,
@@ -600,7 +598,7 @@ nino3 <- ts(c(
 23.72,
 23.75),
 start=c(1950,1), end=c(1999,10), frequency=12)
-nino3.4 <- ts(c(
+nino3.4 <- stats::ts(c(
 25.01,
 24.92,
 26.41,
@@ -1200,4 +1198,4 @@ nino3.4 <- ts(c(
 25.70,
 25.63),
 start=c(1950,1), end=c(1999,10), frequency=12)
-nino <- ts.union (nino3, nino3.4)
+nino <- stats::ts.union (nino3, nino3.4)
