@@ -1,3 +1,12 @@
+2004-03-23  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-20.
+
+	* R/finance.R (portfolio.optim.default): 
+	* R/test.R (white.test.default, white.test.ts): 
+	* R/zzz.R (.First.lib):
+	Adjust for changes in R 1.9.0.
+
 2004-01-31  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-19.

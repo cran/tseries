@@ -37,8 +37,8 @@ portfolio.optim.default <-
 function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
          rf = 0.0, reslow = NULL, reshigh = NULL, covmat = cov(x), ...) 
 {
-    if(!require(quadprog, quietly=TRUE))
-        stop("Package quadprog is needed. Stopping")
+    if(!require("quadprog", quietly=TRUE))
+        stop("package", sQuote("quadprog"), "is needed.  Stopping")
     if(NCOL(x) == 1)
         stop("x is not a matrix")
     if(any(is.na(x)))

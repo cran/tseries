@@ -2,16 +2,30 @@
 function(lib, pkg)
 {
     library.dynam("tseries", pkg, lib)
-    if(!require(ts, quietly = TRUE))
-        stop("Package ts is needed.  Stopping")
-    mylib <- dirname(.path.package("tseries"))
-    ver <- package.description("tseries", lib = mylib)["Version"]
-    vertxt <- paste("\n\t`tseries' version:", ver, "\n")
-    introtxt <-
-        paste("\n\t`tseries' is a package for time series analysis\n",
-              "\t and computational finance.\n",
-              "\t See `library (help=tseries)' for details.\n\n",
-              sep = "")
+    RisLT19 <- ((R.version$major == 1)
+                && (as.numeric(R.version$minor) < 9))
+    if(RisLT19) {
+        if(!require("ts", quietly = TRUE))
+            stop("Package", sQuote("ts"), "is needed.  Stopping")
+    } else {
+        require("stats", quietly = TRUE)
+    }
+    mylib <- dirname(system.file(package = "tseries"))
+    ver <- if(RisLT19)
+        package.description("tseries", lib = mylib)["Version"]
+    else
+        packageDescription("tseries", lib = mylib)["Version"]
+    txt <- c("\n",
+             paste(sQuote("tseries"), "version:", ver),
+             "\n",
+             paste(sQuote("tseries"),
+                   "is a package for time series analysis",
+                   "and computational finance."),
+             "\n",
+             paste("See",
+                   sQuote("library(help=\"tseries\")"),
+                   "for details."),
+             "\n")
     if(interactive() || getOption("verbose"))
-        cat(paste(vertxt, introtxt))
+        writeLines(strwrap(txt, indent = 4, exdent = 4))
 }
