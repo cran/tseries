@@ -1,3 +1,14 @@
+2005-04-20  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.9-26.
+
+	* src/Makevars: New file.
+
+	* src/dsumsl.f:
+	Convert from FORTRAN 66 to FORTRAN 77 as per instructions.
+	Remove code for D1MACH/I1MACH (in R) and the BLAS subroutines
+	DCOPY and DDOT.
+
 2005-04-01  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-25.
