@@ -31,7 +31,7 @@ x[i, j, \dots]
     of a call to \code{\link{irts}}.}
   \item{type, plot.type, xlab, ylab, main, ylim, oma}{graphical
     arguments, see \code{\link{plot}}, \code{\link{points}},
-    \code{\link{lines}}, \code{\link{par}}, and \code{\link{plot.mts}}.}
+    \code{\link{lines}}, \code{\link{par}}, and \code{\link{plot.ts}}.}
   \item{format, tz, usetz}{formatting related arguments, see
     \code{\link{format.POSIXct}}.}
   \item{format.value}{a string which specifies the formatting of the
