@@ -8,7 +8,7 @@
 \usage{
 get.hist.quote(instrument = "^gdax", start, end,
                quote = c("Open", "High", "Low", "Close"),
-               provider = "yahoo", method = "auto",
+               provider = c("yahoo", "oanda"), method = "auto",
                origin = "1899-12-30", compression = "d") 
 }
 \arguments{
@@ -28,10 +28,12 @@ get.hist.quote(instrument = "^gdax", start, end,
     download opening, high, low, or closing quotes, or volume.  For the
     default provider, this can be specified as \code{"Open"},
     \code{"High"}, \code{"Low"}, \code{"Close"}, and \code{"Volume"},
-    respectively.  Abbreviations are allowed.}
+    respectively.  For the provider \code{"oanda"}, this argument is
+    ignored. Abbreviations are allowed.}
   \item{provider}{a character string with the name of the data
-    provider.  Currently, only \code{"yahoo"} is implemented.  See
-    \url{http://quote.yahoo.com/} for more information.}
+    provider.  Currently, \code{"yahoo"} and \code{"oanda"} are
+    implemented.  See \url{http://quote.yahoo.com/} and
+    \url{http://www.oanda.com/} for more information.}
   \item{method}{tool to be used for downloading the data.  See
     \code{\link{download.file}} for the available download methods.}
   \item{origin}{an R object specifying the origin of the Julian dates, see
@@ -39,19 +41,22 @@ get.hist.quote(instrument = "^gdax", start, end,
     internally also use Julian dates with this origin).}
   \item{compression}{Governs the granularity of the retrieved data;
     \code{"d"} for daily, \code{"w"} for weekly or \code{"m"} for
-    monthly.  Defaults to \code{"d"}.}
+    monthly.  Defaults to \code{"d"}.  For the provider \code{"oanda"},
+    this argument is ignored.}
 }
 \value{
   A time series containing the data in physical time, i.e., weekends,
-  holidays, and missing days are filled with \code{NA}s.  The time scale
-  is given in Julian dates (days since the \code{origin}). 
+  holidays, and missing days are filled with \code{NA}s if not
+  available.  The time scale is given in Julian dates (days since the
+  \code{origin}).
 }
 \author{A. Trapletti}
 \seealso{
   \code{\link{ts}},
   \code{\link{as.POSIXct}},
   \code{\link{download.file}};
-  \url{http://quote.yahoo.com/} 
+  \url{http://quote.yahoo.com/},
+  \url{http://www.oanda.com/}
 }
 \examples{
 if(!inherits(try(open(url("http://quote.yahoo.com")), silent = TRUE),
@@ -67,6 +72,10 @@ if(!inherits(try(open(url("http://quote.yahoo.com")), silent = TRUE),
   ibm <- get.hist.quote(instrument = "ibm",  start = "1998-01-01")
   x <- na.remove(ts.union(spc, ibm))
   plot(x, main = "IBM vs S&P 500")
+
+  x <- get.hist.quote(instrument = "EUR/USD", provider = "oanda",
+                      start = "2004-01-01")
+  plot(x, main = "EUR/USD")
 }
 }
 \keyword{ts}

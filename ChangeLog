@@ -1,3 +1,9 @@
+2005-09-03  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* R/finance.R (get.hist.quote): 
+	$ man/get.hist.quote.Rd:
+	New provider 'oanda' to get.hist.quote() [by A Trapletti].
+
 2005-08-29  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-28.

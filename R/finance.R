@@ -136,7 +136,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
 get.hist.quote <-
 function (instrument = "^gdax", start, end,
           quote = c("Open", "High", "Low", "Close"),
-          provider = "yahoo", method = "auto",
+          provider = c("yahoo", "oanda"), method = "auto",
           origin = "1899-12-30", compression = "d")
     ## Added new argument 'compression'.
     ## May be "d", "w" or "m", for daily weekly or monthly.
@@ -180,7 +180,7 @@ function (instrument = "^gdax", start, end,
         nlines <- length(count.fields(destfile, sep = "\n"))
         if(nlines == 1) {
             unlink(destfile)
-            stop(paste("No data available for", instrument))
+            stop(paste("no data available for", instrument))
         }
         
         ## Yahoo includes rows concerning dividends,
@@ -196,7 +196,7 @@ function (instrument = "^gdax", start, end,
 
         nser <- pmatch(quote, names(x)[-1]) + 1
         if(any(is.na(nser)))
-            stop("This quote is not available")
+            stop("this quote is not available")
         n <- nrow(x)
 
         ## Yahoo currently formats dates as '26-Jun-01', hence need C
@@ -220,6 +220,63 @@ function (instrument = "^gdax", start, end,
         y[ind, ] <- as.matrix(x[, nser, drop = FALSE])
         colnames(y) <- names(x)[nser]
         return(ts(y, start = jdat[n], end = jdat[1]))
+    }
+    else if(provider == "oanda") {
+        if(!missing(quote)) {
+            warning("argument 'quote' ignored for provider 'oanda'")
+        }
+        if(!missing(compression)) {
+            warning("argument 'compression' ignored for provider 'oanda'")
+        }
+        
+        url <-
+            paste("http://www.oanda.com/convert/fxhistory?lang=en&date1=",
+                  format(start, "%m"), "%2F", format(start, "%d"), "%2F", format(start, "%Y"),
+                  "&date=",
+                  format(end, "%m"), "%2F", format(end, "%d"), "%2F", format(end, "%Y"),
+                  "&date_fmt=us&exch=",
+                  unlist(strsplit(instrument, split = "/"))[1],
+                  "&exch2=&expr=",
+                  unlist(strsplit(instrument, split = "/"))[2],
+                  "&expr2=&margin_fixed=0&&SUBMIT=Get+Table&format=ASCII&redirected=1",
+                  sep="")
+        destfile <- tempfile()
+        
+        status <- download.file(url, destfile, method = method)
+        if(status != 0) {
+            unlink(destfile)
+            stop(paste("download error, status", status))
+        }
+        
+        x <- readLines(destfile)
+        unlink(destfile)
+        
+        if(length(grep("Sorry", x)) > 0) {
+            stop("time period is too big (maximum 2000 days can be downloaded)")
+        }
+        
+        first <- which(substr(x, 1, 5) == "<PRE>")
+        last <- which(x == "</PRE>") - 1
+        if((length(first) == 0) || (length(last) == 0)) {
+            stop(paste("no data available for", instrument))
+        }
+
+        x[first] <- substr(x[first], 6, nchar(x[first]))
+        split <- strsplit(x[first:last], split = " ")
+        x <- cbind(unlist(lapply(split, function(x) { x[1] })), unlist(lapply(split, function(x) { x[length(x)] })))
+        n <- nrow(x)
+        
+        dat <- as.POSIXct(strptime(x[,1], "%m/%d/%Y"), tz = "GMT")
+        if(dat[1] != start)
+            cat(format(dat[1], "time series starts %Y-%m-%d\n"))
+        if(dat[n] != end)
+            cat(format(dat[n], "time series ends   %Y-%m-%d\n"))
+        jdat <- unclass(julian(dat, origin = as.POSIXct(origin, tz = "GMT")))
+       
+        ind <- jdat - jdat[1] + 1
+        y <- rep(NA, max(ind))
+        y[ind] <- as.numeric(x[,2])
+        return(ts(y, start = jdat[1], end = jdat[n]))
     }
     else stop("provider not implemented")
 }
