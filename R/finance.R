@@ -137,7 +137,8 @@ get.hist.quote <-
 function (instrument = "^gdax", start, end,
           quote = c("Open", "High", "Low", "Close"),
           provider = c("yahoo", "oanda"), method = "auto",
-          origin = "1899-12-30", compression = "d")
+          origin = "1899-12-30", compression = "d",
+	  retclass = c("zoo", "its", "ts"))
     ## Added new argument 'compression'.
     ## May be "d", "w" or "m", for daily weekly or monthly.
     ## Defaults to "d".
@@ -149,6 +150,7 @@ function (instrument = "^gdax", start, end,
     if(missing(end)) end <- format(Sys.Date() - 1, "%Y-%m-%d")
   
     provider <- match.arg(provider)
+    retclass <- match.arg(retclass)
 
     start <- as.Date(start)
     end <- as.Date(end)
@@ -193,7 +195,8 @@ function (instrument = "^gdax", start, end,
         ## cat("read.table: end   =", x[1,"Date"], "\n")
         
         unlink(destfile)
-
+        
+        names(x) <- gsub("\\.", "", names(x))
         nser <- pmatch(quote, names(x)[-1]) + 1
         if(any(is.na(nser)))
             stop("this quote is not available")
@@ -206,20 +209,44 @@ function (instrument = "^gdax", start, end,
         on.exit(Sys.setlocale("LC_TIME", lct))
 
         dat <- gsub(" ", "0", as.character(x[, 1])) # Need the gsub?
-        dat <- as.Date(dat, "%d-%b-%y")
+        idx <- c(grep(".*-0.", dat),  grep(".*-1.", dat))
+        dat[idx] <- paste(substr(dat[idx], 1, nchar(dat[idx]) - 2),
+                          "20",
+                          substr(dat[idx], nchar(dat[idx]) - 1, nchar(dat[idx])),
+                          sep = "")
+        dat[-idx] <- paste(substr(dat[-idx], 1, nchar(dat[-idx]) - 2),
+                           "19",
+                           substr(dat[-idx], nchar(dat[-idx]) - 1, nchar(dat[-idx])),
+                           sep = "")
+        dat <- as.Date(dat, "%d-%b-%Y")
         if(dat[n] != start)
             cat(format(dat[n], "time series starts %Y-%m-%d\n"))
         if(dat[1] != end)
             cat(format(dat[1], "time series ends   %Y-%m-%d\n"))
-        jdat <-
-            unclass(julian(dat, origin = as.Date(origin)))
-        ## We need unclass() because 1.7.0 does not allow adding a number
-        ## to a "difftime" object. 
-        ind <- jdat - jdat[n] + 1
-        y <- matrix(NA, nr = max(ind), nc = length(nser))
-        y[ind, ] <- as.matrix(x[, nser, drop = FALSE])
-        colnames(y) <- names(x)[nser]
-        return(ts(y, start = jdat[n], end = jdat[1]))
+
+	if(retclass == "ts") {
+            jdat <- unclass(julian(dat, origin = as.Date(origin)))
+            ## We need unclass() because 1.7.0 does not allow adding a number
+            ## to a "difftime" object. 
+            ind <- jdat - jdat[n] + 1
+            y <- matrix(NA, nr = max(ind), nc = length(nser))
+            y[ind, ] <- as.matrix(x[, nser, drop = FALSE])
+            colnames(y) <- names(x)[nser]
+            return(ts(y, start = jdat[n], end = jdat[1]))
+	} else {
+	  x <- as.matrix(x[, nser, drop = FALSE])
+	  rownames(x) <- NULL
+	  y <- zoo(x, dat)
+	  if(retclass == "its") {
+	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
+	        index(y) <- as.POSIXct(index(y))
+	        y <- as.its(y)
+	    } else {
+	      warning("package its could not be loaded: zoo series returned")
+	    }
+	  }
+	  return(y)
+	}
     }
     else if(provider == "oanda") {
         if(!missing(quote)) {
@@ -252,7 +279,9 @@ function (instrument = "^gdax", start, end,
         unlink(destfile)
         
         if(length(grep("Sorry", x)) > 0) {
-            stop("time period is too big (maximum 2000 days can be downloaded)")
+            msg <- unlist(strsplit(gsub("<[a-zA-Z0-9\\/]*>", "", x[grep("Sorry", x)]), split = " "))
+            msg <- paste(msg[msg != ""], collapse = " ")
+            stop("Message from Oanda: ", msg)
         }
         
         first <- which(substr(x, 1, 5) == "<PRE>")
@@ -266,17 +295,30 @@ function (instrument = "^gdax", start, end,
         x <- cbind(unlist(lapply(split, function(x) { x[1] })), unlist(lapply(split, function(x) { x[length(x)] })))
         n <- nrow(x)
         
-        dat <- as.POSIXct(strptime(x[,1], "%m/%d/%Y"), tz = "GMT")
+        dat <- as.Date(x[,1], format = "%m/%d/%Y")
         if(dat[1] != start)
             cat(format(dat[1], "time series starts %Y-%m-%d\n"))
         if(dat[n] != end)
             cat(format(dat[n], "time series ends   %Y-%m-%d\n"))
-        jdat <- unclass(julian(dat, origin = as.POSIXct(origin, tz = "GMT")))
-       
-        ind <- jdat - jdat[1] + 1
-        y <- rep(NA, max(ind))
-        y[ind] <- as.numeric(x[,2])
-        return(ts(y, start = jdat[1], end = jdat[n]))
+
+	if(retclass == "ts") {
+            jdat <- unclass(julian(dat, origin = as.Date(origin)))       
+            ind <- jdat - jdat[1] + 1
+            y <- rep(NA, max(ind))
+            y[ind] <- as.numeric(x[,2])
+            return(ts(y, start = jdat[1], end = jdat[n]))
+	} else {	  
+	  y <- zoo(as.numeric(x[,2]), dat)
+	  if(retclass == "its") {
+	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
+	        index(y) <- as.POSIXct(index(y))
+	        y <- as.its(y)
+	    } else {
+	      warning("package its could not be loaded: zoo series returned")
+	    }
+	  }
+	  return(y)
+	}
     }
     else stop("provider not implemented")
 }
@@ -377,3 +419,4 @@ function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
   if (frame.plot) 
       box(...)
 }
+

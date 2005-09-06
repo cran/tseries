@@ -1,7 +1,24 @@
+2005-09-07  Achim Zeileis  <Achim.Zeileis@R-project.org>
+	
+	* DESCRIPTION (Version): New version is 0.9-30,
+	depends on zoo, suggests its.	
+	* R/finance.R (get.hist.quote): can return now
+	"zoo", "ts" and "its" series.
+	* man/get.hist.quote.Rd: added retclass argument.
+	* man/plotOHLC.Rd: adapted to get.hist.quote().
+
+2005-09-06  Adrian Trapletti  <a.trapletti@swissonline.ch>
+	
+	* README: Update contributers.
+	* R/finance.R (get.hist.quote): 
+	* man/get.hist.quote.Rd:
+	Improved error messages and documentation.
+
 2005-09-03  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
+	* DESCRIPTION (Version): New version is 0.9-29.
 	* R/finance.R (get.hist.quote): 
-	$ man/get.hist.quote.Rd:
+	* man/get.hist.quote.Rd:
 	New provider 'oanda' to get.hist.quote() [by A Trapletti].
 
 2005-08-29  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
