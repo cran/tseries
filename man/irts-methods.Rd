@@ -22,9 +22,7 @@
       usetz = TRUE, format.value = NULL, \dots)
 \method{time}{irts}(x, \dots)
 \method{value}{irts}(x, \dots)
-x[i]
-x[i, j]
-x[i, j, \dots]
+\method{[}{irts}(x, i, j, \dots)
 }
 \arguments{
   \item{x}{an object of class \code{"irts"}; usually, a result 

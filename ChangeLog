@@ -1,9 +1,18 @@
+2005-10-24  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-0.
+	(Depends): Require R >= 2.2.0.
+
+	* NAMESPACE: Added.
+
+	* man/irts-methods.Rd: Use \method markup for [ usage entries.
+
 2005-09-07  Achim Zeileis  <Achim.Zeileis@R-project.org>
 	
 	* DESCRIPTION (Version): New version is 0.9-30,
-	depends on zoo, suggests its.	
-	* R/finance.R (get.hist.quote): can return now
-	"zoo", "ts" and "its" series.
+	Depends on zoo, suggests its.	
+	* R/finance.R (get.hist.quote): can return now "zoo", "ts" and
+	"its" series.
 	* man/get.hist.quote.Rd: added retclass argument.
 	* man/plotOHLC.Rd: adapted to get.hist.quote().
 

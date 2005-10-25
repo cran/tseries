@@ -240,7 +240,7 @@ function (instrument = "^gdax", start, end,
 	  if(retclass == "its") {
 	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
 	        index(y) <- as.POSIXct(index(y))
-	        y <- as.its(y)
+	        y <- its::as.its(y)
 	    } else {
 	      warning("package its could not be loaded: zoo series returned")
 	    }
@@ -312,7 +312,7 @@ function (instrument = "^gdax", start, end,
 	  if(retclass == "its") {
 	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
 	        index(y) <- as.POSIXct(index(y))
-	        y <- as.its(y)
+	        y <- its::as.its(y)
 	    } else {
 	      warning("package its could not be loaded: zoo series returned")
 	    }
