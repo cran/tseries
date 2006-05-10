@@ -8,9 +8,9 @@
 \usage{
 get.hist.quote(instrument = "^gdax", start, end,
                quote = c("Open", "High", "Low", "Close"),
-               provider = c("yahoo", "oanda"), method = "auto",
+               provider = c("yahoo", "oanda"), method = NULL,
                origin = "1899-12-30", compression = "d",
-	       retclass = c("zoo", "its", "ts")) 
+	       retclass = c("zoo", "its", "ts"), quiet = FALSE) 
 }
 \arguments{
   \item{instrument}{a character string giving the name of the quote
@@ -36,7 +36,8 @@ get.hist.quote(instrument = "^gdax", start, end,
     implemented.  See \url{http://quote.yahoo.com/} and
     \url{http://www.oanda.com/} for more information.}
   \item{method}{tool to be used for downloading the data.  See
-    \code{\link{download.file}} for the available download methods.}
+    \code{\link{download.file}} for the available download methods and
+    the default settings.}
   \item{origin}{an R object specifying the origin of the Julian dates, see
     above.  Defaults to 1899-12-30 (Popular spreadsheet programs
     internally also use Julian dates with this origin).}
@@ -48,6 +49,7 @@ get.hist.quote(instrument = "^gdax", start, end,
     should have: can be either \code{"zoo"} (with \code{"Date"} index),
     \code{"its"} (with \code{"POSIXct"} index) or \code{"ts"} (with
     numeric index corresponding to days since \code{origin}).}
+  \item{quiet}{logical. Should status messages (if any) be suppressed?}
 }
 \value{
   A time series containing the data either as a \code{"zoo"} series (default),

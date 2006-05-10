@@ -1,3 +1,21 @@
+2006-05-10  Achim Zeileis  <Achim.Zeileis@R-project.org>
+
+	* DESCRIPTION (Version): New version is 0.10-1.
+
+2006-05-09  Achim Zeileis  <Achim.Zeileis@R-project.org>
+
+	* R/finance.R (get.hist.quote)
+	* man/get.hist.quote.Rd:
+	handled `method' argument as in download.file(), so 
+	that it can be set via options(download.file.method = "...")
+
+2006-04-07  Achim Zeileis  <Achim.Zeileis@R-project.org>
+
+	* R/finance.R (get.hist.quote)
+	* man/get.hist.quote.Rd:
+	added quiet argument passed on to download.file(), defaults
+	to FALSE (i.e., previous behaviour)
+
 2005-10-24  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-0.

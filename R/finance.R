@@ -136,9 +136,10 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
 get.hist.quote <-
 function (instrument = "^gdax", start, end,
           quote = c("Open", "High", "Low", "Close"),
-          provider = c("yahoo", "oanda"), method = "auto",
+          provider = c("yahoo", "oanda"), method = NULL,
           origin = "1899-12-30", compression = "d",
-	  retclass = c("zoo", "its", "ts"))
+	  retclass = c("zoo", "its", "ts"),
+	  quiet = FALSE)
     ## Added new argument 'compression'.
     ## May be "d", "w" or "m", for daily weekly or monthly.
     ## Defaults to "d".
@@ -154,6 +155,10 @@ function (instrument = "^gdax", start, end,
 
     start <- as.Date(start)
     end <- as.Date(end)
+
+    if(is.null(method)) {
+        method <- ifelse(!is.null(getOption("download.file.method")), getOption("download.file.method"), "auto")
+    }
 
     if(provider == "yahoo") {
         url <-
@@ -174,7 +179,7 @@ function (instrument = "^gdax", start, end,
                   "&x=.csv",
                   sep = "")
         destfile <- tempfile()
-        status <- download.file(url, destfile, method = method)
+        status <- download.file(url, destfile, method = method, quiet = quiet)
         if(status != 0) {
             unlink(destfile)
             stop(paste("download error, status", status))
@@ -219,9 +224,9 @@ function (instrument = "^gdax", start, end,
                            substr(dat[-idx], nchar(dat[-idx]) - 1, nchar(dat[-idx])),
                            sep = "")
         dat <- as.Date(dat, "%d-%b-%Y")
-        if(dat[n] != start)
+        if(!quiet && dat[n] != start)
             cat(format(dat[n], "time series starts %Y-%m-%d\n"))
-        if(dat[1] != end)
+        if(!quiet && dat[1] != end)
             cat(format(dat[1], "time series ends   %Y-%m-%d\n"))
 
 	if(retclass == "ts") {
@@ -269,7 +274,7 @@ function (instrument = "^gdax", start, end,
                   sep="")
         destfile <- tempfile()
         
-        status <- download.file(url, destfile, method = method)
+        status <- download.file(url, destfile, method = method, quiet = quiet)
         if(status != 0) {
             unlink(destfile)
             stop(paste("download error, status", status))
@@ -296,9 +301,9 @@ function (instrument = "^gdax", start, end,
         n <- nrow(x)
         
         dat <- as.Date(x[,1], format = "%m/%d/%Y")
-        if(dat[1] != start)
+        if(!quiet && dat[1] != start)
             cat(format(dat[1], "time series starts %Y-%m-%d\n"))
-        if(dat[n] != end)
+        if(!quiet && dat[n] != end)
             cat(format(dat[n], "time series ends   %Y-%m-%d\n"))
 
 	if(retclass == "ts") {
