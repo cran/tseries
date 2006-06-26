@@ -1,3 +1,9 @@
+2006-06-26  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-2.
+
+	* inst/CITATION: New file.
+
 2006-05-10  Achim Zeileis  <Achim.Zeileis@R-project.org>
 
 	* DESCRIPTION (Version): New version is 0.10-1.

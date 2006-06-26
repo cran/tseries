@@ -1,0 +1,17 @@
+citHeader("To cite in publications use:")
+
+citEntry(entry = "Manual",
+	 title = "tseries: Time Series Analysis and Computational Finance",
+	 author = personList(
+           person(first = "Adrian", last = "Trapletti",
+                  email = "a.trapletti@swissonline.ch"),
+           person(first = "Kurt", last = "Hornik",
+                  email = "Kurt.Hornik@R-project.org")),
+         year = 2006,
+	 note = "R package version 0.10-2",
+	 url = "http://CRAN.R-project.org/",
+	 textVersion = {
+             paste("Adrian Trapletti and Kurt Hornik (2006).",
+                   "tseries: Time Series Analysis and Computational Finance.",
+                   "R package version 0.10-2.")
+         })
