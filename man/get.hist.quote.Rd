@@ -10,7 +10,7 @@ get.hist.quote(instrument = "^gdax", start, end,
                quote = c("Open", "High", "Low", "Close"),
                provider = c("yahoo", "oanda"), method = NULL,
                origin = "1899-12-30", compression = "d",
-	       retclass = c("zoo", "its", "ts"), quiet = FALSE) 
+	       retclass = c("zoo", "its", "ts"), quiet = FALSE, drop = FALSE) 
 }
 \arguments{
   \item{instrument}{a character string giving the name of the quote
@@ -50,14 +50,17 @@ get.hist.quote(instrument = "^gdax", start, end,
     \code{"its"} (with \code{"POSIXct"} index) or \code{"ts"} (with
     numeric index corresponding to days since \code{origin}).}
   \item{quiet}{logical. Should status messages (if any) be suppressed?}
+  \item{drop}{logical.  If \code{TRUE} the result is coerced to the
+    lowest possible dimension.  Default is \code{FALSE}.} 
 }
 \value{
-  A time series containing the data either as a \code{"zoo"} series (default),
-  a \code{"its"} series or \code{"ts"} series. The "zoo" series is created with
-  \code{\link[zoo]{zoo}} and has an index of class \code{"Date"}. For
-  returning an \code{"its"} series, \code{\link[its]{its}} has to be available.
-  \code{"its"} series always have an index of class \code{"POSIXct"}.
-  If a \code{"ts"} series is returned, the index is in physical time, i.e., weekends,
+  A time series containing the data either as a \code{"zoo"} series
+  (default), a \code{"its"} series or \code{"ts"} series. The
+  \code{"zoo"} series is created with \code{\link[zoo]{zoo}} and has an
+  index of class \code{"Date"}.  For returning an \code{"its"} series,
+  \code{\link[its]{its}} has to be available.  \code{"its"} series
+  always have an index of class \code{"POSIXct"}.  If a \code{"ts"}
+  series is returned, the index is in physical time, i.e., weekends,
   holidays, and missing days are filled with \code{NA}s if not
   available.  The time scale is given in Julian dates (days since the
   \code{origin}).

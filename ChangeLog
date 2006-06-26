@@ -1,3 +1,10 @@
+2006-06-04  G. Grothendieck <ggrothendieck@gmail.com>
+
+	* R/finance.R (get.hist.quote)
+	* man/get.hist.quote.Rd:
+	added 'drop=' argument to get.hist.quote.  Defaults to FALSE
+	(i.e., previous behavior).
+
 2006-06-26  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-2.

@@ -139,13 +139,14 @@ function (instrument = "^gdax", start, end,
           provider = c("yahoo", "oanda"), method = NULL,
           origin = "1899-12-30", compression = "d",
 	  retclass = c("zoo", "its", "ts"),
-	  quiet = FALSE)
+	  quiet = FALSE, drop = FALSE)
     ## Added new argument 'compression'.
     ## May be "d", "w" or "m", for daily weekly or monthly.
     ## Defaults to "d".
     ## John Bollinger, 2004-10-27, www.BollingerBands.com, bbands@yahoo.com
     ##
     ## Changed POSIXct class to Date class, 2005-03-31
+    ## Added drop= arg, 2006-06-04
 {
     if(missing(start)) start <- "1991-01-02"
     if(missing(end)) end <- format(Sys.Date() - 1, "%Y-%m-%d")
@@ -237,11 +238,13 @@ function (instrument = "^gdax", start, end,
             y <- matrix(NA, nr = max(ind), nc = length(nser))
             y[ind, ] <- as.matrix(x[, nser, drop = FALSE])
             colnames(y) <- names(x)[nser]
+	    y <- y[, seq(along = nser), drop = drop]
             return(ts(y, start = jdat[n], end = jdat[1]))
 	} else {
 	  x <- as.matrix(x[, nser, drop = FALSE])
 	  rownames(x) <- NULL
 	  y <- zoo(x, dat)
+	  y <- y[, seq(along = nser), drop = drop]
 	  if(retclass == "its") {
 	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
 	        index(y) <- as.POSIXct(index(y))
