@@ -1,4 +1,10 @@
-2006-06-04  G. Grothendieck <ggrothendieck@gmail.com>
+2006-08-11  Achim Zeileis  <Achim.Zeileis@R-project.org>
+
+	* DESCRIPTION: added "stats" dependency, new version
+	is 0.10-4.
+	* NAMESPACE: added import("stats")
+
+2006-06-27  G. Grothendieck <ggrothendieck@gmail.com>
 
 	* R/finance.R (get.hist.quote)
 	* man/get.hist.quote.Rd:

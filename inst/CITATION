@@ -8,10 +8,10 @@ citEntry(entry = "Manual",
            person(first = "Kurt", last = "Hornik",
                   email = "Kurt.Hornik@R-project.org")),
          year = 2006,
-	 note = "R package version 0.10-3",
+	 note = "R package version 0.10-4",
 	 url = "http://CRAN.R-project.org/",
 	 textVersion = {
              paste("Adrian Trapletti and Kurt Hornik (2006).",
                    "tseries: Time Series Analysis and Computational Finance.",
-                   "R package version 0.10-3.")
+                   "R package version 0.10-4.")
          })

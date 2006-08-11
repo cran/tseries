@@ -1,3 +1,5 @@
+import("stats")
+
 useDynLib("tseries")
 
 export("adf.test", "approx.irts", "arma", "as.irts",
