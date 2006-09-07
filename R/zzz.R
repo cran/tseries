@@ -1,8 +1,6 @@
-.First.lib <-
+.onAttach <-
 function(lib, pkg)
 {
-    library.dynam("tseries", pkg, lib)
-    require("stats", quietly = TRUE)
     mylib <- dirname(system.file(package = "tseries"))
     ver <- packageDescription("tseries", lib = mylib)["Version"]
     txt <- c("\n",
