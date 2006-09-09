@@ -1,3 +1,16 @@
+2006-09-09  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* NAMESPACE: Import graphics and utils.
+
+2006-09-07  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-5.
+	(Imports): Add utils.
+
+	* NAMESPACE: Add some imports from utils.
+
+	* R/zzz.R: .First.lib needs to be .onAttach.
+
 2006-08-11  Achim Zeileis  <Achim.Zeileis@R-project.org>
 
 	* DESCRIPTION: added "stats" dependency, new version

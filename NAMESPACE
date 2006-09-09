@@ -1,7 +1,6 @@
-import("stats")
-importFrom("utils", "download.file", "packageDescription")
-
 useDynLib("tseries")
+
+import("graphics", "stats", "utils")
 
 export("adf.test", "approx.irts", "arma", "as.irts",
        "bds.test",
