@@ -224,7 +224,7 @@ function (instrument = "^gdax", start, end,
                            "19",
                            substr(dat[-idx], nchar(dat[-idx]) - 1, nchar(dat[-idx])),
                            sep = "")
-        dat <- as.Date(dat, "%d-%b-%Y")
+        dat <- as.Date(dat, "%Y-%m-%d")
         if(!quiet && dat[n] != start)
             cat(format(dat[n], "time series starts %Y-%m-%d\n"))
         if(!quiet && dat[1] != end)
