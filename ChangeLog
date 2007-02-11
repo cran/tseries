@@ -1,7 +1,7 @@
 2007-02-11  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
-	* DESCRIPTION (Version): New version is 0.10-9.
-
+	* DESCRIPTION (Version): New version is 0.10-10.
+	
 	* R/finance.R (get.hist.quote): Adjust for Yahoo's change its CSV
 	files to use standard %Y-%m-%d dates.
 

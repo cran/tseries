@@ -208,23 +208,8 @@ function (instrument = "^gdax", start, end,
             stop("this quote is not available")
         n <- nrow(x)
 
-        ## Yahoo currently formats dates as '26-Jun-01', hence need C
-        ## LC_TIME locale for getting the month right.
-        lct <- Sys.getlocale("LC_TIME")
-        Sys.setlocale("LC_TIME", "C")
-        on.exit(Sys.setlocale("LC_TIME", lct))
-
-        dat <- gsub(" ", "0", as.character(x[, 1])) # Need the gsub?
-        idx <- c(grep(".*-0.", dat),  grep(".*-1.", dat))
-        dat[idx] <- paste(substr(dat[idx], 1, nchar(dat[idx]) - 2),
-                          "20",
-                          substr(dat[idx], nchar(dat[idx]) - 1, nchar(dat[idx])),
-                          sep = "")
-        dat[-idx] <- paste(substr(dat[-idx], 1, nchar(dat[-idx]) - 2),
-                           "19",
-                           substr(dat[-idx], nchar(dat[-idx]) - 1, nchar(dat[-idx])),
-                           sep = "")
-        dat <- as.Date(dat, "%Y-%m-%d")
+        ## Yahoo now seems to format dates as %Y-%m-%d.
+        dat <- as.Date(as.character(x[, 1]), "%Y-%m-%d")
         if(!quiet && dat[n] != start)
             cat(format(dat[n], "time series starts %Y-%m-%d\n"))
         if(!quiet && dat[1] != end)
@@ -232,8 +217,8 @@ function (instrument = "^gdax", start, end,
 
 	if(retclass == "ts") {
             jdat <- unclass(julian(dat, origin = as.Date(origin)))
-            ## We need unclass() because 1.7.0 does not allow adding a number
-            ## to a "difftime" object. 
+            ## We need unclass() because 1.7.0 does not allow adding a
+            ## number to a "difftime" object.
             ind <- jdat - jdat[n] + 1
             y <- matrix(NA, nr = max(ind), nc = length(nser))
             y[ind, ] <- as.matrix(x[, nser, drop = FALSE])

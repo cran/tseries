@@ -90,8 +90,8 @@ if(!inherits(try(open(url("http://quote.yahoo.com")), silent = TRUE),
          quote = "Close")
   ibm <- get.hist.quote(instrument = "ibm",  start = "1998-01-01",
          quote = "AdjClose")
-%  x <- merge(spc, ibm)
-%  plot(x, main = "IBM vs S&P 500")
+  x <- merge(spc, ibm)
+  plot(x, main = "IBM vs S&P 500")
 
   x <- get.hist.quote(instrument = "EUR/USD", provider = "oanda",
                       start = "2004-01-01")
