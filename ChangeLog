@@ -1,3 +1,10 @@
+2007-02-20  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-11.
+
+	* data/ice.river.R: Update by kindly provided by Rob Hyndman
+	<Rob.Hyndman@buseco.monash.edu.au>.
+
 2007-02-11  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-10.
