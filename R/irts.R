@@ -286,7 +286,7 @@ function(x, type = "l", plot.type = c("multiple", "single"),
             }
         }
     } else {
-        stop("Can't plot more than 10 series")
+        stop("cannot plot more than 10 series")
     }
     invisible(x)
 }
@@ -302,7 +302,7 @@ function(x, type = "l", ...)
     if(nser == 1) {
         lines(t, v, type = type, ...)
     } else {
-        stop("Can't plot multivariate irregular time-series object")
+        stop("cannot plot multivariate irregular time-series object")
     }
     invisible(x)
 }
@@ -318,7 +318,7 @@ function(x, type = "p", ...)
     if(nser == 1) {
         points(t, v, type = type, ...)
     } else {
-        stop("Can't plot multivariate irregular time-series object")
+        stop("cannot plot multivariate irregular time-series object")
     }
     invisible(x)
 }

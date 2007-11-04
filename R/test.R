@@ -227,8 +227,8 @@ function(x, y, qstar = 2, q = 10, range = 4,
     if(dim(y)[2] > 1)
         stop("handles only univariate outputs")
     if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
-        warning(paste("value `chisq' for `type' is deprecated,",
-                      "use `Chisq' instead"))
+        warning(paste("value 'chisq' for 'type' is deprecated,",
+                      "use 'Chisq' instead"))
         type <- "Chisq"
     }
     else
@@ -244,7 +244,7 @@ function(x, y, qstar = 2, q = 10, range = 4,
     ssr0 <- sum(u^2)
     max <- range/2
     gamma <- matrix(runif((nin+1)*q,-max,max),nin+1,q)
-    phantom <- (1+exp(-(cbind(rep(1,t),x)%*%gamma)))^(-1)
+    phantom <- (1+exp(-(cbind(rep.int(1,t),x)%*%gamma)))^(-1)
     phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
     xnam2 <- paste("phantomstar[,", 1:qstar, "]", sep="")
     xnam2 <- paste(xnam2,collapse="+")
@@ -294,8 +294,8 @@ function(x, lag = 1, qstar = 2, q = 10, range = 4,
     if(lag < 1) 
         stop("minimum lag is 1")
     if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
-        warning(paste("value `chisq' for `type' is deprecated,",
-                      "use `Chisq' instead"))
+        warning(paste("value 'chisq' for 'type' is deprecated,",
+                      "use 'Chisq' instead"))
         type <- "Chisq"
     }
     else
@@ -311,7 +311,7 @@ function(x, lag = 1, qstar = 2, q = 10, range = 4,
     ssr0 <- sum(u^2)
     max <- range/2
     gamma <- matrix(runif((lag+1)*q,-max,max),lag+1,q)
-    phantom <- (1+exp(-(cbind(rep(1,t-lag),y[,2:(lag+1)])%*%gamma)))^(-1)
+    phantom <- (1+exp(-(cbind(rep.int(1,t-lag),y[,2:(lag+1)])%*%gamma)))^(-1)
     phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
     xnam2 <- paste("phantomstar[,", 1:qstar, "]", sep="")
     xnam2 <- paste(xnam2, collapse="+")
@@ -370,8 +370,8 @@ function(x, y, type = c("Chisq", "F"), scale = TRUE, ...)
     if(dim(y)[2] > 1)
         stop("handles only univariate outputs")
     if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
-        warning(paste("value `chisq' for `type' is deprecated,",
-                      "use `Chisq' instead"))
+        warning(paste("value 'chisq' for 'type' is deprecated,",
+                      "use 'Chisq' instead"))
         type <- "Chisq"
     }
     else
@@ -449,8 +449,8 @@ function(x, lag = 1, type = c("Chisq", "F"), scale = TRUE, ...)
     if(lag < 1) 
         stop("minimum lag is 1")
     if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
-        warning(paste("value `chisq' for `type' is deprecated,",
-                      "use `Chisq' instead"))
+        warning(paste("value 'chisq' for 'type' is deprecated,",
+                      "use 'Chisq' instead"))
         type <- "Chisq"
     }
     else

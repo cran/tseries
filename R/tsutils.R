@@ -107,7 +107,7 @@ function(x, ns = 1, fft = FALSE, amplitude = FALSE, statistic = NULL, ...)
             for(i in 1:ns)
                 stat[i,] <- statistic(sample(x, replace=FALSE), ...)
         colnames(stat) <- names(orig.statistic)
-        bias <- apply(stat, 2, mean) - orig.statistic
+        bias <- colMeans(stat) - orig.statistic
         se <- apply(stat, 2, sd)
         res <- list(statistic = drop(stat),
                     orig.statistic = drop(orig.statistic),
@@ -218,10 +218,10 @@ function(x, y, colx = "black", coly = "red", typex = "l",
     if(!is.ts(x) || !is.ts(y))
         stop("x or y is not a time series")
     if(abs(frequency(x)-frequency(y)) > getOption("ts.eps"))
-        stop("x and y don't have the same frequency")
+        stop("x and y do not have the same frequency")
     nser <- NCOL(x)
     nsery <- NCOL(y)
-    if(nser != nsery) stop("x and y don't have consistent dimensions")
+    if(nser != nsery) stop("x and y do not have consistent dimensions")
     if(nser == 1) {
         xlim <- range(time(x), time(y))
         ylim <- range(x[is.finite(x)], y[is.finite(y)])
@@ -234,7 +234,7 @@ function(x, y, colx = "black", coly = "red", typex = "l",
         }
     }
     else {
-        if(nser > 10) stop("Can't plot more than 10 series")
+        if(nser > 10) stop("cannot plot more than 10 series")
         if(is.null(main)) main <- deparse(substitute(x))
         nm <- colnames(x)
         if(is.null(nm)) nm <- paste("Series", 1:nser)
@@ -314,7 +314,7 @@ tsbootstrap <- function(x, nb = 1, statistic = NULL, m = 1, b = NULL,
     }
     if(is.null(statistic)) {
         if (m > 1)
-            stop("Can only return bootstrap data for m = 1")
+            stop("can only return bootstrap data for m = 1")
         ists <- is.ts(x)
         if(ists) xtsp <- tsp(x)
         boot <- matrix(x, nrow=n, ncol=nb)
@@ -335,7 +335,7 @@ tsbootstrap <- function(x, nb = 1, statistic = NULL, m = 1, b = NULL,
         for(i in 1:nb)
             stat[i,] <- statistic(y[boot.sample(yi, b, type), , drop=TRUE], ...)
         colnames(stat) <- names(orig.statistic)
-        bias <- apply(stat, 2, mean)-orig.statistic
+        bias <- colMeans(stat) - orig.statistic
         se <- apply(stat, 2, sd)
         res <- list(statistic = drop(stat),
                     orig.statistic = drop(orig.statistic),

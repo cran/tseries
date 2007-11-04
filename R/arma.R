@@ -125,13 +125,13 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
     coef <- md$par
     rank <- qr(md$hessian, qr.tol)$rank
     if(rank != ncoef) {
-        se <- rep(NA, ncoef)
-        cat("Warning: singular Hessian\n")
+        se <- rep.int(NA, ncoef)
+        warning("singular Hessian")
     }
     else {
         di <- diag(2*md$value/n*solve(md$hessian))
         if(any(di < 0)) 
-            cat("Warning: Hessian negative-semidefinite\n")
+            warning("Hessian negative-semidefinite")
         se <- sqrt(di)
     }
     e <- resid(coef)

@@ -51,13 +51,13 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
       stop("covmat has not the right dimension")
     }
     Dmat <- covmat
-    dvec <- rep(0, k)
+    dvec <- rep.int(0, k)
     big <- 1e+100
     if(!is.null(reslow) & is.null(reshigh)) {
-        reshigh <- rep(big, k)
+        reshigh <- rep.int(big, k)
     }
     if(is.null(reslow) & !is.null(reshigh)) {
-        reslow <- -rep(big, k)
+        reslow <- -rep.int(big, k)
     }
     if(!is.null(reslow)) {
         if(!is.vector(reslow)) {
@@ -76,7 +76,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
         }
     }
     if(riskless) {
-        a1 <- apply(x, 2, mean)-rf
+        a1 <- colMeans(x) - rf
         if(shorts) {
             a2 <- NULL
             b2 <- NULL
@@ -84,7 +84,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
         else {
             a2 <- matrix(0, k, k)
             diag(a2) <- 1
-            b2 <- rep(0, k)
+            b2 <- rep.int(0, k)
         }
         if(!is.null(reslow) & !is.null(reshigh)) {
             a3 <- matrix(0, k, k)
@@ -99,8 +99,8 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
         res <- solve.QP(Dmat, dvec, Amat, bvec=b0, meq=1)
     }
     else {
-        a1 <- rep(1, k)
-        a2 <- apply(x, 2, mean)
+        a1 <- rep.int(1, k)
+        a2 <- colMeans(x)
         if(shorts) {
             if(!is.null(reslow) & !is.null(reshigh)) {
                 a3 <- matrix(0, k, k)
@@ -116,7 +116,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
         else {
             a3 <- matrix(0, k, k)
             diag(a3) <- 1
-            b3 <- rep(0, k)
+            b3 <- rep.int(0, k)
             if(!is.null(reslow) & !is.null(reshigh)) {
                 Amat <- t(rbind(a1, a2, a3, a3, -a3))
                 b0 <- c(1, pm, b3, reslow, -reshigh)
@@ -220,16 +220,16 @@ function (instrument = "^gdax", start, end,
             ## We need unclass() because 1.7.0 does not allow adding a
             ## number to a "difftime" object.
             ind <- jdat - jdat[n] + 1
-            y <- matrix(NA, nr = max(ind), nc = length(nser))
+            y <- matrix(NA, nrow = max(ind), ncol = length(nser))
             y[ind, ] <- as.matrix(x[, nser, drop = FALSE])
             colnames(y) <- names(x)[nser]
-	    y <- y[, seq(along = nser), drop = drop]
+	    y <- y[, seq_along(nser), drop = drop]
             return(ts(y, start = jdat[n], end = jdat[1]))
 	} else {
 	  x <- as.matrix(x[, nser, drop = FALSE])
 	  rownames(x) <- NULL
 	  y <- zoo(x, dat)
-	  y <- y[, seq(along = nser), drop = drop]
+	  y <- y[, seq_along(nser), drop = drop]
 	  if(retclass == "its") {
 	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
 	        index(y) <- as.POSIXct(index(y))
@@ -268,7 +268,7 @@ function (instrument = "^gdax", start, end,
             stop(paste("download error, status", status))
         }
         
-        x <- readLines(destfile)
+        x <- readLines(destfile, warn = quiet)
         unlink(destfile)
         
         if(length(grep("Sorry", x)) > 0) {
@@ -276,32 +276,38 @@ function (instrument = "^gdax", start, end,
             msg <- paste(msg[msg != ""], collapse = " ")
             stop("Message from Oanda: ", msg)
         }
-        
-        first <- which(substr(x, 1, 5) == "<PRE>")
-        last <- which(x == "</PRE>") - 1
-        if((length(first) == 0) || (length(last) == 0)) {
+        ## This used to have
+        ##    first <- which(substr(x, 1, 5) == "<PRE>")
+        ##    last <- which(x == "</PRE>") - 1
+        ## but at least on 2007-11-04 we had an instance of <PRE> not
+        ## being at the beginning of a line and </PRE> not being on a
+        ## line of its own ...
+        first <- grep("<PRE>", x, fixed = TRUE)
+        last <- grep("</PRE>", x, fixed = TRUE) - 1
+        if((length(first) != 1) || (length(last) != 1)) {
             stop(paste("no data available for", instrument))
         }
 
-        x[first] <- substr(x[first], 6, nchar(x[first]))
-        split <- strsplit(x[first:last], split = " ")
-        x <- cbind(unlist(lapply(split, function(x) { x[1] })), unlist(lapply(split, function(x) { x[length(x)] })))
-        n <- nrow(x)
+        x[first] <- sub(".*<PRE>", "", x[first])
+        con <- textConnection(x[first:last])
+        on.exit(close(con))
+        x <- scan(con, what = list(character(), double()), quiet = TRUE)
         
-        dat <- as.Date(x[,1], format = "%m/%d/%Y")
+        dat <- as.Date(x[[1]], format = "%m/%d/%Y")
+        n <- length(dat)
         if(!quiet && dat[1] != start)
             cat(format(dat[1], "time series starts %Y-%m-%d\n"))
         if(!quiet && dat[n] != end)
             cat(format(dat[n], "time series ends   %Y-%m-%d\n"))
 
 	if(retclass == "ts") {
-            jdat <- unclass(julian(dat, origin = as.Date(origin)))       
+            jdat <- unclass(julian(dat, origin = as.Date(origin)))
             ind <- jdat - jdat[1] + 1
-            y <- rep(NA, max(ind))
-            y[ind] <- as.numeric(x[,2])
+            y <- rep.int(NA, max(ind))
+            y[ind] <- x[[2]]
             return(ts(y, start = jdat[1], end = jdat[n]))
-	} else {	  
-	  y <- zoo(as.numeric(x[,2]), dat)
+	} else {
+	  y <- zoo(x[[2]], dat)
 	  if(retclass == "its") {
 	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
 	        index(y) <- as.POSIXct(index(y))

@@ -2,7 +2,7 @@
 function(lib, pkg)
 {
     mylib <- dirname(system.file(package = "tseries"))
-    ver <- packageDescription("tseries", lib = mylib)["Version"]
+    ver <- packageDescription("tseries", lib.loc = mylib)["Version"]
     txt <- c("\n",
              paste(sQuote("tseries"), "version:", ver),
              "\n",

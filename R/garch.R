@@ -44,7 +44,7 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
     hess <- matrix(0.0, ncoef, ncoef)
     small <- 0.05
     if(is.null(coef))
-        coef <- c(var(x)*(1.0-small*(ncoef-1)),rep(small,ncoef-1))
+        coef <- c(var(x)*(1.0-small*(ncoef-1)),rep.int(small,ncoef-1))
     if(!is.vector(coef)) stop("coef is not a vector")
     if(ncoef != length(coef)) stop("incorrect length of coef")
     if(is.null(eps)) eps <- .Machine$double.eps
@@ -80,13 +80,13 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
                    PACKAGE="tseries")
     rank <- qr(com.hess$hess, ...)$rank
     if(rank != ncoef) {
-        se.garch <- rep(NA, ncoef)
-        cat("Warning: singular information\n")
+        se.garch <- rep.int(NA, ncoef)
+        warning("singular information")
     }
     else
         se.garch <- sqrt(diag(solve(com.hess$hess)))
     sigt <- sqrt(pred$e)
-    sigt[1:max(order[1],order[2])] <- rep(NA, max(order[1],order[2]))
+    sigt[1:max(order[1],order[2])] <- rep.int(NA, max(order[1],order[2]))
     f <- cbind(sigt,-sigt)
     colnames(f) <- c("sigt","-sigt")
     e <- as.vector(x)/sigt  
@@ -250,7 +250,7 @@ function(object, newdata, genuine = FALSE, ...)
                PACKAGE="tseries")
     pred$h <- sqrt(pred$h)
     pred$h[1:max(object$order[1],object$order[2])] <-
-        rep(NA, max(object$order[1],object$order[2]))
+        rep.int(NA, max(object$order[1],object$order[2]))
     pred$h <- cbind(pred$h,-pred$h)
     if(ists) {
         attr(pred$h, "tsp") <-
