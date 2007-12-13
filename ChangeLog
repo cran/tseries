@@ -1,3 +1,15 @@
+2007-12-13  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-13.
+
+	* src/dsumsl.f:
+	* src/formats.c:	
+	Fixes for FORTRAN I/O problems, contributed by Brian Ripley.
+
+	* data/00Index:
+	* man/tseries-internal.Rd:
+	Removed.
+
 2007-11-04  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-12.

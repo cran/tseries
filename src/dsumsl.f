@@ -447,7 +447,9 @@ C
  10   G1 = IV(G)
 C
  20   CALL DSUMIT(D, F, V(G1), IV, LIV, LV, N, V, X)
-      IF (IV(1) - 2) 30, 40, 50
+c      IF (IV(1) - 2) 30, 40, 50
+      IF (IV(1) .EQ. 2) GO TO 40
+      IF (IV(1) .GT. 2) GO TO 50
 C
  30   NF = IV(NFCALL)
       CALL CALCF(N, X, NF, F, UIPARM, URPARM, UFPARM)
@@ -534,7 +536,8 @@ C
       IV(OUTLEV) = 1
       IV(PARPRT) = 1
       IV(PERM) = MIV + 1
-      IV(PRUNIT) = I1MACH(2)
+c standard output unit: unused
+      IV(PRUNIT) = 6
       IV(SOLPRT) = 1
       IV(STATPR) = 1
       IV(VNEED) = 0
@@ -1223,1112 +1226,7 @@ C
  999  RETURN
 C  ***  LAST CARD OF DWZBFG FOLLOWS  ***
       END
-      INTEGER FUNCTION I1MACH(I)
-      save
-C***BEGIN PROLOGUE  I1MACH
-C***DATE WRITTEN   750101   (YYMMDD)
-C***REVISION DATE  910131   (YYMMDD)
-C***CATEGORY NO.  R1
-C***KEYWORDS  MACHINE CONSTANTS
-C***AUTHOR  FOX, P. A., (BELL LABS)
-C           HALL, A. D., (BELL LABS)
-C           SCHRYER, N. L., (BELL LABS)
-C***PURPOSE  Returns integer machine dependent constants
-C***DESCRIPTION
-C
-C     This is the CMLIB version of I1MACH, the integer machine
-C     constants subroutine originally developed for the PORT library.
-C
-C     I1MACH can be used to obtain machine-dependent parameters
-C     for the local machine environment.  It is a function
-C     subroutine with one (input) argument, and can be called
-C     as follows, for example
-C
-C          K = I1MACH(I)
-C
-C     where I=1,...,16.  The (output) value of K above is
-C     determined by the (input) value of I.  The results for
-C     various values of I are discussed below.
-C
-C  I/O unit numbers.
-C    I1MACH( 1) = the standard input unit.
-C    I1MACH( 2) = the standard output unit.
-C    I1MACH( 3) = the standard punch unit.
-C    I1MACH( 4) = the standard error message unit.
-C
-C  Words.
-C    I1MACH( 5) = the number of bits per integer storage unit.
-C    I1MACH( 6) = the number of characters per integer storage unit.
-C
-C  Integers.
-C    assume integers are represented in the S-digit, base-A form
-C
-C               sign ( X(S-1)*A**(S-1) + ... + X(1)*A + X(0) )
-C
-C               where 0 .LE. X(I) .LT. A for I=0,...,S-1.
-C    I1MACH( 7) = A, the base.
-C    I1MACH( 8) = S, the number of base-A digits.
-C    I1MACH( 9) = A**S - 1, the largest magnitude.
-C
-C  Floating-Point Numbers.
-C    Assume floating-point numbers are represented in the T-digit,
-C    base-B form
-C               sign (B**E)*( (X(1)/B) + ... + (X(T)/B**T) )
-C
-C               where 0 .LE. X(I) .LT. B for I=1,...,T,
-C               0 .LT. X(1), and EMIN .LE. E .LE. EMAX.
-C    I1MACH(10) = B, the base.
-C
-C  Single-Precision
-C    I1MACH(11) = T, the number of base-B digits.
-C    I1MACH(12) = EMIN, the smallest exponent E.
-C    I1MACH(13) = EMAX, the largest exponent E.
-C
-C  Double-Precision
-C    I1MACH(14) = T, the number of base-B digits.
-C    I1MACH(15) = EMIN, the smallest exponent E.
-C    I1MACH(16) = EMAX, the largest exponent E.
-C
-C  To alter this function for a particular environment,
-C  the desired set of DATA statements should be activated by
-C  removing the C from column 1.  Also, the values of
-C  I1MACH(1) - I1MACH(4) should be checked for consistency
-C  with the local operating system.
-C***REFERENCES  FOX P.A., HALL A.D., SCHRYER N.L.,*FRAMEWORK FOR A
-C                 PORTABLE LIBRARY*, ACM TRANSACTIONS ON MATHEMATICAL
-C                 SOFTWARE, VOL. 4, NO. 2, JUNE 1978, PP. 177-188.
-C***ROUTINES CALLED  (NONE)
-C***END PROLOGUE  I1MACH
-C
-      INTEGER IMACH(16),OUTPUT
-      EQUIVALENCE (IMACH(4),OUTPUT)
-C
-C     MACHINE CONSTANTS FOR IEEE ARITHMETIC MACHINES, SUCH AS THE AT&T
-C     3B SERIES, MOTOROLA 68000 BASED MACHINES (E.G. SUN 3 AND AT&T
-C     PC 7300), AND 8087 BASED MICROS (E.G. IBM PC AND AT&T 6300).
-C
-C === MACHINE = IEEE.MOST-SIG-BYTE-FIRST
-C === MACHINE = IEEE.LEAST-SIG-BYTE-FIRST
-C === MACHINE = SUN
-C === MACHINE = 68000
-C === MACHINE = 8087
-C === MACHINE = IBM.PC
-C === MACHINE = ATT.3B
-C === MACHINE = ATT.7300
-C === MACHINE = ATT.6300
-       DATA IMACH( 1) /    5 /
-       DATA IMACH( 2) /    6 /
-       DATA IMACH( 3) /    7 /
-       DATA IMACH( 4) /    6 /
-       DATA IMACH( 5) /   32 /
-       DATA IMACH( 6) /    4 /
-       DATA IMACH( 7) /    2 /
-       DATA IMACH( 8) /   31 /
-       DATA IMACH( 9) / 2147483647 /
-       DATA IMACH(10) /    2 /
-       DATA IMACH(11) /   24 /
-       DATA IMACH(12) / -125 /
-       DATA IMACH(13) /  128 /
-       DATA IMACH(14) /   53 /
-       DATA IMACH(15) / -1021 /
-       DATA IMACH(16) /  1024 /
-C
-C     MACHINE CONSTANTS FOR AMDAHL MACHINES.
-C
-C === MACHINE = AMDAHL
-C      DATA IMACH( 1) /   5 /
-C      DATA IMACH( 2) /   6 /
-C      DATA IMACH( 3) /   7 /
-C      DATA IMACH( 4) /   6 /
-C      DATA IMACH( 5) /  32 /
-C      DATA IMACH( 6) /   4 /
-C      DATA IMACH( 7) /   2 /
-C      DATA IMACH( 8) /  31 /
-C      DATA IMACH( 9) / 2147483647 /
-C      DATA IMACH(10) /  16 /
-C      DATA IMACH(11) /   6 /
-C      DATA IMACH(12) / -64 /
-C      DATA IMACH(13) /  63 /
-C      DATA IMACH(14) /  14 /
-C      DATA IMACH(15) / -64 /
-C      DATA IMACH(16) /  63 /
-C
-C     MACHINE CONSTANTS FOR THE BURROUGHS 1700 SYSTEM.
-C
-C === MACHINE = BURROUGHS.1700
-C      DATA IMACH( 1) /    7 /
-C      DATA IMACH( 2) /    2 /
-C      DATA IMACH( 3) /    2 /
-C      DATA IMACH( 4) /    2 /
-C      DATA IMACH( 5) /   36 /
-C      DATA IMACH( 6) /    4 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   33 /
-C      DATA IMACH( 9) / Z1FFFFFFFF /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   24 /
-C      DATA IMACH(12) / -256 /
-C      DATA IMACH(13) /  255 /
-C      DATA IMACH(14) /   60 /
-C      DATA IMACH(15) / -256 /
-C      DATA IMACH(16) /  255 /
-C
-C     MACHINE CONSTANTS FOR THE BURROUGHS 5700 SYSTEM.
-C
-C === MACHINE = BURROUGHS.5700
-C      DATA IMACH( 1) /   5 /
-C      DATA IMACH( 2) /   6 /
-C      DATA IMACH( 3) /   7 /
-C      DATA IMACH( 4) /   6 /
-C      DATA IMACH( 5) /  48 /
-C      DATA IMACH( 6) /   6 /
-C      DATA IMACH( 7) /   2 /
-C      DATA IMACH( 8) /  39 /
-C      DATA IMACH( 9) / O0007777777777777 /
-C      DATA IMACH(10) /   8 /
-C      DATA IMACH(11) /  13 /
-C      DATA IMACH(12) / -50 /
-C      DATA IMACH(13) /  76 /
-C      DATA IMACH(14) /  26 /
-C      DATA IMACH(15) / -50 /
-C      DATA IMACH(16) /  76 /
-C
-C     MACHINE CONSTANTS FOR THE BURROUGHS 6700/7700 SYSTEMS.
-C
-C === MACHINE = BURROUGHS.6700
-C === MACHINE = BURROUGHS.7700
-C      DATA IMACH( 1) /   5 /
-C      DATA IMACH( 2) /   6 /
-C      DATA IMACH( 3) /   7 /
-C      DATA IMACH( 4) /   6 /
-C      DATA IMACH( 5) /  48 /
-C      DATA IMACH( 6) /   6 /
-C      DATA IMACH( 7) /   2 /
-C      DATA IMACH( 8) /  39 /
-C      DATA IMACH( 9) / O0007777777777777 /
-C      DATA IMACH(10) /   8 /
-C      DATA IMACH(11) /  13 /
-C      DATA IMACH(12) / -50 /
-C      DATA IMACH(13) /  76 /
-C      DATA IMACH(14) /  26 /
-C      DATA IMACH(15) / -32754 /
-C      DATA IMACH(16) /  32780 /
-C
-C     MACHINE CONSTANTS FOR THE CONVEX C-120 (NATIVE MODE)
-C
-C === MACHINE = CONVEX.C1
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    0 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   32 /
-C      DATA IMACH( 6) /    4 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   31 /
-C      DATA IMACH( 9) / 2147483647 /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   24 /
-C      DATA IMACH(12) / -127 /
-C      DATA IMACH(13) /  127 /
-C      DATA IMACH(14) /   53 /
-C      DATA IMACH(15) / -1023 /
-C      DATA IMACH(16) /  1023 /
-C
-C     MACHINE CONSTANTS FOR THE CONVEX (NATIVE MODE)
-C     WITH -R8 OPTION
-C
-C === MACHINE = CONVEX.C1.R8
-C      DATA IMACH( 1) /     5 /
-C      DATA IMACH( 2) /     6 /
-C      DATA IMACH( 3) /     0 /
-C      DATA IMACH( 4) /     6 /
-C      DATA IMACH( 5) /    32 /
-C      DATA IMACH( 6) /     4 /
-C      DATA IMACH( 7) /     2 /
-C      DATA IMACH( 8) /    31 /
-C      DATA IMACH( 9) / 2147483647 /
-C      DATA IMACH(10) /     2 /
-C      DATA IMACH(11) /    53 /
-C      DATA IMACH(12) / -1023 /
-C      DATA IMACH(13) /  1023 /
-C      DATA IMACH(14) /    53 /
-C      DATA IMACH(15) / -1023 /
-C      DATA IMACH(16) /  1023 /
-C
-C     MACHINE CONSTANTS FOR THE CONVEX C-120 (IEEE MODE)
-C
-C === MACHINE = CONVEX.C1.IEEE
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    0 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   32 /
-C      DATA IMACH( 6) /    4 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   31 /
-C      DATA IMACH( 9) / 2147483647 /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   24 /
-C      DATA IMACH(12) / -125 /
-C      DATA IMACH(13) /  128 /
-C      DATA IMACH(14) /   53 /
-C      DATA IMACH(15) / -1021 /
-C      DATA IMACH(16) /  1024 /
-C
-C     MACHINE CONSTANTS FOR THE CONVEX (IEEE MODE)
-C     WITH -R8 OPTION
-C
-C === MACHINE = CONVEX.C1.IEEE.R8
-C      DATA IMACH( 1) /     5 /
-C      DATA IMACH( 2) /     6 /
-C      DATA IMACH( 3) /     0 /
-C      DATA IMACH( 4) /     6 /
-C      DATA IMACH( 5) /    32 /
-C      DATA IMACH( 6) /     4 /
-C      DATA IMACH( 7) /     2 /
-C      DATA IMACH( 8) /    31 /
-C      DATA IMACH( 9) / 2147483647 /
-C      DATA IMACH(10) /     2 /
-C      DATA IMACH(11) /    53 /
-C      DATA IMACH(12) / -1021 /
-C      DATA IMACH(13) /  1024 /
-C      DATA IMACH(14) /    53 /
-C      DATA IMACH(15) / -1021 /
-C      DATA IMACH(16) /  1024 /
-C
-C     MACHINE CONSTANTS FOR THE CYBER 170/180 SERIES USING NOS (FTN5).
-C
-C === MACHINE = CYBER.170.NOS
-C === MACHINE = CYBER.180.NOS
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    7 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   60 /
-C      DATA IMACH( 6) /   10 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   48 /
-C      DATA IMACH( 9) / O"00007777777777777777" /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   48 /
-C      DATA IMACH(12) / -974 /
-C      DATA IMACH(13) / 1070 /
-C      DATA IMACH(14) /   96 /
-C      DATA IMACH(15) / -927 /
-C      DATA IMACH(16) / 1070 /
-C
-C     MACHINE CONSTANTS FOR THE CDC 180 SERIES USING NOS/VE
-C
-C === MACHINE = CYBER.180.NOS/VE
-C      DATA IMACH( 1) /     5 /
-C      DATA IMACH( 2) /     6 /
-C      DATA IMACH( 3) /     7 /
-C      DATA IMACH( 4) /     6 /
-C      DATA IMACH( 5) /    64 /
-C      DATA IMACH( 6) /     8 /
-C      DATA IMACH( 7) /     2 /
-C      DATA IMACH( 8) /    63 /
-C      DATA IMACH( 9) / 9223372036854775807 /
-C      DATA IMACH(10) /     2 /
-C      DATA IMACH(11) /    47 /
-C      DATA IMACH(12) / -4095 /
-C      DATA IMACH(13) /  4094 /
-C      DATA IMACH(14) /    94 /
-C      DATA IMACH(15) / -4095 /
-C      DATA IMACH(16) /  4094 /
-C
-C     MACHINE CONSTANTS FOR THE CYBER 205
-C
-C === MACHINE = CYBER.205
-C      DATA IMACH( 1) /      5 /
-C      DATA IMACH( 2) /      6 /
-C      DATA IMACH( 3) /      7 /
-C      DATA IMACH( 4) /      6 /
-C      DATA IMACH( 5) /     64 /
-C      DATA IMACH( 6) /      8 /
-C      DATA IMACH( 7) /      2 /
-C      DATA IMACH( 8) /     47 /
-C      DATA IMACH( 9) / X'00007FFFFFFFFFFF' /
-C      DATA IMACH(10) /      2 /
-C      DATA IMACH(11) /     47 /
-C      DATA IMACH(12) / -28625 /
-C      DATA IMACH(13) /  28718 /
-C      DATA IMACH(14) /     94 /
-C      DATA IMACH(15) / -28625 /
-C      DATA IMACH(16) /  28718 /
-C
-C     MACHINE CONSTANTS FOR THE CDC 6000/7000 SERIES.
-C
-C === MACHINE = CDC.6000
-C === MACHINE = CDC.7000
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    7 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   60 /
-C      DATA IMACH( 6) /   10 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   48 /
-C      DATA IMACH( 9) / 00007777777777777777B /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   48 /
-C      DATA IMACH(12) / -974 /
-C      DATA IMACH(13) / 1070 /
-C      DATA IMACH(14) /   96 /
-C      DATA IMACH(15) / -927 /
-C      DATA IMACH(16) / 1070 /
-C
-C     MACHINE CONSTANTS FOR THE CRAY 1, XMP, 2, AND 3.
-C     USING THE 46 BIT INTEGER COMPILER OPTION
-C
-C === MACHINE = CRAY.46-BIT-INTEGER
-C      DATA IMACH( 1) /     5 /
-C      DATA IMACH( 2) /     6 /
-C      DATA IMACH( 3) /   102 /
-C      DATA IMACH( 4) /     6 /
-C      DATA IMACH( 5) /    64 /
-C      DATA IMACH( 6) /     8 /
-C      DATA IMACH( 7) /     2 /
-C      DATA IMACH( 8) /    46 /
-C      DATA IMACH( 9) /  777777777777777777777B /
-C      DATA IMACH(10) /     2 /
-C      DATA IMACH(11) /    47 /
-C      DATA IMACH(12) / -8189 /
-C      DATA IMACH(13) /  8190 /
-C      DATA IMACH(14) /    94 /
-C      DATA IMACH(15) / -8099 /
-C      DATA IMACH(16) /  8190 /
-C
-C     MACHINE CONSTANTS FOR THE CRAY 1, XMP, 2, AND 3.
-C     USING THE 64 BIT INTEGER COMPILER OPTION
-C
-C === MACHINE = CRAY.64-BIT-INTEGER
-C      DATA IMACH( 1) /     5 /
-C      DATA IMACH( 2) /     6 /
-C      DATA IMACH( 3) /   102 /
-C      DATA IMACH( 4) /     6 /
-C      DATA IMACH( 5) /    64 /
-C      DATA IMACH( 6) /     8 /
-C      DATA IMACH( 7) /     2 /
-C      DATA IMACH( 8) /    63 /
-C      DATA IMACH( 9) /  777777777777777777777B /
-C      DATA IMACH(10) /     2 /
-C      DATA IMACH(11) /    47 /
-C      DATA IMACH(12) / -8189 /
-C      DATA IMACH(13) /  8190 /
-C      DATA IMACH(14) /    94 /
-C      DATA IMACH(15) / -8099 /
-C      DATA IMACH(16) /  8190 /C
-C     MACHINE CONSTANTS FOR THE DATA GENERAL ECLIPSE S/200
-C
-C === MACHINE = DATA_GENERAL.ECLIPSE.S/200
-C      DATA IMACH( 1) /   11 /
-C      DATA IMACH( 2) /   12 /
-C      DATA IMACH( 3) /    8 /
-C      DATA IMACH( 4) /   10 /
-C      DATA IMACH( 5) /   16 /
-C      DATA IMACH( 6) /    2 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   15 /
-C      DATA IMACH( 9) /32767 /
-C      DATA IMACH(10) /   16 /
-C      DATA IMACH(11) /    6 /
-C      DATA IMACH(12) /  -64 /
-C      DATA IMACH(13) /   63 /
-C      DATA IMACH(14) /   14 /
-C      DATA IMACH(15) /  -64 /
-C      DATA IMACH(16) /   63 /
-C
-C     ELXSI  6400
-C
-C === MACHINE = ELSXI.6400
-C      DATA IMACH( 1) /     5 /
-C      DATA IMACH( 2) /     6 /
-C      DATA IMACH( 3) /     6 /
-C      DATA IMACH( 4) /     6 /
-C      DATA IMACH( 5) /    32 /
-C      DATA IMACH( 6) /     4 /
-C      DATA IMACH( 7) /     2 /
-C      DATA IMACH( 8) /    32 /
-C      DATA IMACH( 9) / 2147483647 /
-C      DATA IMACH(10) /     2 /
-C      DATA IMACH(11) /    24 /
-C      DATA IMACH(12) /  -126 /
-C      DATA IMACH(13) /   127 /
-C      DATA IMACH(14) /    53 /
-C      DATA IMACH(15) / -1022 /
-C      DATA IMACH(16) /  1023 /
-C
-C     MACHINE CONSTANTS FOR THE HARRIS 220
-C     MACHINE CONSTANTS FOR THE HARRIS SLASH 6 AND SLASH 7
-C
-C === MACHINE = HARRIS.220
-C === MACHINE = HARRIS.SLASH6
-C === MACHINE = HARRIS.SLASH7
-C      DATA IMACH( 1) /       5 /
-C      DATA IMACH( 2) /       6 /
-C      DATA IMACH( 3) /       0 /
-C      DATA IMACH( 4) /       6 /
-C      DATA IMACH( 5) /      24 /
-C      DATA IMACH( 6) /       3 /
-C      DATA IMACH( 7) /       2 /
-C      DATA IMACH( 8) /      23 /
-C      DATA IMACH( 9) / 8388607 /
-C      DATA IMACH(10) /       2 /
-C      DATA IMACH(11) /      23 /
-C      DATA IMACH(12) /    -127 /
-C      DATA IMACH(13) /     127 /
-C      DATA IMACH(14) /      38 /
-C      DATA IMACH(15) /    -127 /
-C      DATA IMACH(16) /     127 /
-C
-C     MACHINE CONSTANTS FOR THE HONEYWELL 600/6000 SERIES.
-C     MACHINE CONSTANTS FOR THE HONEYWELL DPS 8/70 SERIES.
-C
-C === MACHINE = HONEYWELL.600/6000
-C === MACHINE = HONEYWELL.DPS.8/70
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /   43 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   36 /
-C      DATA IMACH( 6) /    4 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   35 /
-C      DATA IMACH( 9) / O377777777777 /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   27 /
-C      DATA IMACH(12) / -127 /
-C      DATA IMACH(13) /  127 /
-C      DATA IMACH(14) /   63 /
-C      DATA IMACH(15) / -127 /
-C      DATA IMACH(16) /  127 /
-C
-C     MACHINE CONSTANTS FOR THE HP 2100
-C     3 WORD DOUBLE PRECISION OPTION WITH FTN4
-C
-C === MACHINE = HP.2100.3_WORD_DP
-C      DATA IMACH(1) /      5/
-C      DATA IMACH(2) /      6 /
-C      DATA IMACH(3) /      4 /
-C      DATA IMACH(4) /      1 /
-C      DATA IMACH(5) /     16 /
-C      DATA IMACH(6) /      2 /
-C      DATA IMACH(7) /      2 /
-C      DATA IMACH(8) /     15 /
-C      DATA IMACH(9) /  32767 /
-C      DATA IMACH(10)/      2 /
-C      DATA IMACH(11)/     23 /
-C      DATA IMACH(12)/   -128 /
-C      DATA IMACH(13)/    127 /
-C      DATA IMACH(14)/     39 /
-C      DATA IMACH(15)/   -128 /
-C      DATA IMACH(16)/    127 /
-C
-C     MACHINE CONSTANTS FOR THE HP 2100
-C     4 WORD DOUBLE PRECISION OPTION WITH FTN4
-C
-C === MACHINE = HP.2100.4_WORD_DP
-C      DATA IMACH(1) /      5 /
-C      DATA IMACH(2) /      6 /
-C      DATA IMACH(3) /      4 /
-C      DATA IMACH(4) /      1 /
-C      DATA IMACH(5) /     16 /
-C      DATA IMACH(6) /      2 /
-C      DATA IMACH(7) /      2 /
-C      DATA IMACH(8) /     15 /
-C      DATA IMACH(9) /  32767 /
-C      DATA IMACH(10)/      2 /
-C      DATA IMACH(11)/     23 /
-C      DATA IMACH(12)/   -128 /
-C      DATA IMACH(13)/    127 /
-C      DATA IMACH(14)/     55 /
-C      DATA IMACH(15)/   -128 /
-C      DATA IMACH(16)/    127 /
-C
-C     HP 9000
-C
-C === MACHINE = HP.9000
-C      DATA IMACH( 1) /     5 /
-C      DATA IMACH( 2) /     6 /
-C      DATA IMACH( 3) /     6 /
-C      DATA IMACH( 4) /     7 /
-C      DATA IMACH( 5) /    32 /
-C      DATA IMACH( 6) /     4 /
-C      DATA IMACH( 7) /     2 /
-C      DATA IMACH( 8) /    32 /
-C      DATA IMACH( 9) / 2147483647 /
-C      DATA IMACH(10) /     2 /
-C      DATA IMACH(11) /    24 /
-C      DATA IMACH(12) /  -126 /
-C      DATA IMACH(13) /   127 /
-C      DATA IMACH(14) /    53 /
-C      DATA IMACH(15) / -1015 /
-C      DATA IMACH(16) /  1017 /
-C
-C     MACHINE CONSTANTS FOR THE IBM 360/370 SERIES,
-C     THE XEROX SIGMA 5/7/9 AND THE SEL SYSTEMS 85/86 AND
-C     THE INTERDATA 3230 AND INTERDATA 7/32.
-C
-C === MACHINE = IBM.360
-C === MACHINE = IBM.370
-C === MACHINE = XEROX.SIGMA.5
-C === MACHINE = XEROX.SIGMA.7
-C === MACHINE = XEROX.SIGMA.9
-C === MACHINE = SEL.85
-C === MACHINE = SEL.86
-C === MACHINE = INTERDATA.3230
-C === MACHINE = INTERDATA.7/32
-C      DATA IMACH( 1) /   5 /
-C      DATA IMACH( 2) /   6 /
-C      DATA IMACH( 3) /   7 /
-C      DATA IMACH( 4) /   6 /
-C      DATA IMACH( 5) /  32 /
-C      DATA IMACH( 6) /   4 /
-C      DATA IMACH( 7) /   2 /
-C      DATA IMACH( 8) /  31 /
-C      DATA IMACH( 9) / Z7FFFFFFF /
-C      DATA IMACH(10) /  16 /
-C      DATA IMACH(11) /   6 /
-C      DATA IMACH(12) / -64 /
-C      DATA IMACH(13) /  63 /
-C      DATA IMACH(14) /  14 /
-C      DATA IMACH(15) / -64 /
-C      DATA IMACH(16) /  63 /
-C
-C     MACHINE CONSTANTS FOR THE INTERDATA 8/32
-C     WITH THE UNIX SYSTEM FORTRAN 77 COMPILER.
-C
-C     FOR THE INTERDATA FORTRAN VII COMPILER REPLACE
-C     THE Z'S SPECIFYING HEX CONSTANTS WITH Y'S.
-C
-C === MACHINE = INTERDATA.8/32.UNIX
-C      DATA IMACH( 1) /   5 /
-C      DATA IMACH( 2) /   6 /
-C      DATA IMACH( 3) /   6 /
-C      DATA IMACH( 4) /   6 /
-C      DATA IMACH( 5) /  32 /
-C      DATA IMACH( 6) /   4 /
-C      DATA IMACH( 7) /   2 /
-C      DATA IMACH( 8) /  31 /
-C      DATA IMACH( 9) / Z'7FFFFFFF' /
-C      DATA IMACH(10) /  16 /
-C      DATA IMACH(11) /   6 /
-C      DATA IMACH(12) / -64 /
-C      DATA IMACH(13) /  62 /
-C      DATA IMACH(14) /  14 /
-C      DATA IMACH(15) / -64 /
-C      DATA IMACH(16) /  62 /
-C
-C     MACHINE CONSTANTS FOR THE PDP-10 (KA PROCESSOR).
-C
-C === MACHINE = PDP-10.KA
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    7 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   36 /
-C      DATA IMACH( 6) /    5 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   35 /
-C      DATA IMACH( 9) / "377777777777 /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   27 /
-C      DATA IMACH(12) / -128 /
-C      DATA IMACH(13) /  127 /
-C      DATA IMACH(14) /   54 /
-C      DATA IMACH(15) / -101 /
-C      DATA IMACH(16) /  127 /
-C
-C     MACHINE CONSTANTS FOR THE PDP-10 (KI PROCESSOR).
-C
-C === MACHINE = PDP-10.KI
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    7 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   36 /
-C      DATA IMACH( 6) /    5 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   35 /
-C      DATA IMACH( 9) / "377777777777 /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   27 /
-C      DATA IMACH(12) / -128 /
-C      DATA IMACH(13) /  127 /
-C      DATA IMACH(14) /   62 /
-C      DATA IMACH(15) / -128 /
-C      DATA IMACH(16) /  127 /
-C
-C     MACHINE CONSTANTS FOR PDP-11 FORTRANS SUPPORTING
-C     32-BIT INTEGER ARITHMETIC.
-C
-C === MACHINE = PDP-11.32-BIT
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    7 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   32 /
-C      DATA IMACH( 6) /    4 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   31 /
-C      DATA IMACH( 9) / 2147483647 /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   24 /
-C      DATA IMACH(12) / -127 /
-C      DATA IMACH(13) /  127 /
-C      DATA IMACH(14) /   56 /
-C      DATA IMACH(15) / -127 /
-C      DATA IMACH(16) /  127 /
-C
-C     MACHINE CONSTANTS FOR PDP-11 FORTRANS SUPPORTING
-C     16-BIT INTEGER ARITHMETIC.
-C
-C === MACHINE = PDP-11.16-BIT
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    7 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   16 /
-C      DATA IMACH( 6) /    2 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   15 /
-C      DATA IMACH( 9) / 32767 /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   24 /
-C      DATA IMACH(12) / -127 /
-C      DATA IMACH(13) /  127 /
-C      DATA IMACH(14) /   56 /
-C      DATA IMACH(15) / -127 /
-C      DATA IMACH(16) /  127 /
-C
-C     MACHINE CONSTANTS FOR THE SEQUENT BALANCE 8000.
-C
-C === MACHINE = SEQUENT.BALANCE.8000
-C      DATA IMACH( 1) /     0 /
-C      DATA IMACH( 2) /     0 /
-C      DATA IMACH( 3) /     7 /
-C      DATA IMACH( 4) /     0 /
-C      DATA IMACH( 5) /    32 /
-C      DATA IMACH( 6) /     1 /
-C      DATA IMACH( 7) /     2 /
-C      DATA IMACH( 8) /    31 /
-C      DATA IMACH( 9) /  2147483647 /
-C      DATA IMACH(10) /     2 /
-C      DATA IMACH(11) /    24 /
-C      DATA IMACH(12) /  -125 /
-C      DATA IMACH(13) /   128 /
-C      DATA IMACH(14) /    53 /
-C      DATA IMACH(15) / -1021 /
-C      DATA IMACH(16) /  1024 /
-C
-C     MACHINE CONSTANTS FOR THE UNIVAC 1100 SERIES. FTN COMPILER
-C
-C === MACHINE = UNIVAC.1100
-C      DATA IMACH( 1) /    5 /
-C      DATA IMACH( 2) /    6 /
-C      DATA IMACH( 3) /    1 /
-C      DATA IMACH( 4) /    6 /
-C      DATA IMACH( 5) /   36 /
-C      DATA IMACH( 6) /    4 /
-C      DATA IMACH( 7) /    2 /
-C      DATA IMACH( 8) /   35 /
-C      DATA IMACH( 9) / O377777777777 /
-C      DATA IMACH(10) /    2 /
-C      DATA IMACH(11) /   27 /
-C      DATA IMACH(12) / -128 /
-C      DATA IMACH(13) /  127 /
-C      DATA IMACH(14) /   60 /
-C      DATA IMACH(15) /-1024 /
-C      DATA IMACH(16) / 1023 /
-C
-C     MACHINE CONSTANTS FOR THE VAX 11/780
-C
-C === MACHINE = VAX.11/780
-C      DATA IMACH(1) /    5 /
-C      DATA IMACH(2) /    6 /
-C      DATA IMACH(3) /    5 /
-C      DATA IMACH(4) /    6 /
-C      DATA IMACH(5) /   32 /
-C      DATA IMACH(6) /    4 /
-C      DATA IMACH(7) /    2 /
-C      DATA IMACH(8) /   31 /
-C      DATA IMACH(9) /2147483647 /
-C      DATA IMACH(10)/    2 /
-C      DATA IMACH(11)/   24 /
-C      DATA IMACH(12)/ -127 /
-C      DATA IMACH(13)/  127 /
-C      DATA IMACH(14)/   56 /
-C      DATA IMACH(15)/ -127 /
-C      DATA IMACH(16)/  127 /
-C
-C
-C***FIRST EXECUTABLE STATEMENT  I1MACH
-      IF (I .LT. 1  .OR.  I .GT. 16)
-     1   CALL XERROR ( 'I1MACH -- I OUT OF BOUNDS',25,1,2)
-C
-      I1MACH=IMACH(I)
-      RETURN
-C
-      END
-      SUBROUTINE XERROR(MESSG,NMESSG,NERR,LEVEL)
-      save
-C***BEGIN PROLOGUE  XERROR
-C***DATE WRITTEN   790801   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  R3C
-C***KEYWORDS  ERROR,XERROR PACKAGE
-C***AUTHOR  JONES, R. E., (SNLA)
-C***PURPOSE  Processes an error (diagnostic) message.
-C***DESCRIPTION
-C     Abstract
-C        XERROR processes a diagnostic message, in a manner
-C        determined by the value of LEVEL and the current value
-C        of the library error control flag, KONTRL.
-C        (See subroutine XSETF for details.)
-C
-C     Description of Parameters
-C      --Input--
-C        MESSG - the Hollerith message to be processed, containing
-C                no more than 72 characters.
-C        NMESSG- the actual number of characters in MESSG.
-C        NERR  - the error number associated with this message.
-C                NERR must not be zero.
-C        LEVEL - error category.
-C                =2 means this is an unconditionally fatal error.
-C                =1 means this is a recoverable error.  (I.e., it is
-C                   non-fatal if XSETF has been appropriately called.)
-C                =0 means this is a warning message only.
-C                =-1 means this is a warning message which is to be
-C                   printed at most once, regardless of how many
-C                   times this call is executed.
-C
-C     Examples
-C        CALL XERROR('SMOOTH -- NUM WAS ZERO.',23,1,2)
-C        CALL XERROR('INTEG  -- LESS THAN FULL ACCURACY ACHIEVED.',
-C                    43,2,1)
-C        CALL XERROR('ROOTER -- ACTUAL ZERO OF F FOUND BEFORE INTERVAL F
-C    1ULLY COLLAPSED.',65,3,0)
-C        CALL XERROR('EXP    -- UNDERFLOWS BEING SET TO ZERO.',39,1,-1)
-C
-C     Latest revision ---  19 MAR 1980
-C     Written by Ron Jones, with SLATEC Common Math Library Subcommittee
-C***REFERENCES  JONES R.E., KAHANER D.K., "XERROR, THE SLATEC ERROR-
-C                 HANDLING PACKAGE", SAND82-0800, SANDIA LABORATORIES,
-C                 1982.
-C***ROUTINES CALLED  XERRWV
-C***END PROLOGUE  XERROR
-      CHARACTER*(*) MESSG
-C***FIRST EXECUTABLE STATEMENT  XERROR
-      CALL XERRWV(MESSG,NMESSG,NERR,LEVEL,0,0,0,0,0.,0.)
-      RETURN
-      END
-      SUBROUTINE XERRWV(MESSG,NMESSG,NERR,LEVEL,NI,I1,I2,NR,R1,R2)
-      save
-C***BEGIN PROLOGUE  XERRWV
-C***DATE WRITTEN   800319   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  R3C
-C***KEYWORDS  ERROR,XERROR PACKAGE
-C***AUTHOR  JONES, R. E., (SNLA)
-C***PURPOSE  Processes error message allowing 2 integer and two real
-C            values to be included in the message.
-C***DESCRIPTION
-C     Abstract
-C        XERRWV processes a diagnostic message, in a manner
-C        determined by the value of LEVEL and the current value
-C        of the library error control flag, KONTRL.
-C        (See subroutine XSETF for details.)
-C        In addition, up to two integer values and two real
-C        values may be printed along with the message.
-C
-C     Description of Parameters
-C      --Input--
-C        MESSG - the Hollerith message to be processed.
-C        NMESSG- the actual number of characters in MESSG.
-C        NERR  - the error number associated with this message.
-C                NERR must not be zero.
-C        LEVEL - error category.
-C                =2 means this is an unconditionally fatal error.
-C                =1 means this is a recoverable error.  (I.e., it is
-C                   non-fatal if XSETF has been appropriately called.)
-C                =0 means this is a warning message only.
-C                =-1 means this is a warning message which is to be
-C                   printed at most once, regardless of how many
-C                   times this call is executed.
-C        NI    - number of integer values to be printed. (0 to 2)
-C        I1    - first integer value.
-C        I2    - second integer value.
-C        NR    - number of real values to be printed. (0 to 2)
-C        R1    - first real value.
-C        R2    - second real value.
-C
-C     Examples
-C        CALL XERRWV('SMOOTH -- NUM (=I1) WAS ZERO.',29,1,2,
-C    1   1,NUM,0,0,0.,0.)
-C        CALL XERRWV('QUADXY -- REQUESTED ERROR (R1) LESS THAN MINIMUM (
-C    1R2).,54,77,1,0,0,0,2,ERRREQ,ERRMIN)
-C
-C     Latest revision ---  19 MAR 1980
-C     Written by Ron Jones, with SLATEC Common Math Library Subcommittee
-C***REFERENCES  JONES R.E., KAHANER D.K., "XERROR, THE SLATEC ERROR-
-C                 HANDLING PACKAGE", SAND82-0800, SANDIA LABORATORIES,
-C                 1982.
-C***ROUTINES CALLED  FDUMP,I1MACH,J4SAVE,XERABT,XERCTL,XERPRT,XERSAV,
-C                    XGETUA
-C***END PROLOGUE  XERRWV
-      CHARACTER*(*) MESSG
-      CHARACTER*20 LFIRST
-      CHARACTER*37 FORM
-      DIMENSION LUN(5)
-C     GET FLAGS
-C***FIRST EXECUTABLE STATEMENT  XERRWV
-      LKNTRL = J4SAVE(2,0,.FALSE.)
-      MAXMES = J4SAVE(4,0,.FALSE.)
-C     CHECK FOR VALID INPUT
-      IF ((NMESSG.GT.0).AND.(NERR.NE.0).AND.
-     1    (LEVEL.GE.(-1)).AND.(LEVEL.LE.2)) GO TO 10
-         IF (LKNTRL.GT.0) CALL XERPRT('FATAL ERROR IN...',17)
-         CALL XERPRT('XERROR -- INVALID INPUT',23)
-         IF (LKNTRL.GT.0) CALL FDUMP
-         IF (LKNTRL.GT.0) CALL XERPRT('JOB ABORT DUE TO FATAL ERROR.',
-     1  29)
-         IF (LKNTRL.GT.0) CALL XERSAV(' ',0,0,0,KDUMMY)
-         CALL XERABT('XERROR -- INVALID INPUT',23)
-         RETURN
-   10 CONTINUE
-C     RECORD MESSAGE
-      JUNK = J4SAVE(1,NERR,.TRUE.)
-      CALL XERSAV(MESSG,NMESSG,NERR,LEVEL,KOUNT)
-C     LET USER OVERRIDE
-      LFIRST = MESSG
-      LMESSG = NMESSG
-      LERR = NERR
-      LLEVEL = LEVEL
-      CALL XERCTL(LFIRST,LMESSG,LERR,LLEVEL,LKNTRL)
-C     RESET TO ORIGINAL VALUES
-      LMESSG = NMESSG
-      LERR = NERR
-      LLEVEL = LEVEL
-      LKNTRL = MAX0(-2,MIN0(2,LKNTRL))
-      MKNTRL = IABS(LKNTRL)
-C     DECIDE WHETHER TO PRINT MESSAGE
-      IF ((LLEVEL.LT.2).AND.(LKNTRL.EQ.0)) GO TO 100
-      IF (((LLEVEL.EQ.(-1)).AND.(KOUNT.GT.MIN0(1,MAXMES)))
-     1.OR.((LLEVEL.EQ.0)   .AND.(KOUNT.GT.MAXMES))
-     2.OR.((LLEVEL.EQ.1)   .AND.(KOUNT.GT.MAXMES).AND.(MKNTRL.EQ.1))
-     3.OR.((LLEVEL.EQ.2)   .AND.(KOUNT.GT.MAX0(1,MAXMES)))) GO TO 100
-         IF (LKNTRL.LE.0) GO TO 20
-            CALL XERPRT(' ',1)
-C           INTRODUCTION
-            IF (LLEVEL.EQ.(-1)) CALL XERPRT
-     1('WARNING MESSAGE...THIS MESSAGE WILL ONLY BE PRINTED ONCE.',57)
-            IF (LLEVEL.EQ.0) CALL XERPRT('WARNING IN...',13)
-            IF (LLEVEL.EQ.1) CALL XERPRT
-     1      ('RECOVERABLE ERROR IN...',23)
-            IF (LLEVEL.EQ.2) CALL XERPRT('FATAL ERROR IN...',17)
-   20    CONTINUE
-C        MESSAGE
-         CALL XERPRT(MESSG,LMESSG)
-         CALL XGETUA(LUN,NUNIT)
-         ISIZEI = LOG10(FLOAT(I1MACH(9))) + 1.0
-         ISIZEF = LOG10(FLOAT(I1MACH(10))**I1MACH(11)) + 1.0
-         DO 50 KUNIT=1,NUNIT
-            IUNIT = LUN(KUNIT)
-            IF (IUNIT.EQ.0) IUNIT = I1MACH(4)
-            DO 22 I=1,MIN(NI,2)
-               WRITE (FORM,21) I,ISIZEI
-   21          FORMAT ('(11X,21HIN ABOVE MESSAGE, I',I1,'=,I',I2,')   ')
-               IF (I.EQ.1) WRITE (IUNIT,FORM) I1
-               IF (I.EQ.2) WRITE (IUNIT,FORM) I2
-   22       CONTINUE
-            DO 24 I=1,MIN(NR,2)
-               WRITE (FORM,23) I,ISIZEF+10,ISIZEF
-   23          FORMAT ('(11X,21HIN ABOVE MESSAGE, R',I1,'=,E',
-     1         I2,'.',I2,')')
-               IF (I.EQ.1) WRITE (IUNIT,FORM) R1
-               IF (I.EQ.2) WRITE (IUNIT,FORM) R2
-   24       CONTINUE
-            IF (LKNTRL.LE.0) GO TO 40
-C              ERROR NUMBER
-               WRITE (IUNIT,30) LERR
-   30          FORMAT (15H ERROR NUMBER =,I10)
-   40       CONTINUE
-   50    CONTINUE
-C        TRACE-BACK
-         IF (LKNTRL.GT.0) CALL FDUMP
-  100 CONTINUE
-      IFATAL = 0
-      IF ((LLEVEL.EQ.2).OR.((LLEVEL.EQ.1).AND.(MKNTRL.EQ.2)))
-     1IFATAL = 1
-C     QUIT HERE IF MESSAGE IS NOT FATAL
-      IF (IFATAL.LE.0) RETURN
-      IF ((LKNTRL.LE.0).OR.(KOUNT.GT.MAX0(1,MAXMES))) GO TO 120
-C        PRINT REASON FOR ABORT
-         IF (LLEVEL.EQ.1) CALL XERPRT
-     1   ('JOB ABORT DUE TO UNRECOVERED ERROR.',35)
-         IF (LLEVEL.EQ.2) CALL XERPRT
-     1   ('JOB ABORT DUE TO FATAL ERROR.',29)
-C        PRINT ERROR SUMMARY
-         CALL XERSAV(' ',-1,0,0,KDUMMY)
-  120 CONTINUE
-C     ABORT
-      IF ((LLEVEL.EQ.2).AND.(KOUNT.GT.MAX0(1,MAXMES))) LMESSG = 0
-      CALL XERABT(MESSG,LMESSG)
-      RETURN
-      END
-      SUBROUTINE XERSAV(MESSG,NMESSG,NERR,LEVEL,ICOUNT)
-      save
-C***BEGIN PROLOGUE  XERSAV
-C***DATE WRITTEN   800319   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  Z
-C***KEYWORDS  ERROR,XERROR PACKAGE
-C***AUTHOR  JONES, R. E., (SNLA)
-C***PURPOSE  Records that an error occurred.
-C***DESCRIPTION
-C     Abstract
-C        Record that this error occurred.
-C
-C     Description of Parameters
-C     --Input--
-C       MESSG, NMESSG, NERR, LEVEL are as in XERROR,
-C       except that when NMESSG=0 the tables will be
-C       dumped and cleared, and when NMESSG is less than zero the
-C       tables will be dumped and not cleared.
-C     --Output--
-C       ICOUNT will be the number of times this message has
-C       been seen, or zero if the table has overflowed and
-C       does not contain this message specifically.
-C       When NMESSG=0, ICOUNT will not be altered.
-C
-C     Written by Ron Jones, with SLATEC Common Math Library Subcommittee
-C     Latest revision ---  19 Mar 1980
-C***REFERENCES  JONES R.E., KAHANER D.K., "XERROR, THE SLATEC ERROR-
-C                 HANDLING PACKAGE", SAND82-0800, SANDIA LABORATORIES,
-C                 1982.
-C***ROUTINES CALLED  I1MACH,S88FMT,XGETUA
-C***END PROLOGUE  XERSAV
-      INTEGER LUN(5)
-      CHARACTER*(*) MESSG
-      CHARACTER*20 MESTAB(10),MES
-      DIMENSION NERTAB(10),LEVTAB(10),KOUNT(10)
-C     SAVE MESTAB,NERTAB,LEVTAB,KOUNT,KOUNTX
-C     NEXT TWO DATA STATEMENTS ARE NECESSARY TO PROVIDE A BLANK
-C     ERROR TABLE INITIALLY
-      DATA KOUNT(1),KOUNT(2),KOUNT(3),KOUNT(4),KOUNT(5),
-     1     KOUNT(6),KOUNT(7),KOUNT(8),KOUNT(9),KOUNT(10)
-     2     /0,0,0,0,0,0,0,0,0,0/
-      DATA KOUNTX/0/
-C***FIRST EXECUTABLE STATEMENT  XERSAV
-      IF (NMESSG.GT.0) GO TO 80
-C     DUMP THE TABLE
-         IF (KOUNT(1).EQ.0) RETURN
-C        PRINT TO EACH UNIT
-         CALL XGETUA(LUN,NUNIT)
-         DO 60 KUNIT=1,NUNIT
-            IUNIT = LUN(KUNIT)
-            IF (IUNIT.EQ.0) IUNIT = I1MACH(4)
-C           PRINT TABLE HEADER
-            WRITE (IUNIT,10)
-   10       FORMAT (32H0          ERROR MESSAGE SUMMARY/
-     1      51H MESSAGE START             NERR     LEVEL     COUNT)
-C           PRINT BODY OF TABLE
-            DO 20 I=1,10
-               IF (KOUNT(I).EQ.0) GO TO 30
-               WRITE (IUNIT,15) MESTAB(I),NERTAB(I),LEVTAB(I),KOUNT(I)
-   15          FORMAT (1X,A20,3I10)
-   20       CONTINUE
-   30       CONTINUE
-C           PRINT NUMBER OF OTHER ERRORS
-            IF (KOUNTX.NE.0) WRITE (IUNIT,40) KOUNTX
-   40       FORMAT (41H0OTHER ERRORS NOT INDIVIDUALLY TABULATED=,I10)
-            WRITE (IUNIT,50)
-   50       FORMAT (1X)
-   60    CONTINUE
-         IF (NMESSG.LT.0) RETURN
-C        CLEAR THE ERROR TABLES
-         DO 70 I=1,10
-   70       KOUNT(I) = 0
-         KOUNTX = 0
-         RETURN
-   80 CONTINUE
-C     PROCESS A MESSAGE...
-C     SEARCH FOR THIS MESSG, OR ELSE AN EMPTY SLOT FOR THIS MESSG,
-C     OR ELSE DETERMINE THAT THE ERROR TABLE IS FULL.
-      MES = MESSG
-      DO 90 I=1,10
-         II = I
-         IF (KOUNT(I).EQ.0) GO TO 110
-         IF (MES.NE.MESTAB(I)) GO TO 90
-         IF (NERR.NE.NERTAB(I)) GO TO 90
-         IF (LEVEL.NE.LEVTAB(I)) GO TO 90
-         GO TO 100
-   90 CONTINUE
-C     THREE POSSIBLE CASES...
-C     TABLE IS FULL
-         KOUNTX = KOUNTX+1
-         ICOUNT = 1
-         RETURN
-C     MESSAGE FOUND IN TABLE
-  100    KOUNT(II) = KOUNT(II) + 1
-         ICOUNT = KOUNT(II)
-         RETURN
-C     EMPTY SLOT FOUND FOR NEW MESSAGE
-  110    MESTAB(II) = MES
-         NERTAB(II) = NERR
-         LEVTAB(II) = LEVEL
-         KOUNT(II)  = 1
-         ICOUNT = 1
-         RETURN
-      END
-      SUBROUTINE XGETUA(IUNITA,N)
-      save
-C***BEGIN PROLOGUE  XGETUA
-C***DATE WRITTEN   790801   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  R3C
-C***KEYWORDS  ERROR,XERROR PACKAGE
-C***AUTHOR  JONES, R. E., (SNLA)
-C***PURPOSE  Returns unit number(s) to which error messages are being
-C            sent.
-C***DESCRIPTION
-C     Abstract
-C        XGETUA may be called to determine the unit number or numbers
-C        to which error messages are being sent.
-C        These unit numbers may have been set by a call to XSETUN,
-C        or a call to XSETUA, or may be a default value.
-C
-C     Description of Parameters
-C      --Output--
-C        IUNIT - an array of one to five unit numbers, depending
-C                on the value of N.  A value of zero refers to the
-C                default unit, as defined by the I1MACH machine
-C                constant routine.  Only IUNIT(1),...,IUNIT(N) are
-C                defined by XGETUA.  The values of IUNIT(N+1),...,
-C                IUNIT(5) are not defined (for N .LT. 5) or altered
-C                in any way by XGETUA.
-C        N     - the number of units to which copies of the
-C                error messages are being sent.  N will be in the
-C                range from 1 to 5.
-C
-C     Latest revision ---  19 MAR 1980
-C     Written by Ron Jones, with SLATEC Common Math Library Subcommittee
-C***REFERENCES  JONES R.E., KAHANER D.K., "XERROR, THE SLATEC ERROR-
-C                 HANDLING PACKAGE", SAND82-0800, SANDIA LABORATORIES,
-C                 1982.
-C***ROUTINES CALLED  J4SAVE
-C***END PROLOGUE  XGETUA
-      DIMENSION IUNITA(5)
-C***FIRST EXECUTABLE STATEMENT  XGETUA
-      N = J4SAVE(5,0,.FALSE.)
-      DO 30 I=1,N
-         INDEX = I+4
-         IF (I.EQ.1) INDEX = 3
-         IUNITA(I) = J4SAVE(INDEX,0,.FALSE.)
-   30 CONTINUE
-      RETURN
-      END
+
       SUBROUTINE DASSST(D, IV, P, STEP, STLSTG, V, X, X0)
       save
 C
@@ -3187,120 +2085,93 @@ C
 C
 C        ***  PRINT SHORT SUMMARY LINE  ***
 C
-         IF (IV(NEEDHD) .EQ. 1 .AND. ALG .EQ. 1) WRITE(PU,30)
- 30   FORMAT(/10H   IT   NF,6X,1HF,7X,5HRELDF,3X,6HPRELDF,3X,5HRELDX,
-     1       2X,13HMODEL  STPPAR)
-         IF (IV(NEEDHD) .EQ. 1 .AND. ALG .EQ. 2) WRITE(PU,40)
- 40   FORMAT(/11H    IT   NF,7X,1HF,8X,5HRELDF,4X,6HPRELDF,4X,5HRELDX,
-     1       3X,6HSTPPAR)
+         IF (IV(NEEDHD) .EQ. 1 .AND. ALG .EQ. 1) call h30()
+         IF (IV(NEEDHD) .EQ. 1 .AND. ALG .EQ. 2) call h40()
          IV(NEEDHD) = 0
          IF (ALG .EQ. 2) GO TO 50
          M = IV(SUSED)
-         WRITE(PU,100) IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
-     1                 MODEL1(M), MODEL2(M), V(STPPAR)
+         call h100(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
+     1             MODEL1(M), MODEL2(M), V(STPPAR))
          GO TO 120
 C
- 50      WRITE(PU,110) IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
-     1                 V(STPPAR)
+ 50      call h110(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
+     1             V(STPPAR))
          GO TO 120
 C
 C     ***  PRINT LONG SUMMARY LINE  ***
 C
- 60   IF (IV(NEEDHD) .EQ. 1 .AND. ALG .EQ. 1) WRITE(PU,70)
- 70   FORMAT(/11H    IT   NF,6X,1HF,7X,5HRELDF,3X,6HPRELDF,3X,5HRELDX,
-     1       2X,13HMODEL  STPPAR,2X,6HD*STEP,2X,7HNPRELDF)
-      IF (IV(NEEDHD) .EQ. 1 .AND. ALG .EQ. 2) WRITE(PU,80)
- 80   FORMAT(/11H    IT   NF,7X,1HF,8X,5HRELDF,4X,6HPRELDF,4X,5HRELDX,
-     1       3X,6HSTPPAR,3X,6HD*STEP,3X,7HNPRELDF)
+ 60   IF (IV(NEEDHD) .EQ. 1 .AND. ALG .EQ. 1) call h70()
+      IF (IV(NEEDHD) .EQ. 1 .AND. ALG .EQ. 2) call h80()
       IV(NEEDHD) = 0
       NRELDF = ZERO
       IF (OLDF .GT. ZERO) NRELDF = V(NREDUC) / OLDF
       IF (ALG .EQ. 2) GO TO 90
       M = IV(SUSED)
-      WRITE(PU,100) IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
-     1             MODEL1(M), MODEL2(M), V(STPPAR), V(DSTNRM), NRELDF
+      call h100(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
+     1           MODEL1(M), MODEL2(M), V(STPPAR), V(DSTNRM), NRELDF)
       GO TO 120
 C
- 90   WRITE(PU,110) IV(NITER), NF, V(F), RELDF, PRELDF,
-     1             V(RELDX), V(STPPAR), V(DSTNRM), NRELDF
- 100  FORMAT(I6,I5,D10.3,2D9.2,D8.1,A3,A4,2D8.1,D9.2)
- 110  FORMAT(I6,I5,D11.3,2D10.2,3D9.1,D10.2)
+ 90   call h110(IV(NITER), NF, V(F), RELDF, PRELDF,
+     1          V(RELDX), V(STPPAR), V(DSTNRM), NRELDF)
 C
  120  IF (IV(STATPR) .LT. 0) GO TO 430
       GO TO (999, 999, 130, 150, 170, 190, 210, 230, 250, 270, 290, 310,
      1       330, 350, 520), IV1
 C
- 130  WRITE(PU,140)
- 140  FORMAT(/26H ***** X-CONVERGENCE *****)
+ 130  call cnlprt(' ***** X-CONVERGENCE *****', 26)
       GO TO 430
 C
- 150  WRITE(PU,160)
- 160  FORMAT(/42H ***** RELATIVE FUNCTION CONVERGENCE *****)
+ 150  call cnlprt(' ***** RELATIVE FUNCTION CONVERGENCE *****', 42)
       GO TO 430
 C
- 170  WRITE(PU,180)
- 180  FORMAT(/49H ***** X- AND RELATIVE FUNCTION CONVERGENCE *****)
+ 170  call cnlprt
+     1(' ***** X- AND RELATIVE FUNCTION CONVERGENCE *****', 49)
       GO TO 430
 C
- 190  WRITE(PU,200)
- 200  FORMAT(/42H ***** ABSOLUTE FUNCTION CONVERGENCE *****)
+ 190  call cnlprt(' ***** ABSOLUTE FUNCTION CONVERGENCE *****', 42)
       GO TO 430
 C
- 210  WRITE(PU,220)
- 220  FORMAT(/33H ***** SINGULAR CONVERGENCE *****)
+ 210  call cnlprt(' ***** SINGULAR CONVERGENCE *****', 33)
       GO TO 430
 C
- 230  WRITE(PU,240)
- 240  FORMAT(/30H ***** FALSE CONVERGENCE *****)
+ 230  call cnlprt(' ***** FALSE CONVERGENCE *****', 30)
       GO TO 430
 C
- 250  WRITE(PU,260)
- 260  FORMAT(/38H ***** FUNCTION EVALUATION LIMIT *****)
+ 250  call cnlprt(' ***** FUNCTION EVALUATION LIMIT *****', 38)
       GO TO 430
 C
- 270  WRITE(PU,280)
- 280  FORMAT(/28H ***** ITERATION LIMIT *****)
+ 270  call cnlprt(' ***** ITERATION LIMIT *****', 28)
       GO TO 430
 C
- 290  WRITE(PU,300)
- 300  FORMAT(/18H ***** STOPX *****)
+ 290  call cnlprt(' ***** STOPX *****', 18)
       GO TO 430
 C
- 310  WRITE(PU,320)
- 320  FORMAT(/44H ***** INITIAL F(X) CANNOT BE COMPUTED *****)
-C
+ 310  call cnlprt(' ***** INITIAL F(X) CANNOT BE COMPUTED *****', 44)
       GO TO 390
 C
- 330  WRITE(PU,340)
- 340  FORMAT(/37H ***** BAD PARAMETERS TO ASSESS *****)
+ 330  call cnlprt(' ***** BAD PARAMETERS TO ASSESS *****', 37)
       GO TO 999
 C
- 350  WRITE(PU,360)
- 360  FORMAT(/43H ***** GRADIENT COULD NOT BE COMPUTED *****)
+ 350  call cnlprt(' ***** GRADIENT COULD NOT BE COMPUTED *****', 43)
       IF (IV(NITER) .GT. 0) GO TO 480
       GO TO 390
 C
- 370  WRITE(PU,380) IV(1)
- 380  FORMAT(/14H ***** IV(1) =,I5,6H *****)
+ 370  call h380(IV(1))
       GO TO 999
 C
 C  ***  INITIAL CALL ON DITSUM  ***
 C
- 390  IF (IV(X0PRT) .NE. 0) WRITE(PU,400) (I, X(I), D(I), I = 1, P)
- 400  FORMAT(/23H     I     INITIAL X(I),8X,4HD(I)//(1X,I5,D17.6,D14.3))
+ 390  call h400(P, X, D)
       IF (IV1 .GE. 12) GO TO 999
       IV(NEEDHD) = 0
       IV(PRNTIT) = 0
       IF (OL .EQ. 0) GO TO 999
-      IF (OL .LT. 0 .AND. ALG .EQ. 1) WRITE(PU,30)
-      IF (OL .LT. 0 .AND. ALG .EQ. 2) WRITE(PU,40)
-      IF (OL .GT. 0 .AND. ALG .EQ. 1) WRITE(PU,70)
-      IF (OL .GT. 0 .AND. ALG .EQ. 2) WRITE(PU,80)
-      IF (ALG .EQ. 1) WRITE(PU,410) V(F)
-      IF (ALG .EQ. 2) WRITE(PU,420) V(F)
- 410  FORMAT(/11H     0    1,D10.3)
-C365  FORMAT(/11H     0    1,E11.3)
- 420  FORMAT(/11H     0    1,D11.3)
+      IF (OL .LT. 0 .AND. ALG .EQ. 1) call h30()
+      IF (OL .LT. 0 .AND. ALG .EQ. 2) call h40()
+      IF (OL .GT. 0 .AND. ALG .EQ. 1) call h70()
+      IF (OL .GT. 0 .AND. ALG .EQ. 2) call h80()
+      IF (ALG .EQ. 1) call h410(V(F))
+      IF (ALG .EQ. 2) call h420(V(F))
       GO TO 999
 C
 C  ***  PRINT VARIOUS INFORMATION REQUESTED ON SOLUTION  ***
@@ -3315,29 +2186,19 @@ C
               NRELDF = V(NREDUC) / OLDF
  440     NF = IV(NFCALL) - IV(NFCOV)
          NG = IV(NGCALL) - IV(NGCOV)
-         WRITE(PU,450) V(F), V(RELDX), NF, NG, PRELDF, NRELDF
- 450  FORMAT(/9H FUNCTION,D17.6,8H   RELDX,D17.3/12H FUNC. EVALS,
-     1   I8,9X,11HGRAD. EVALS,I8/7H PRELDF,D16.3,6X,7HNPRELDF,D15.3)
+         call h450(V(F), V(RELDX), NF, NG, PRELDF, NRELDF)
 C
-         IF (IV(NFCOV) .GT. 0) WRITE(PU,460) IV(NFCOV)
- 460     FORMAT(/1X,I4,50H EXTRA FUNC. EVALS FOR COVARIANCE AND DIAGNOST
-     1ICS.)
-         IF (IV(NGCOV) .GT. 0) WRITE(PU,470) IV(NGCOV)
- 470     FORMAT(1X,I4,50H EXTRA GRAD. EVALS FOR COVARIANCE AND DIAGNOSTI
-     1CS.)
+         IF (IV(NFCOV) .GT. 0) call h460(IV(NFCOV))
+         IF (IV(NGCOV) .GT. 0) call h470(IV(NGCOV))
 C
  480  IF (IV(SOLPRT) .EQ. 0) GO TO 999
          IV(NEEDHD) = 1
-         WRITE(PU,490)
- 490  FORMAT(/22H     I      FINAL X(I),8X,4HD(I),10X,4HG(I)/)
-         DO 500 I = 1, P
-              WRITE(PU,510) I, X(I), D(I), G(I)
- 500          CONTINUE
- 510     FORMAT(1X,I5,D16.6,2D14.3)
+         call cnlprt('     I      FINAL X(I)        D(I)          G(I)',
+     1               48)
+         call h500(P, X, D, G)
       GO TO 999
 C
- 520  WRITE(PU,530)
- 530  FORMAT(/24H INCONSISTENT DIMENSIONS)
+ 520  call cnlprt(' INCONSISTENT DIMENSIONS', 24)
  999  RETURN
 C  ***  LAST CARD OF DITSUM FOLLOWS  ***
       END
@@ -3620,159 +2481,6 @@ C
  999  RETURN
 C  ***  LAST CARD OF DLVMUL FOLLOWS  ***
       END
-      DOUBLE PRECISION FUNCTION DNRM2(N,DX,INCX)
-      save
-C***BEGIN PROLOGUE  DNRM2
-C***DATE WRITTEN   791001   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  D1A3B
-C***KEYWORDS  BLAS,DOUBLE PRECISION,EUCLIDEAN,L2,LENGTH,LINEAR ALGEBRA,
-C             NORM,VECTOR
-C***AUTHOR  LAWSON, C. L., (JPL)
-C           HANSON, R. J., (SNLA)
-C           KINCAID, D. R., (U. OF TEXAS)
-C           KROGH, F. T., (JPL)
-C***PURPOSE  Euclidean length (L2 norm) of d.p. vector
-C***DESCRIPTION
-C
-C                B L A S  Subprogram
-C    Description of parameters
-C
-C     --Input--
-C        N  number of elements in input vector(s)
-C       DX  double precision vector with N elements
-C     INCX  storage spacing between elements of DX
-C
-C     --Output--
-C    DNRM2  double precision result (zero if N .LE. 0)
-C
-C     Euclidean norm of the N-vector stored in DX() with storage
-C     increment INCX .
-C     If    N .LE. 0 return with result = 0.
-C     If N .GE. 1 then INCX must be .GE. 1
-C
-C           C.L. Lawson, 1978 Jan 08
-C
-C     Four phase method     using two built-in constants that are
-C     hopefully applicable to all machines.
-C         CUTLO = maximum of  DSQRT(U/EPS)  over all known machines.
-C         CUTHI = minimum of  DSQRT(V)      over all known machines.
-C     where
-C         EPS = smallest no. such that EPS + 1. .GT. 1.
-C         U   = smallest positive no.   (underflow limit)
-C         V   = largest  no.            (overflow  limit)
-C
-C     Brief outline of algorithm..
-C
-C     Phase 1    scans zero components.
-C     move to phase 2 when a component is nonzero and .LE. CUTLO
-C     move to phase 3 when a component is .GT. CUTLO
-C     move to phase 4 when a component is .GE. CUTHI/M
-C     where M = N for X() real and M = 2*N for complex.
-C
-C     Values for CUTLO and CUTHI..
-C     From the environmental parameters listed in the IMSL converter
-C     document the limiting values are as followS..
-C     CUTLO, S.P.   U/EPS = 2**(-102) for  Honeywell.  Close seconds are
-C                   Univac and DEC at 2**(-103)
-C                   Thus CUTLO = 2**(-51) = 4.44089E-16
-C     CUTHI, S.P.   V = 2**127 for Univac, Honeywell, and DEC.
-C                   Thus CUTHI = 2**(63.5) = 1.30438E19
-C     CUTLO, D.P.   U/EPS = 2**(-67) for Honeywell and DEC.
-C                   Thus CUTLO = 2**(-33.5) = 8.23181D-11
-C     CUTHI, D.P.   same as S.P.  CUTHI = 1.30438D19
-C     DATA CUTLO, CUTHI / 8.232D-11,  1.304D19 /
-C     DATA CUTLO, CUTHI / 4.441E-16,  1.304E19 /
-C***REFERENCES  LAWSON C.L., HANSON R.J., KINCAID D.R., KROGH F.T.,
-C                 *BASIC LINEAR ALGEBRA SUBPROGRAMS FOR FORTRAN USAGE*,
-C                 ALGORITHM NO. 539, TRANSACTIONS ON MATHEMATICAL
-C                 SOFTWARE, VOLUME 5, NUMBER 3, SEPTEMBER 1979, 308-323
-C***ROUTINES CALLED  (NONE)
-C***END PROLOGUE  DNRM2
-      INTEGER          NEXT
-      DOUBLE PRECISION   DX(1), CUTLO, CUTHI, HITEST, SUM, XMAX,ZERO,ONE
-      DATA   ZERO, ONE /0.0D0, 1.0D0/
-C
-      DATA CUTLO, CUTHI / 8.232D-11,  1.304D19 /
-C***FIRST EXECUTABLE STATEMENT  DNRM2
-      IF(N .GT. 0) GO TO 10
-         DNRM2  = ZERO
-         GO TO 300
-C
-   10 ASSIGN 30 TO NEXT
-      SUM = ZERO
-      NN = N * INCX
-C                                                 BEGIN MAIN LOOP
-      I = 1
-   20    GO TO NEXT,(30, 50, 70, 110)
-   30 IF( DABS(DX(I)) .GT. CUTLO) GO TO 85
-      ASSIGN 50 TO NEXT
-      XMAX = ZERO
-C
-C                        PHASE 1.  SUM IS ZERO
-C
-   50 IF( DX(I) .EQ. ZERO) GO TO 200
-      IF( DABS(DX(I)) .GT. CUTLO) GO TO 85
-C
-C                                PREPARE FOR PHASE 2.
-      ASSIGN 70 TO NEXT
-      GO TO 105
-C
-C                                PREPARE FOR PHASE 4.
-C
-  100 I = J
-      ASSIGN 110 TO NEXT
-      SUM = (SUM / DX(I)) / DX(I)
-  105 XMAX = DABS(DX(I))
-      GO TO 115
-C
-C                   PHASE 2.  SUM IS SMALL.
-C                             SCALE TO AVOID DESTRUCTIVE UNDERFLOW.
-C
-   70 IF( DABS(DX(I)) .GT. CUTLO ) GO TO 75
-C
-C                     COMMON CODE FOR PHASES 2 AND 4.
-C                     IN PHASE 4 SUM IS LARGE.  SCALE TO AVOID OVERFLOW.
-C
-  110 IF( DABS(DX(I)) .LE. XMAX ) GO TO 115
-         SUM = ONE + SUM * (XMAX / DX(I))**2
-         XMAX = DABS(DX(I))
-         GO TO 200
-C
-  115 SUM = SUM + (DX(I)/XMAX)**2
-      GO TO 200
-C
-C
-C                  PREPARE FOR PHASE 3.
-C
-   75 SUM = (SUM * XMAX) * XMAX
-C
-C
-C     FOR REAL OR D.P. SET HITEST = CUTHI/N
-C     FOR COMPLEX      SET HITEST = CUTHI/(2*N)
-C
-   85 HITEST = CUTHI/FLOAT( N )
-C
-C                   PHASE 3.  SUM IS MID-RANGE.  NO SCALING.
-C
-      DO 95 J =I,NN,INCX
-      IF(DABS(DX(J)) .GE. HITEST) GO TO 100
-   95    SUM = SUM + DX(J)**2
-      DNRM2 = DSQRT( SUM )
-      GO TO 300
-C
-  200 CONTINUE
-      I = I + INCX
-      IF ( I .LE. NN ) GO TO 20
-C
-C              END OF MAIN LOOP.
-C
-C              COMPUTE SQUARE ROOT AND ADJUST FOR SCALING.
-C
-      DNRM2 = XMAX * DSQRT(SUM)
-  300 CONTINUE
-      RETURN
-      END
       SUBROUTINE DPARCK(ALG, D, IV, LIV, LV, N, V)
       save
 C
@@ -3940,9 +2648,9 @@ C
       IF (LV .LT. IV(LASTV)) GO TO 310
       IV(VNEED) = 0
       IF (ALG .EQ. IV(ALGSAV)) GO TO 20
-         IF (PU .NE. 0) WRITE(PU,10) ALG, IV(ALGSAV)
- 10      FORMAT(/' THE FIRST PARAMETER TO DDEFLT SHOULD BE',I3,
-     1          12H RATHER THAN,I3)
+c         IF (PU .NE. 0) WRITE(PU,10) ALG, IV(ALGSAV)
+c 10      FORMAT(/' THE FIRST PARAMETER TO DDEFLT SHOULD BE',I3,
+c     1          12H RATHER THAN,I3)
          IV(1) = 82
          GO TO 999
  20   IV1 = IV(1)
@@ -3950,8 +2658,8 @@ C
          IF (N .GE. 1) GO TO 40
               IV(1) = 81
               IF (PU .EQ. 0) GO TO 999
-              WRITE(PU,30) VARNM(ALG), N
- 30           FORMAT(/8H /// BAD,A1,2H =,I5)
+c              WRITE(PU,30) VARNM(ALG), N
+c 30           FORMAT(/8H /// BAD,A1,2H =,I5)
               GO TO 999
  40      IF (IV1 .NE. 14) IV(NEXTIV) = IV(PERM)
          IF (IV1 .NE. 14) IV(NEXTV) = IV(LMAT)
@@ -3967,14 +2675,14 @@ C
  50   IF (N .EQ. IV(OLDN)) GO TO 70
          IV(1) = 17
          IF (PU .EQ. 0) GO TO 999
-         WRITE(PU,60) VARNM(ALG), IV(OLDN), N
- 60      FORMAT(/5H /// ,1A1,14H CHANGED FROM ,I5,4H TO ,I5)
+c         WRITE(PU,60) VARNM(ALG), IV(OLDN), N
+c 60      FORMAT(/5H /// ,1A1,14H CHANGED FROM ,I5,4H TO ,I5)
          GO TO 999
 C
  70   IF (IV1 .LE. 11 .AND. IV1 .GE. 1) GO TO 90
          IV(1) = 80
-         IF (PU .NE. 0) WRITE(PU,80) IV1
- 80      FORMAT(/13H ///  IV(1) =,I5,28H SHOULD BE BETWEEN 0 AND 14.)
+c         IF (PU .NE. 0) WRITE(PU,80) IV1
+c 80      FORMAT(/13H ///  IV(1) =,I5,28H SHOULD BE BETWEEN 0 AND 14.)
          GO TO 999
 C
  90   WHICH(1) = CNGD(1)
@@ -4014,10 +2722,10 @@ C
          VK = V(K)
          IF (VK .GE. VM(I) .AND. VK .LE. VX(I)) GO TO 130
               M = K
-              IF (PU .NE. 0) WRITE(PU,120) VN(1,I), VN(2,I), K, VK,
-     1                                    VM(I), VX(I)
- 120          FORMAT(/6H ///  ,2A4,5H.. V(,I2,3H) =,D11.3,7H SHOULD,
-     1               11H BE BETWEEN,D11.3,4H AND,D11.3)
+c              IF (PU .NE. 0) WRITE(PU,120) VN(1,I), VN(2,I), K, VK,
+c     1                                    VM(I), VX(I)
+c 120          FORMAT(/6H ///  ,2A4,5H.. V(,I2,3H) =,D11.3,7H SHOULD,
+c     1               11H BE BETWEEN,D11.3,4H AND,D11.3)
  130     K = K + 1
          I = I + 1
          IF (I .EQ. J) I = IJMP
@@ -4026,16 +2734,16 @@ C
       IF (IV(NVDFLT) .EQ. NDFALT) GO TO 160
          IV(1) = 51
          IF (PU .EQ. 0) GO TO 999
-         WRITE(PU,150) IV(NVDFLT), NDFALT
- 150     FORMAT(/13H IV(NVDFLT) =,I5,13H RATHER THAN ,I5)
+c         WRITE(PU,150) IV(NVDFLT), NDFALT
+c 150     FORMAT(/13H IV(NVDFLT) =,I5,13H RATHER THAN ,I5)
          GO TO 999
  160  IF ((IV(DTYPE) .GT. 0 .OR. V(DINIT) .GT. ZERO) .AND. IV1 .EQ. 12)
      1                  GO TO 190
       DO 180 I = 1, N
          IF (D(I) .GT. ZERO) GO TO 180
               M = 18
-              IF (PU .NE. 0) WRITE(PU,170) I, D(I)
- 170     FORMAT(/8H ///  D(,I3,3H) =,D11.3,19H SHOULD BE POSITIVE)
+c              IF (PU .NE. 0) WRITE(PU,170) I, D(I)
+c 170     FORMAT(/8H ///  D(,I3,3H) =,D11.3,19H SHOULD BE POSITIVE)
  180     CONTINUE
  190  IF (M .EQ. 0) GO TO 200
          IV(1) = M
@@ -4044,14 +2752,14 @@ C
  200  IF (PU .EQ. 0 .OR. IV(PARPRT) .EQ. 0) GO TO 999
       IF (IV1 .NE. 12 .OR. IV(INITS) .EQ. ALG-1) GO TO 220
          M = 1
-         WRITE(PU,210) SH(ALG), IV(INITS)
- 210     FORMAT(/22H NONDEFAULT VALUES..../5H INIT,A1,14H..... IV(25) =,
-     1          I3)
+c         WRITE(PU,210) SH(ALG), IV(INITS)
+c 210     FORMAT(/22H NONDEFAULT VALUES..../5H INIT,A1,14H..... IV(25) =,
+c     1          I3)
  220  IF (IV(DTYPE) .EQ. IV(DTYPE0)) GO TO 240
-         IF (M .EQ. 0) WRITE(PU,250) WHICH
+c         IF (M .EQ. 0) WRITE(PU,250) WHICH
          M = 1
-         WRITE(PU,230) IV(DTYPE)
- 230     FORMAT(20H DTYPE..... IV(16) =,I3)
+c         WRITE(PU,230) IV(DTYPE)
+c 230     FORMAT(20H DTYPE..... IV(16) =,I3)
  240  I = 1
       J = JLIM(ALG)
       K = EPSLON
@@ -4059,11 +2767,11 @@ C
       NDFALT = NDFLT(ALG)
       DO 280 II = 1, NDFALT
          IF (V(K) .EQ. V(L)) GO TO 270
-              IF (M .EQ. 0) WRITE(PU,250) WHICH
- 250          FORMAT(/1H ,3A4,9HALUES..../)
+c              IF (M .EQ. 0) WRITE(PU,250) WHICH
+c 250          FORMAT(/1H ,3A4,9HALUES..../)
               M = 1
-              WRITE(PU,260) VN(1,I), VN(2,I), K, V(K)
- 260          FORMAT(1X,2A4,5H.. V(,I2,3H) =,D15.7)
+c              WRITE(PU,260) VN(1,I), VN(2,I), K, V(K)
+c 260          FORMAT(1X,2A4,5H.. V(,I2,3H) =,D15.7)
  270     K = K + 1
          L = L + 1
          I = I + 1
@@ -4077,16 +2785,16 @@ C
 C
  290  IV(1) = 15
       IF (PU .EQ. 0) GO TO 999
-      WRITE(PU,300) LIV, MIV2
- 300  FORMAT(/10H /// LIV =,I5,17H MUST BE AT LEAST,I5)
+c      WRITE(PU,300) LIV, MIV2
+c 300  FORMAT(/10H /// LIV =,I5,17H MUST BE AT LEAST,I5)
       IF (LIV .LT. MIV1) GO TO 999
       IF (LV .LT. IV(LASTV)) GO TO 310
       GO TO 999
 C
  310  IV(1) = 16
       IF (PU .EQ. 0) GO TO 999
-      WRITE(PU,320) LV, IV(LASTV)
- 320  FORMAT(/9H /// LV =,I5,17H MUST BE AT LEAST,I5)
+c      WRITE(PU,320) LV, IV(LASTV)
+c 320  FORMAT(/9H /// LV =,I5,17H MUST BE AT LEAST,I5)
       GO TO 999
 C
  330  IV(1) = 67
@@ -4148,199 +2856,6 @@ C
 C     ..................................................................
 C
       DSTOPX = .FALSE.
-      RETURN
-      END
-      SUBROUTINE FDUMP
-      save
-C***BEGIN PROLOGUE  FDUMP
-C***DATE WRITTEN   790801   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  Z
-C***KEYWORDS  ERROR,XERROR PACKAGE
-C***AUTHOR  JONES, R. E., (SNLA)
-C***PURPOSE  Symbolic dump (should be locally written).
-C***DESCRIPTION
-C        ***Note*** Machine Dependent Routine
-C        FDUMP is intended to be replaced by a locally written
-C        version which produces a symbolic dump.  Failing this,
-C        it should be replaced by a version which prints the
-C        subprogram nesting list.  Note that this dump must be
-C        printed on each of up to five files, as indicated by the
-C        XGETUA routine.  See XSETUA and XGETUA for details.
-C
-C     Written by Ron Jones, with SLATEC Common Math Library Subcommittee
-C     Latest revision ---  23 May 1979
-C***ROUTINES CALLED  (NONE)
-C***END PROLOGUE  FDUMP
-C***FIRST EXECUTABLE STATEMENT  FDUMP
-      RETURN
-      END
-      FUNCTION J4SAVE(IWHICH,IVALUE,ISET)
-      save
-C***BEGIN PROLOGUE  J4SAVE
-C***REFER TO  XERROR
-C     Abstract
-C        J4SAVE saves and recalls several global variables needed
-C        by the library error handling routines.
-C
-C     Description of Parameters
-C      --Input--
-C        IWHICH - Index of item desired.
-C                = 1 Refers to current error number.
-C                = 2 Refers to current error control flag.
-C                 = 3 Refers to current unit number to which error
-C                    messages are to be sent.  (0 means use standard.)
-C                 = 4 Refers to the maximum number of times any
-C                     message is to be printed (as set by XERMAX).
-C                 = 5 Refers to the total number of units to which
-C                     each error message is to be written.
-C                 = 6 Refers to the 2nd unit for error messages
-C                 = 7 Refers to the 3rd unit for error messages
-C                 = 8 Refers to the 4th unit for error messages
-C                 = 9 Refers to the 5th unit for error messages
-C        IVALUE - The value to be set for the IWHICH-th parameter,
-C                 if ISET is .TRUE. .
-C        ISET   - If ISET=.TRUE., the IWHICH-th parameter will BE
-C                 given the value, IVALUE.  If ISET=.FALSE., the
-C                 IWHICH-th parameter will be unchanged, and IVALUE
-C                 is a dummy parameter.
-C      --Output--
-C        The (old) value of the IWHICH-th parameter will be returned
-C        in the function value, J4SAVE.
-C
-C     Written by Ron Jones, with SLATEC Common Math Library Subcommittee
-C    Adapted from Bell Laboratories PORT Library Error Handler
-C     Latest revision ---  23 MAY 1979
-C***REFERENCES  JONES R.E., KAHANER D.K., "XERROR, THE SLATEC ERROR-
-C                 HANDLING PACKAGE", SAND82-0800, SANDIA LABORATORIES,
-C                 1982.
-C***ROUTINES CALLED  (NONE)
-C***END PROLOGUE  J4SAVE
-      LOGICAL ISET
-      INTEGER IPARAM(9)
-C     SAVE IPARAM
-      DATA IPARAM(1),IPARAM(2),IPARAM(3),IPARAM(4)/0,2,0,10/
-      DATA IPARAM(5)/1/
-      DATA IPARAM(6),IPARAM(7),IPARAM(8),IPARAM(9)/0,0,0,0/
-C***FIRST EXECUTABLE STATEMENT  J4SAVE
-      J4SAVE = IPARAM(IWHICH)
-      IF (ISET) IPARAM(IWHICH) = IVALUE
-      RETURN
-      END
-      SUBROUTINE XERABT(MESSG,NMESSG)
-      save
-C***BEGIN PROLOGUE  XERABT
-C***DATE WRITTEN   790801   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  R3C
-C***KEYWORDS  ERROR,XERROR PACKAGE
-C***AUTHOR  JONES, R. E., (SNLA)
-C***PURPOSE  Aborts program execution and prints error message.
-C***DESCRIPTION
-C     Abstract
-C        ***Note*** machine dependent routine
-C        XERABT aborts the execution of the program.
-C        The error message causing the abort is given in the calling
-C        sequence, in case one needs it for printing on a dayfile,
-C        for example.
-C
-C     Description of Parameters
-C        MESSG and NMESSG are as in XERROR, except that NMESSG may
-C        be zero, in which case no message is being supplied.
-C
-C     Written by Ron Jones, with SLATEC Common Math Library Subcommittee
-C     Latest revision ---  19 MAR 1980
-C***REFERENCES  JONES R.E., KAHANER D.K., "XERROR, THE SLATEC ERROR-
-C                 HANDLING PACKAGE", SAND82-0800, SANDIA LABORATORIES,
-C                 1982.
-C***ROUTINES CALLED  (NONE)
-C***END PROLOGUE  XERABT
-      CHARACTER*(*) MESSG
-C      EXTERNAL ERROR
-C***FIRST EXECUTABLE STATEMENT  XERABT
-C      CALL ERROR('dsumsl(), dsmsno() aborted\n')
-      END
-      SUBROUTINE XERCTL(MESSG1,NMESSG,NERR,LEVEL,KONTRL)
-      save
-C***BEGIN PROLOGUE  XERCTL
-C***DATE WRITTEN   790801   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  R3C
-C***KEYWORDS  ERROR,XERROR PACKAGE
-C***AUTHOR  JONES, R. E., (SNLA)
-C***PURPOSE  Allows user control over handling of individual errors.
-C***DESCRIPTION
-C     Abstract
-C        Allows user control over handling of individual errors.
-C        Just after each message is recorded, but before it is
-C        processed any further (i.e., before it is printed or
-C        a decision to abort is made), a call is made to XERCTL.
-C        If the user has provided his own version of XERCTL, he
-C        can then override the value of KONTROL used in processing
-C        this message by redefining its value.
-C        KONTRL may be set to any value from -2 to 2.
-C        The meanings for KONTRL are the same as in XSETF, except
-C        that the value of KONTRL changes only for this message.
-C        If KONTRL is set to a value outside the range from -2 to 2,
-C        it will be moved back into that range.
-C
-C     Description of Parameters
-C
-C      --Input--
-C        MESSG1 - the first word (only) of the error message.
-C        NMESSG - same as in the call to XERROR or XERRWV.
-C        NERR   - same as in the call to XERROR or XERRWV.
-C        LEVEL  - same as in the call to XERROR or XERRWV.
-C        KONTRL - the current value of the control flag as set
-C                 by a call to XSETF.
-C
-C      --Output--
-C        KONTRL - the new value of KONTRL.  If KONTRL is not
-C                 defined, it will remain at its original value.
-C                 This changed value of control affects only
-C                 the current occurrence of the current message.
-C***REFERENCES  JONES R.E., KAHANER D.K., "XERROR, THE SLATEC ERROR-
-C                 HANDLING PACKAGE", SAND82-0800, SANDIA LABORATORIES,
-C                 1982.
-C***ROUTINES CALLED  (NONE)
-C***END PROLOGUE  XERCTL
-      CHARACTER*20 MESSG1
-C***FIRST EXECUTABLE STATEMENT  XERCTL
-      RETURN
-      END
-      SUBROUTINE XERPRT(MESSG,NMESSG)
-      save
-C***BEGIN PROLOGUE  XERPRT
-C***DATE WRITTEN   790801   (YYMMDD)
-C***REVISION DATE  820801   (YYMMDD)
-C***CATEGORY NO.  Z
-C***KEYWORDS  ERROR,XERROR PACKAGE
-C***AUTHOR  JONES, R. E., (SNLA)
-C***PURPOSE  Prints error messages.
-C***DESCRIPTION
-C     Abstract
-C        Print the Hollerith message in MESSG, of length NMESSG,
-C        on each file indicated by XGETUA.
-C     Latest revision ---  19 MAR 1980
-C***REFERENCES  JONES R.E., KAHANER D.K., "XERROR, THE SLATEC ERROR-
-C                 HANDLING PACKAGE", SAND82-0800, SANDIA LABORATORIES,
-C                 1982.
-C***ROUTINES CALLED  I1MACH,S88FMT,XGETUA
-C***END PROLOGUE  XERPRT
-      INTEGER LUN(5)
-      CHARACTER*(*) MESSG
-C     OBTAIN UNIT NUMBERS AND WRITE LINE TO EACH UNIT
-C***FIRST EXECUTABLE STATEMENT  XERPRT
-      CALL XGETUA(LUN,NUNIT)
-      LENMES = LEN(MESSG)
-      DO 20 KUNIT=1,NUNIT
-         IUNIT = LUN(KUNIT)
-         IF (IUNIT.EQ.0) IUNIT = I1MACH(4)
-         DO 10 ICHAR=1,LENMES,72
-            LAST = MIN0(ICHAR+71 , LENMES)
-            WRITE (IUNIT,'(1X,A)') MESSG(ICHAR:LAST)
-   10    CONTINUE
-   20 CONTINUE
       RETURN
       END
       SUBROUTINE DSMSNO(N, D, X, CALCF, IV, LIV, LV, V,
@@ -4549,7 +3064,9 @@ C
  10   G1 = IV(G)
 C
  20   CALL DSUMIT(D, FX, V(G1), IV, LIV, LV, N, V, X)
-      IF (IV(1) - 2) 999, 30, 70
+c      IF (IV(1) - 2) 999, 30, 70
+      IF (IV(1) .LT. 2) GO TO 999
+      IF (IV(1) .GT. 2) GO TO 70
 C
 C  ***  COMPUTE GRADIENT  ***
 C
@@ -4711,7 +3228,9 @@ C/
 C
 C---------------------------------  BODY  ------------------------------
 C
-      IF (IRC) 140, 100, 210
+c      IF (IRC) 140, 100, 210
+      IF (IRC .LT. 0) GO TO 140
+      IF (IRC .GT. 0) GO TO 210
 C
 C     ***  FRESH START -- GET MACHINE-DEPENDENT CONSTANTS  ***
 C

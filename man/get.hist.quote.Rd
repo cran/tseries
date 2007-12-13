@@ -77,8 +77,9 @@ get.hist.quote(instrument = "^gdax", start, end,
   \url{http://www.oanda.com/}
 }
 \examples{
-if(!inherits(try(open(url("http://quote.yahoo.com")), silent = TRUE),
-             "try-error")) {
+con <- url("http://quote.yahoo.com")
+if(!inherits(try(open(con), silent = TRUE), "try-error")) {
+  close(con)
   x <- get.hist.quote(instrument = "^gspc", start = "1998-01-01",
                       quote = "Close")
   plot(x)
