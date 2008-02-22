@@ -5,7 +5,8 @@ import("graphics", "stats", "utils")
 export("adf.test", "approx.irts", "arma", "as.irts",
        "bds.test",
        "daysecond",
-       "garch", "get.hist.quote",
+       "garch", "garch.control",
+       "get.hist.quote",
        "irts", "is.businessday", "is.irts", "is.weekend",
        "jarque.bera.test",
        "kpss.test",
@@ -52,5 +53,7 @@ S3method("terasvirta.test", "default")
 S3method("terasvirta.test", "ts")
 S3method("time", "irts")
 S3method("value", "irts")
+S3method("vcov", "arma")
+S3method("vcov", "garch")
 S3method("white.test", "default")
 S3method("white.test", "ts")

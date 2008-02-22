@@ -1,3 +1,24 @@
+2008-02-26  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-14.
+
+2008-02-09  Achim Zeileis  <Achim.Zeileis@R-project.org>
+
+	* R/garch.R: changed handling of control arguments for
+	  garch(), new garch.control() function,
+	  added new vcov() method.
+	* src/garch.c: de-coupled single eps tolerance into
+	  four different tolerance parameters.
+	* man/garch.Rd: all control arguments now collected in
+	  garch.control(), re-named (similar to optim arguments),
+	  de-coupled tolerance parameters, return value has
+	  vcov instead of asy.se.coef. 
+	* man/garch-methods.Rd: new vcov method.
+	* R/arma.R: new vcov() method
+	* man/arma.Rd: return value has vcov instead of asy.se.coef.	
+	* man/arma-methods.Rd: new vcov method.
+	* NAMESPACE: new vcov() methods
+
 2007-12-13  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-13.

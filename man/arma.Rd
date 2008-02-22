@@ -59,7 +59,7 @@ arma(x, order = c(1, 1), lag = NULL, coef = NULL,
   \item{series}{the name of the series \code{x}.}
   \item{frequency}{the frequency of the series \code{x}.}
   \item{call}{the call of the \code{arma} function.}
-  \item{asy.se.coef}{the asymptotic-theory standard errors of the
+  \item{vcov}{estimate of the asymptotic-theory covariance matrix for the
     coefficient estimates.}
   \item{convergence}{The \code{convergence} integer code from
     \code{\link{optim}}.}

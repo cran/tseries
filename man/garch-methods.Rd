@@ -2,6 +2,7 @@
 \alias{garch-methods}
 \alias{predict.garch}
 \alias{coef.garch}
+\alias{vcov.garch}
 \alias{residuals.garch}
 \alias{fitted.garch}
 \alias{print.garch}
@@ -14,6 +15,7 @@
 \usage{
 \method{predict}{garch}(object, newdata, genuine = FALSE, \dots)
 \method{coef}{garch}(object, \dots)
+\method{vcov}{garch}(object, \dots)
 \method{residuals}{garch}(object, \dots)
 \method{fitted}{garch}(object, \dots)
 \method{print}{garch}(x, digits = max(3, getOption("digits") - 3), \dots)
@@ -38,6 +40,8 @@
   predictions from a fitted GARCH model.
 
   \code{coef} returns the coefficient estimates.
+
+  \code{vcov} the associated covariance matrix estimate (outer product of gradients estimator).
 
   \code{residuals} returns the GARCH residuals, i.e., the time series
   used to fit the model divided by the computed conditional standard

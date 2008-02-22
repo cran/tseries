@@ -1,5 +1,6 @@
 \name{garch}
 \alias{garch}
+\alias{garch.control}
 \title{Fit GARCH Models to Time Series}
 \description{
   Fit a Generalized Autoregressive Conditional Heteroscedastic GARCH(p,
@@ -7,36 +8,38 @@
   estimates of the conditionally normal model.
 }
 \usage{
-garch(x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
-      grad = c("analytical","numerical"), series = NULL,
-      trace = TRUE, \dots)
+garch(x, order = c(1, 1), series = NULL, control = garch.control(\dots), \dots)
+
+garch.control(maxiter = 200, trace = TRUE, start = NULL,
+  grad = c("analytical","numerical"), abstol = max(1e-20, .Machine$double.eps^2),
+  reltol = max(1e-10, .Machine$double.eps^(2/3)), xtol = sqrt(.Machine$double.eps),
+  falsetol = 1e2 * .Machine$double.eps, \dots)
 }
 \arguments{
   \item{x}{a numeric vector or time series.}
   \item{order}{a two dimensional integer vector giving the orders of the
     model to fit.  \code{order[2]} corresponds to the ARCH part and
     \code{order[1]} to the GARCH part.}
-  \item{coef}{If given this numeric vector is used as the initial estimate
+  \item{series}{name for the series. Defaults to
+    \code{deparse(substitute(x))}.}
+  \item{control}{a list of control parameters as set up by \code{garch.control}.}
+  \item{maxiter}{gives the maximum number of log-likelihood function
+    evaluations \code{maxiter} and the maximum number of iterations
+    \code{2*maxiter} the optimizer is allowed to compute.}
+  \item{trace}{logical. Trace optimizer output?}
+  \item{start}{If given this numeric vector is used as the initial estimate
     of the GARCH coefficients.  Default initialization is to set the
     GARCH parameters to slightly positive values and to initialize the
     intercept such that the unconditional variance of the initial GARCH
     is equal to the variance of \code{x}.}
-  \item{itmax}{gives the maximum number of log-likelihood function
-    evaluations \code{itmax} and the maximum number of iterations
-    \code{2*itmax} the optimizer is allowed to compute.}
-  \item{eps}{defines the absolute (\code{max(1e-20, eps^2)}) and
-    relative function convergence tolerance
-    (\code{max(1e-10, eps^(2/3))}), the coefficient-convergence
-    tolerance (\code{sqrt(eps)}), and the false convergence tolerance
-    (\code{1e2*eps}). Default value is the machine epsilon, see
-    \code{\link{Machine}}.}
-  \item{grad}{indicates if the analytical gradient or a numerical
+  \item{grad}{character indicating whether analytical gradients or a numerical
     approximation is used for the optimization.}
-  \item{series}{name for the series. Defaults to
-    \code{deparse(substitute(x))}.}
-  \item{trace}{trace optimizer output?}
+  \item{abstol}{absolute function convergence tolerance.}
+  \item{reltol}{relative function convergence tolerance.}
+  \item{xtol}{coefficient-convergence tolerance.}
+  \item{falsetol}{false convergence tolerance.}
   \item{\dots}{additional arguments for \code{\link{qr}} when computing
-    the asymptotic standard errors of \code{coef}.}
+    the asymptotic covariance matrix.}
 }
 \details{
   \code{garch} uses a Quasi-Newton optimizer to find the maximum
@@ -61,8 +64,8 @@ garch(x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
   \item{series}{the name of the series \code{x}.}
   \item{frequency}{the frequency of the series \code{x}.}
   \item{call}{the call of the \code{garch} function.}
-  \item{asy.se.coef}{the asymptotic-theory standard errors of the
-    coefficient estimates.}
+  \item{vcov}{outer product of gradient estimate of the asymptotic-theory
+    covariance matrix for the coefficient estimates.}
 }
 \references{
   A. K. Bera and M. L. Higgins (1993):

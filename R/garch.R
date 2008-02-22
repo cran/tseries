@@ -20,15 +20,12 @@
 ##
 
 garch <-
-function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
-          grad = c("analytical","numerical"), series = NULL,
-          trace = TRUE, ...)
+function (x, order = c(1, 1), series = NULL, control = garch.control(...), ...)
 {
     if(NCOL(x) > 1)
         stop("x is not a vector or univariate time series")
     if(!is.vector(order)) stop("order is not a vector")
-    grad <- match.arg(grad)
-    switch(grad,
+    switch(control$grad,
            analytical = (agrad <- TRUE),
            numerical = (agrad <- FALSE))
     if(is.null(series)) series <- deparse(substitute(x))
@@ -43,11 +40,11 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
     ncoef <- order[1]+order[2]+1
     hess <- matrix(0.0, ncoef, ncoef)
     small <- 0.05
+    coef <- control$start
     if(is.null(coef))
         coef <- c(var(x)*(1.0-small*(ncoef-1)),rep.int(small,ncoef-1))
     if(!is.vector(coef)) stop("coef is not a vector")
     if(ncoef != length(coef)) stop("incorrect length of coef")
-    if(is.null(eps)) eps <- .Machine$double.eps
     nlikeli <- 1.0e+10
     fit <- .C("fit_garch",
               as.vector(x, mode = "double"),
@@ -55,11 +52,14 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
               coef = as.vector(coef, mode = "double"),
               as.integer(order[1]),
               as.integer(order[2]),
-              as.integer(itmax),
-              as.double(eps),
+              as.integer(control$maxiter),
+	      as.double(control$abstol),
+	      as.double(control$reltol),
+	      as.double(control$xtol),
+	      as.double(control$falsetol),
               nlikeli = as.double(nlikeli),
               as.integer(agrad),
-              as.integer(trace),
+              as.integer(control$trace),
               PACKAGE="tseries")
     pred <- .C("pred_garch",
                as.vector(x, mode = "double"),
@@ -78,13 +78,13 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
                    as.integer(order[1]),
                    as.integer(order[2]),
                    PACKAGE="tseries")
-    rank <- qr(com.hess$hess, ...)$rank
+    rank <- do.call("qr", c(list(x = com.hess$hess), control$qr))$rank
     if(rank != ncoef) {
-        se.garch <- rep.int(NA, ncoef)
+	vc <- matrix(NA, nrow = ncoef, ncol = ncoef)
         warning("singular information")
     }
     else
-        se.garch <- sqrt(diag(solve(com.hess$hess)))
+        vc <- solve(com.hess$hess)
     sigt <- sqrt(pred$e)
     sigt[1:max(order[1],order[2])] <- rep.int(NA, max(order[1],order[2]))
     f <- cbind(sigt,-sigt)
@@ -102,7 +102,7 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
     if(order[1] > 0)
         nam.coef <- c(nam.coef, paste("b", seq(order[1]), sep = ""))
     names(coef) <- nam.coef
-    names(se.garch) <- nam.coef
+    colnames(vc) <- rownames(vc) <- nam.coef
     garch <- list(order = order,
                   coef = coef,
                   n.likeli = fit$nlikeli,
@@ -112,9 +112,22 @@ function (x, order = c(1, 1), coef = NULL, itmax = 200, eps = NULL,
                   series = series, 
                   frequency = xfreq,
                   call = match.call(),
-                  asy.se.coef = se.garch)
+		  vcov = vc)
     class(garch) <- "garch"
     return(garch)
+}
+
+garch.control <-
+function(maxiter = 200, trace = TRUE, start = NULL, grad = c("analytical","numerical"),
+  abstol = max(1e-20, .Machine$double.eps^2),
+  reltol = max(1e-10, .Machine$double.eps^(2/3)),
+  xtol = sqrt(.Machine$double.eps),
+  falsetol = 1e2 * .Machine$double.eps, ...)
+{
+  rval <- list(maxiter = maxiter, trace = trace, start = start, grad = match.arg(grad),
+    abstol = abstol, reltol = reltol, xtol = xtol, falsetol = falsetol)
+  rval$qr <- list(...)
+  rval
 }
 
 coef.garch <-
@@ -123,6 +136,14 @@ function(object, ...)
     if(!inherits(object, "garch"))
         stop("method is only for garch objects")
     return(object$coef)
+}
+
+vcov.garch <-
+function(object, ...)
+{
+    if(!inherits(object, "garch"))
+        stop("method is only for garch objects")
+    return(object$vcov)
 }
 
 residuals.garch <-
@@ -161,8 +182,8 @@ function(object, ...)
         stop("method is only for garch objects")
     ans <- NULL
     ans$residuals <- na.remove(object$residuals)
-    tval <- object$coef / object$asy.se.coef
-    ans$coef <- cbind(object$coef, object$asy.se.coef, tval,
+    tval <- object$coef / sqrt(diag(object$vcov))
+    ans$coef <- cbind(object$coef, sqrt(diag(object$vcov)), tval,
                       2*(1-pnorm(abs(tval))))
     dimnames(ans$coef) <-
         list(names(object$coef),
@@ -276,4 +297,3 @@ function(object, ...)
     class(val) <- "logLik"
     return(val)
 }
-

@@ -125,14 +125,12 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
     coef <- md$par
     rank <- qr(md$hessian, qr.tol)$rank
     if(rank != ncoef) {
-        se <- rep.int(NA, ncoef)
+        vc <- matrix(NA, nrow = ncoef, ncol = ncoef)
         warning("singular Hessian")
     }
     else {
-        di <- diag(2*md$value/n*solve(md$hessian))
-        if(any(di < 0)) 
-            warning("Hessian negative-semidefinite")
-        se <- sqrt(di)
+        vc <- 2*md$value/n*solve(md$hessian)
+        if(any(diag(vc) < 0)) warning("Hessian negative-semidefinite")
     }
     e <- resid(coef)
     e[seqN(max.order)] <- NA
@@ -154,7 +152,7 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
     nam.int <- if(include.intercept) "intercept" else NULL
     nam.coef <- c(nam.ar, nam.ma, nam.int)
     names(coef) <- nam.coef
-    names(se) <- nam.coef
+    colnames(vc) <- rownames(vc) <- nam.coef
     arma <- list(coef = coef,
                  css = md$value,
                  n.used = n,
@@ -163,7 +161,7 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
                  series = series,
                  frequency = xfreq,
                  call = match.call(),
-                 asy.se.coef = se,
+                 vcov = vc,
                  lag = lag,
                  convergence = md$convergence,
                  include.intercept = include.intercept)
@@ -177,6 +175,14 @@ function(object, ...)
     if(!inherits(object, "arma"))
         stop("method is only for arma objects")
     return(object$coef)
+}
+
+vcov.arma <-
+function(object, ...)
+{
+    if(!inherits(object, "arma"))
+        stop("method is only for arma objects")
+    return(object$vcov)
 }
 
 residuals.arma <-
@@ -215,8 +221,8 @@ function(object, ...)
         stop("method is only for arma objects")
     ans <- NULL
     ans$residuals <- na.remove(object$residuals)
-    tval <- object$coef / object$asy.se.coef
-    ans$coef <- cbind(object$coef, object$asy.se.coef, tval,
+    tval <- object$coef / sqrt(diag(object$vcov))
+    ans$coef <- cbind(object$coef, sqrt(diag(object$vcov)), tval,
                       2 * (1-pnorm(abs(tval))))
     dimnames(ans$coef) <-
         list(names(object$coef),

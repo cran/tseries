@@ -10,7 +10,7 @@ Authors:
   P. Buehlmann, D. Eddelbuettel, X. G. Fan, K. Hornik, W. Koller, 
   F. Leisch, M. Maechler, D. Murdoch, M. Parzen, A. Shah, A. Zeileis
 
-License: GPL
+License: GPL-2
 
 Depends on the following R packages:
   stats (included in the R distribution),

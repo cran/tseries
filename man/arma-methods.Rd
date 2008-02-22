@@ -1,6 +1,7 @@
 \name{arma-methods}
 \alias{arma-methods}
 \alias{coef.arma}
+\alias{vcov.arma}
 \alias{residuals.arma}
 \alias{fitted.arma}
 \alias{print.arma}
@@ -11,6 +12,7 @@
 }
 \usage{
 \method{coef}{arma}(object, \dots)
+\method{vcov}{arma}(object, \dots)
 \method{residuals}{arma}(object, \dots)
 \method{fitted}{arma}(object, \dots)
 \method{print}{arma}(x, digits = max(3, getOption("digits") - 3), \dots)
@@ -25,7 +27,7 @@
   \item{\dots}{further arguments passed to or from other methods.} 
 }
 \value{
-  For \code{coef}, a numeric vector;
+  For \code{coef}, a numeric vector; for \code{vcov}, a numeric matrix;
   for \code{residuals} and \code{fitted} a univariate time series;
   for \code{plot} and \code{print}, the fitted ARMA model object.
 }

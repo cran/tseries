@@ -132,7 +132,8 @@ static void F77_SUB(ufparm) ()
 
 
 void fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax, 
-		double *eps, double *fret, int *agrad, int *trace)
+		double *afctol, double *rfctol, double *xctol, double *xftol,
+                double *fret, int *agrad, int *trace)
      /* fit a GARCH (p, q) model 
 	
 	Input: 
@@ -141,7 +142,10 @@ void fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax,
 	par[0..p+q]    initial parameter estimates
 	p, q           model orders
 	itmax          maximum number of iterations
-	eps            precision
+	afctol         absolute function convergence tolerance
+        rfctol         relative function convergence tolerance
+        xctol          x-convergence tolerance         
+        xftol          false convergence tolerance
 	agrad          estimation with analytical/numerical gradient
 	trace          output yes/no	
 	
@@ -176,10 +180,10 @@ void fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax,
     iv[20] = 6;  
   else
     iv[20] = 0;  
-  v[30] = DMAX(1.0e-20, DSQR((*eps)));
-  v[31] = DMAX(1.0e-10, pow((*eps),2.0/3.0));
-  v[32] = sqrt((*eps));
-  v[33] = 100.0*(*eps);
+  v[30] = (*afctol);
+  v[31] = (*rfctol);
+  v[32] = (*xctol);
+  v[33] = (*xftol);
   
   /* set handler values */
   garch_h.p = (*p); garch_h.q = (*q); garch_h.n = (*n); garch_h.y = y;  
