@@ -1,3 +1,10 @@
+2008-05-08  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New versino is 0.10-15.
+
+	* R/finance.R (get.hist.quote): Improve determining when OANDA
+	provides no data (spotted by Ajay Shah <ajayshah@mayin.org>).
+
 2008-02-26  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-14.

@@ -284,7 +284,7 @@ function (instrument = "^gdax", start, end,
         ## line of its own ...
         first <- grep("<PRE>", x, fixed = TRUE)
         last <- grep("</PRE>", x, fixed = TRUE) - 1
-        if((length(first) != 1) || (length(last) != 1)) {
+        if((length(first) != 1) || (length(last) != 1) || (last < first)) {
             stop(paste("no data available for", instrument))
         }
 
