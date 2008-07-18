@@ -1,6 +1,14 @@
+2008-07-18  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-16.
+
+	* R/finance.R (get.hist.quote): Apparently OANDA has switched to
+	using years without centuries (spotted by Martin Becker
+	<martin.becker@mx.uni-saarland.de>).
+
 2008-05-08  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
-	* DESCRIPTION (Version): New versino is 0.10-15.
+	* DESCRIPTION (Version): New version is 0.10-15.
 
 	* R/finance.R (get.hist.quote): Improve determining when OANDA
 	provides no data (spotted by Ajay Shah <ajayshah@mayin.org>).

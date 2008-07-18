@@ -251,9 +251,9 @@ function (instrument = "^gdax", start, end,
         
         url <-
             paste("http://www.oanda.com/convert/fxhistory?lang=en&date1=",
-                  format(start, "%m"), "%2F", format(start, "%d"), "%2F", format(start, "%Y"),
+                  format(start, "%m"), "%2F", format(start, "%d"), "%2F", format(start, "%y"),
                   "&date=",
-                  format(end, "%m"), "%2F", format(end, "%d"), "%2F", format(end, "%Y"),
+                  format(end, "%m"), "%2F", format(end, "%d"), "%2F", format(end, "%y"),
                   "&date_fmt=us&exch=",
                   unlist(strsplit(instrument, split = "/"))[1],
                   "&exch2=&expr=",
