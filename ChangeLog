@@ -1,3 +1,8 @@
+2009-01-11  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* man/get.hist.quote.Rd: OANDA now allows for time periods of at
+	most 500 days.
+
 2008-07-18  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-16.

@@ -95,7 +95,7 @@ if(!inherits(try(open(con), silent = TRUE), "try-error")) {
   plot(x, main = "IBM vs S&P 500")
 
   x <- get.hist.quote(instrument = "EUR/USD", provider = "oanda",
-                      start = "2004-01-01")
+                      start = Sys.Date() - 500)
   plot(x, main = "EUR/USD")
 }
 }
