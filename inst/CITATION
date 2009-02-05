@@ -14,7 +14,7 @@ citEntry(entry = "Manual",
                   email = "Kurt.Hornik@R-project.org")),
          year = year,
 	 note = note,
-	 url = "http://CRAN.R-project.org/",
+	 url = "http://CRAN.R-project.org/package=tseries",
 	 textVersion = {
              paste("Adrian Trapletti and Kurt Hornik",
 	           sprintf("(%s).", year),	     		   

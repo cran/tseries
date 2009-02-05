@@ -1,4 +1,12 @@
+2009-02-05  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-18.
+
+	* inst/CITATION: Improve.
+
 2009-01-11  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-17.
 
 	* man/get.hist.quote.Rd: OANDA now allows for time periods of at
 	most 500 days.
@@ -32,10 +40,10 @@
 	* man/garch.Rd: all control arguments now collected in
 	  garch.control(), re-named (similar to optim arguments),
 	  de-coupled tolerance parameters, return value has
-	  vcov instead of asy.se.coef. 
+	  vcov instead of asy.se.coef.
 	* man/garch-methods.Rd: new vcov method.
 	* R/arma.R: new vcov() method
-	* man/arma.Rd: return value has vcov instead of asy.se.coef.	
+	* man/arma.Rd: return value has vcov instead of asy.se.coef.
 	* man/arma-methods.Rd: new vcov method.
 	* NAMESPACE: new vcov() methods
 
@@ -44,7 +52,7 @@
 	* DESCRIPTION (Version): New version is 0.10-13.
 
 	* src/dsumsl.f:
-	* src/formats.c:	
+	* src/formats.c:
 	Fixes for FORTRAN I/O problems, contributed by Brian Ripley.
 
 	* data/00Index:
@@ -67,7 +75,7 @@
 2007-02-11  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-10.
-	
+
 	* R/finance.R (get.hist.quote): Adjust for Yahoo's change its CSV
 	files to use standard %Y-%m-%d dates.
 
@@ -149,25 +157,25 @@
 	* man/irts-methods.Rd: Use \method markup for [ usage entries.
 
 2005-09-07  Achim Zeileis  <Achim.Zeileis@R-project.org>
-	
+
 	* DESCRIPTION (Version): New version is 0.9-30,
-	Depends on zoo, suggests its.	
+	Depends on zoo, suggests its.
 	* R/finance.R (get.hist.quote): can return now "zoo", "ts" and
 	"its" series.
 	* man/get.hist.quote.Rd: added retclass argument.
 	* man/plotOHLC.Rd: adapted to get.hist.quote().
 
 2005-09-06  Adrian Trapletti  <a.trapletti@swissonline.ch>
-	
+
 	* README: Update contributers.
-	* R/finance.R (get.hist.quote): 
+	* R/finance.R (get.hist.quote):
 	* man/get.hist.quote.Rd:
 	Improved error messages and documentation.
 
 2005-09-03  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.9-29.
-	* R/finance.R (get.hist.quote): 
+	* R/finance.R (get.hist.quote):
 	* man/get.hist.quote.Rd:
 	New provider 'oanda' to get.hist.quote() [by A Trapletti].
 
