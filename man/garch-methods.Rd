@@ -26,7 +26,7 @@
   \item{object, x}{an object of class \code{"garch"}; usually, a result
     of a call to \code{\link{garch}}.}
   \item{newdata}{a numeric vector or time series to compute GARCH
-    predictons.  Defaults to \code{eval(parse(text=object$series))}.}
+    predictions.  Defaults to \code{eval(parse(text=object$series))}.}
   \item{genuine}{a logical indicating whether a genuine prediction
     should be made, i.e., a prediction for which there is no target
     observation available.}

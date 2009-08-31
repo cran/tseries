@@ -58,17 +58,17 @@ get.hist.quote(instrument = "^gdax", start, end,
   (default), a \code{"its"} series or \code{"ts"} series. The
   \code{"zoo"} series is created with \code{\link[zoo]{zoo}} and has an
   index of class \code{"Date"}.  For returning an \code{"its"} series,
-  \code{\link[its]{its}} has to be available.  \code{"its"} series
-  always have an index of class \code{"POSIXct"}.  If a \code{"ts"}
-  series is returned, the index is in physical time, i.e., weekends,
-  holidays, and missing days are filled with \code{NA}s if not
+  \code{\link[its:itsDef]{its}} has to be available.  \code{"its"}
+  series always have an index of class \code{"POSIXct"}.  If a
+  \code{"ts"} series is returned, the index is in physical time, i.e.,
+  weekends, holidays, and missing days are filled with \code{NA}s if not
   available.  The time scale is given in Julian dates (days since the
   \code{origin}).
 }
 \author{A. Trapletti}
 \seealso{
   \code{\link[zoo]{zoo}},
-  \code{\link[its]{its}},
+  \code{\link[its:itsDef]{its}},
   \code{\link{ts}},
   \code{\link{as.Date}},
   \code{\link{as.POSIXct}},

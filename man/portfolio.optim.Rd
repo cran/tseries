@@ -47,7 +47,7 @@
   \item{pw}{the portfolio weights.}
   \item{px}{the returns of the overall portfolio.}
   \item{pm}{the expected portfolio return.}
-  \item{ps}{the standared deviation of the portfolio returns.}
+  \item{ps}{the standard deviation of the portfolio returns.}
 }
 \references{
   E. J. Elton and M. J. Gruber (1991): \emph{Modern Portfolio Theory and

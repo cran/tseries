@@ -1,3 +1,9 @@
+2009-08-31  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-19.
+
+	* man/get.hist.quote.Rd: Rd fixes.
+
 2009-02-05  Kurt Hornik  <Kurt.Hornik@wu-wien.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-18.
