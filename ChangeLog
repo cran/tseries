@@ -1,3 +1,10 @@
+2009-10-04  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-21.
+
+	* man/portfolio.optim.Rd: Enhance example (suggestion by Dirk
+	Eddelbuettel <edd@debian.org>).
+
 2009-09-10  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-20.
