@@ -37,8 +37,6 @@ portfolio.optim.default <-
 function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
          rf = 0.0, reslow = NULL, reshigh = NULL, covmat = cov(x), ...) 
 {
-    if(!require("quadprog", quietly=TRUE))
-        stop("package", sQuote("quadprog"), "is needed.  Stopping")
     if(NCOL(x) == 1)
         stop("x is not a matrix")
     if(any(is.na(x)))
@@ -231,12 +229,13 @@ function (instrument = "^gdax", start, end,
 	  y <- zoo(x, dat)
 	  y <- y[, seq_along(nser), drop = drop]
 	  if(retclass == "its") {
-	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
-	        index(y) <- as.POSIXct(index(y))
-	        y <- its::as.its(y)
-	    } else {
-	      warning("package its could not be loaded: zoo series returned")
-	    }
+              if(inherits(tryCatch(getNamespace("its"), error = identity),
+                          "error"))
+                  warning("package its could not be loaded: zoo series returned")
+              else {
+                  index(y) <- as.POSIXct(index(y))
+                  y <- its::as.its(y)
+              }
 	  }
 	  return(y)
 	}
@@ -309,12 +308,13 @@ function (instrument = "^gdax", start, end,
 	} else {
 	  y <- zoo(x[[2]], dat)
 	  if(retclass == "its") {
-	    if("package:its" %in% search() || require("its", quietly = TRUE)) {
-	        index(y) <- as.POSIXct(index(y))
-	        y <- its::as.its(y)
-	    } else {
-	      warning("package its could not be loaded: zoo series returned")
-	    }
+              if(inherits(tryCatch(getNamespace("its"), error = identity),
+                          "error"))
+                  warning("package its could not be loaded: zoo series returned")
+              else {
+                  index(y) <- as.POSIXct(index(y))
+                  y <- its::as.its(y)
+              }
 	  }
 	  return(y)
 	}

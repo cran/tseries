@@ -1,3 +1,10 @@
+2009-11-22  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-22.
+
+	* R/finance.R (portfolio.optim.default, get.hist.quote):
+	Simplify/improve run-time depends.
+
 2009-10-04  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-21.
