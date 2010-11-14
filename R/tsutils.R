@@ -124,7 +124,7 @@ function(xi = 0.2, a = 4.0, n = 1000)
 {
     if(n < 1) stop("n is not positive")
     if((xi < 0) | (xi > 1)) stop("xi is not in [0,1]")
-    if((a < 0) | (xi > 4)) stop("a is not in [0,4]")
+    if((a < 0) | (a > 4)) stop("a is not in [0,4]")
     x <- double(n)
     res <- .C("R_quad_map",
               x = as.vector(x),
