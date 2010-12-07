@@ -9,7 +9,7 @@ citEntry(entry = "Manual",
 	 title = "tseries: Time Series Analysis and Computational Finance",
 	 author = personList(
            person("Adrian", "Trapletti",
-                  email = "a.trapletti@swissonline.ch"),
+                  email = "adrian@trapletti.org"),
            person("Kurt", "Hornik",
                   email = "Kurt.Hornik@R-project.org")),
          year = year,
