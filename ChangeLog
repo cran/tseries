@@ -1,3 +1,10 @@
+2011-02-07  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-25.
+	(Depends): Require R >= 2.10.0.
+
+	* data: Replace *.R files by *.rda files.
+
 2010-12-07  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-24.
