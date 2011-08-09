@@ -90,11 +90,11 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
         return(coef) 
     }
   
-    if(!is.null(order) & !is.null(lag))
+    if(!is.null(order) && !is.null(lag))
         warning("order is ignored")
-    if(is.null(order) & is.null(lag))
+    if(is.null(order) && is.null(lag))
         stop("order or lag must be given")
-    if(is.null(lag) & !is.null(order))
+    if(is.null(lag) && !is.null(order))
         lag <- list(ar=seqN(order[1]), ma=seqN(order[2]))
     lag$ar <- unique(lag$ar)
     lag$ma <- unique(lag$ma)
@@ -111,7 +111,7 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
     if(ists) xtsp <- tsp(x)
     n <- length(x)
     if(!is.null(unlist(lag)))
-        if(min(unlist(lag)) < 1 | max(unlist(lag)) > (n-1))
+        if((min(unlist(lag)) < 1) || (max(unlist(lag)) > (n-1)))
             stop("invalid lag")
     ncoef <- length(unlist(lag))+as.numeric(include.intercept)
     if(is.null(coef)) {

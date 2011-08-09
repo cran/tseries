@@ -45,16 +45,16 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
     if(!is.matrix(covmat)) {
         stop("covmat is not a matrix")
     }
-    if((dim(covmat)[1] !=k) | (dim(covmat)[2] !=k)) {
+    if((dim(covmat)[1] !=k) || (dim(covmat)[2] !=k)) {
       stop("covmat has not the right dimension")
     }
     Dmat <- covmat
     dvec <- rep.int(0, k)
     big <- 1e+100
-    if(!is.null(reslow) & is.null(reshigh)) {
+    if(!is.null(reslow) && is.null(reshigh)) {
         reshigh <- rep.int(big, k)
     }
-    if(is.null(reslow) & !is.null(reshigh)) {
+    if(is.null(reslow) && !is.null(reshigh)) {
         reslow <- -rep.int(big, k)
     }
     if(!is.null(reslow)) {
@@ -84,7 +84,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
             diag(a2) <- 1
             b2 <- rep.int(0, k)
         }
-        if(!is.null(reslow) & !is.null(reshigh)) {
+        if(!is.null(reslow) && !is.null(reshigh)) {
             a3 <- matrix(0, k, k)
             diag(a3) <- 1
             Amat <- t(rbind(a1, a2, a3, -a3))
@@ -100,7 +100,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
         a1 <- rep.int(1, k)
         a2 <- colMeans(x)
         if(shorts) {
-            if(!is.null(reslow) & !is.null(reshigh)) {
+            if(!is.null(reslow) && !is.null(reshigh)) {
                 a3 <- matrix(0, k, k)
                 diag(a3) <- 1
                 Amat <- t(rbind(a1, a2, a3, -a3))
@@ -115,7 +115,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
             a3 <- matrix(0, k, k)
             diag(a3) <- 1
             b3 <- rep.int(0, k)
-            if(!is.null(reslow) & !is.null(reshigh)) {
+            if(!is.null(reslow) && !is.null(reshigh)) {
                 Amat <- t(rbind(a1, a2, a3, a3, -a3))
                 b0 <- c(1, pm, b3, reslow, -reshigh)
             }
@@ -208,9 +208,9 @@ function (instrument = "^gdax", start, end,
 
         ## Yahoo now seems to format dates as %Y-%m-%d.
         dat <- as.Date(as.character(x[, 1]), "%Y-%m-%d")
-        if(!quiet && dat[n] != start)
+        if(!quiet && (dat[n] != start))
             cat(format(dat[n], "time series starts %Y-%m-%d\n"))
-        if(!quiet && dat[1] != end)
+        if(!quiet && (dat[1] != end))
             cat(format(dat[1], "time series ends   %Y-%m-%d\n"))
 
 	if(retclass == "ts") {
@@ -294,9 +294,9 @@ function (instrument = "^gdax", start, end,
         
         dat <- as.Date(x[[1]], format = "%m/%d/%Y")
         n <- length(dat)
-        if(!quiet && dat[1] != start)
+        if(!quiet && (dat[1] != start))
             cat(format(dat[1], "time series starts %Y-%m-%d\n"))
-        if(!quiet && dat[n] != end)
+        if(!quiet && (dat[n] != end))
             cat(format(dat[n], "time series ends   %Y-%m-%d\n"))
 
 	if(retclass == "ts") {

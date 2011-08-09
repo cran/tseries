@@ -29,7 +29,7 @@ function(time, value)
     }
     if(!is.vector(time))
         stop("time is not a vector")
-    if(!is.vector(value) & !is.matrix(value))
+    if(!is.vector(value) && !is.matrix(value))
         stop("value is not a vector and not a matrix")
     if(length(time) != NROW(value))
         stop("time and value have not the same number of rows")
@@ -101,7 +101,7 @@ read.irts <-
 function(file, format = "%Y-%m-%d %H:%M:%S", tz = "GMT", ...)
 {
     seqN <- function(from, to) {
-        if((0 == length(from)) | (0 == length(to)))
+        if((0 == length(from)) || (0 == length(to)))
             NULL
         else if(to-from+1 <= 0) 
             NULL
@@ -224,7 +224,7 @@ function(x, type = "l", plot.type = c("multiple", "single"),
          oma = c(6, 0, 5, 0), ...)
 {
     seqN <- function(from, to) {
-        if((0 == length(from)) | (0 == length(to)))
+        if((0 == length(from)) || (0 == length(to)))
             NULL
         else if(to-from+1 <= 0) 
             NULL

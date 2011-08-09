@@ -1,3 +1,16 @@
+2011-08-09  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-26.
+
+	* R/zzz.R (.onAttach): Improvements.
+
+	* R/arma.R (arma.init):
+	* R/finance.R (portfolio.optim.default:
+	* R/irts.R (irts, read.irts, plot.irts):
+	* R/tsutils.R (quadmap):
+	Use '&&' and '||' in if() conditions.
+	Suggested by Tim Hesterberg <rocket@google.com>.
+
 2011-02-07  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-25.

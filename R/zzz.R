@@ -1,5 +1,5 @@
 .onAttach <-
-function(lib, pkg)
+function(libname, pkgname)
 {
     mylib <- dirname(system.file(package = "tseries"))
     ver <- packageDescription("tseries", lib.loc = mylib)["Version"]
@@ -15,5 +15,9 @@ function(lib, pkg)
                    "for details."),
              "\n")
     if(interactive() || getOption("verbose"))
-        writeLines(strwrap(txt, indent = 4, exdent = 4))
+        packageStartupMessage(paste(strwrap(txt,
+                                            indent = 4,
+                                            exdent = 4),
+                                    collapse = "\n"))
+                                    
 }
