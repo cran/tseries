@@ -126,7 +126,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
         }
         res <- solve.QP(Dmat, dvec, Amat, bvec=b0, meq=2)
     }
-    y <- t(res$solution%*%t(x))
+    y <- c(tcrossprod(res$solution, x))
     ans <- list(pw = res$solution, px = y, pm = mean(y), ps = sd(y))
     return(ans)
 }
