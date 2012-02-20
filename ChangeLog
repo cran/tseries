@@ -1,3 +1,10 @@
+2012-02-20  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-28.
+
+	* man/get.hist.quote.Rd: Make example more robust re availability
+	of web services.
+
 2011-10-23  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-27.

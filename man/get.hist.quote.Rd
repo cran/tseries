@@ -93,7 +93,11 @@ if(!inherits(try(open(con), silent = TRUE), "try-error")) {
          quote = "AdjClose")
   x <- merge(spc, ibm)
   plot(x, main = "IBM vs S&P 500")
+}
 
+con <- url("http://www.oanda.com")
+if(!inherits(try(open(con), silent = TRUE), "try-error")) {
+  close(con)
   x <- get.hist.quote(instrument = "EUR/USD", provider = "oanda",
                       start = Sys.Date() - 500)
   plot(x, main = "EUR/USD")

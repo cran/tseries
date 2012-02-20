@@ -156,7 +156,9 @@ function (instrument = "^gdax", start, end,
     end <- as.Date(end)
 
     if(is.null(method)) {
-        method <- ifelse(!is.null(getOption("download.file.method")), getOption("download.file.method"), "auto")
+        method <- getOption("download.file.method")
+        if(is.null(method))
+            method <- "auto"
     }
 
     if(provider == "yahoo") {
@@ -178,11 +180,28 @@ function (instrument = "^gdax", start, end,
                   "&x=.csv",
                   sep = "")
         destfile <- tempfile()
-        status <- download.file(url, destfile, method = method, quiet = quiet)
-        if(status != 0) {
-            unlink(destfile)
-            stop(paste("download error, status", status))
+
+        ## Try downloading several times.
+        ## Could make this controllable ...
+        i <- 1L
+        repeat {
+            status <- tryCatch(download.file(url, destfile,
+                                             method = method,
+                                             quiet = quiet),
+                               error = identity)
+            if(!inherits(status, "error") && (status == 0))
+                break
+            unlink(destfile)            
+            if(i >= 5L) {
+                if(inherits(status, "error"))
+                    stop(conditionMessage(status))
+                else
+                    stop(sprintf("download error, status %d", status))
+            }
+            message("download error, retrying ...")
+            i <- i + 1L
         }
+        
         nlines <- length(count.fields(destfile, sep = "\n"))
         if(nlines == 1) {
             unlink(destfile)
