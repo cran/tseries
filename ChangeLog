@@ -1,6 +1,17 @@
-2012-02-20  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+2012-07-07  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-29.
+
+	* R/finance.R (get.hist.quote): Protect against duplicated entries
+	as suggested by AZ.
+
+2012-02-21  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-28.
+
+	* R/finance.R (get.hist.quote): Try yahoo 5 times before giving up.
+
+2012-02-20  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* man/get.hist.quote.Rd: Make example more robust re availability
 	of web services.

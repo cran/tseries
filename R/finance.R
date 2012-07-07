@@ -212,6 +212,15 @@ function (instrument = "^gdax", start, end,
         ## hence need fill = TRUE and na.omit
         x <- read.table(destfile, header = TRUE, sep = ",", as.is = TRUE, fill = TRUE)
         x <- na.omit(x)
+
+        ## As of 2012-07-07,
+        ##   get.hist.quote("ibm",  start = "2012-07-06", end = "2012-07-06")
+        ## gives two entries for 2012-07-06 ...
+        ## Fix (hopefully only needed temporarily?) suggested by AZ.
+        if(nrow(x) >= 2L && x[1L, 1L] == x[2L, 1L]) {
+            warning("first date duplicated, first instance omitted")
+            x <- x[-1L, , drop = FALSE]
+        }
         
         ## Debug
         ## cat("read.table: start =", x[NROW(x),"Date"], "\n")
