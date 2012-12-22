@@ -91,6 +91,7 @@ if(!inherits(try(open(con), silent = TRUE), "try-error")) {
          quote = "Close")
   ibm <- get.hist.quote(instrument = "ibm",  start = "1998-01-01",
          quote = "AdjClose")
+  require("zoo")		# For merge() method.
   x <- merge(spc, ibm)
   plot(x, main = "IBM vs S&P 500")
 }

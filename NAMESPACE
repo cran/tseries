@@ -1,6 +1,8 @@
 useDynLib("tseries")
 
 import("graphics", "stats", "utils")
+importFrom("quadprog", "solve.QP")
+importFrom("zoo", "zoo", "index", "index<-")
 
 export("adf.test", "approx.irts", "arma", "as.irts",
        "bds.test",
