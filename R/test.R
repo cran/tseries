@@ -13,7 +13,7 @@
 ## A copy of the GNU General Public License is available via WWW at
 ## http://www.gnu.org/copyleft/gpl.html.  You can also obtain it by
 ## writing to the Free Software Foundation, Inc., 59 Temple Place,
-## Suite 330, Boston, MA  02111-1307  USA. 
+## Suite 330, Boston, MA  02111-1307  USA.
 
 ##
 ## Mostly time series tests
@@ -96,7 +96,7 @@ function(x, m = 3, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
                    p.value = PVAL,
                    method = METHOD,
                    data.name = DNAME,
-                   parameter = PARAMETER), 
+                   parameter = PARAMETER),
               class = "bdstest")
 }
 
@@ -152,6 +152,7 @@ function(x, alternative = c("stationary", "explosive"),
     alternative <- match.arg(alternative)
     DNAME <- deparse(substitute(x))
     k <- k+1
+    x <- as.vector(x, mode="double")
     y <- diff(x)
     n <- length(y)
     z <- embed(y, k)
@@ -159,7 +160,7 @@ function(x, alternative = c("stationary", "explosive"),
     xt1 <- x[k:n]
     tt <- k:n
     if(k > 1) {
-        yt1 <- z[,2:k] 
+        yt1 <- z[,2:k]
         res <- lm(yt ~ xt1 + 1 + tt + yt1)
     }
     else
@@ -191,7 +192,7 @@ function(x, alternative = c("stationary", "explosive"),
         PVAL <- interpol
     else if(alternative == "explosive")
         PVAL <- 1 - interpol
-    else stop("irregular alternative") 
+    else stop("irregular alternative")
     PARAMETER <- k-1
     METHOD <- "Augmented Dickey-Fuller Test"
     names(STAT) <- "Dickey-Fuller"
@@ -201,7 +202,7 @@ function(x, alternative = c("stationary", "explosive"),
                    alternative = alternative,
                    p.value = PVAL,
                    method = METHOD,
-                   data.name = DNAME), 
+                   data.name = DNAME),
             class = "htest")
 }
 
@@ -220,9 +221,9 @@ function(x, y, qstar = 2, q = 10, range = 4,
     if(any(is.na(y))) stop("NAs in y")
     nin <- dim(x)[2]
     t <- dim(x)[1]
-    if(dim(x)[1] != dim(y)[1]) 
+    if(dim(x)[1] != dim(y)[1])
         stop("number of rows of x and y must match")
-    if(dim(x)[1] <= 0) 
+    if(dim(x)[1] <= 0)
         stop("no observations in x and y")
     if(dim(y)[2] > 1)
         stop("handles only univariate outputs")
@@ -274,7 +275,7 @@ function(x, y, qstar = 2, q = 10, range = 4,
     METHOD <- "White Neural Network Test"
     structure(list(statistic = STAT,
                    parameter = PARAMETER,
-                   p.value = PVAL,  
+                   p.value = PVAL,
                    method = METHOD,
                    data.name = DNAME,
                    arguments = ARG),
@@ -291,7 +292,7 @@ function(x, lag = 1, qstar = 2, q = 10, range = 4,
         stop("x is not a vector or univariate time series")
     if(any(is.na(x)))
         stop("NAs in x")
-    if(lag < 1) 
+    if(lag < 1)
         stop("minimum lag is 1")
     if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
         warning(paste("value 'chisq' for 'type' is deprecated,",
@@ -340,7 +341,7 @@ function(x, lag = 1, qstar = 2, q = 10, range = 4,
     METHOD <- "White Neural Network Test"
     structure(list(statistic = STAT,
                    parameter = PARAMETER,
-                   p.value = PVAL, 
+                   p.value = PVAL,
                    method = METHOD,
                    data.name = DNAME,
                    arguments = ARG),
@@ -363,9 +364,9 @@ function(x, y, type = c("Chisq", "F"), scale = TRUE, ...)
     if(nin < 1)
         stop("invalid x")
     t <- dim(x)[1]
-    if(dim(x)[1] != dim(y)[1]) 
+    if(dim(x)[1] != dim(y)[1])
         stop("number of rows of x and y must match")
-    if(dim(x)[1] <= 0) 
+    if(dim(x)[1] <= 0)
         stop("no observations in x and y")
     if(dim(y)[2] > 1)
         stop("handles only univariate outputs")
@@ -430,7 +431,7 @@ function(x, y, type = c("Chisq", "F"), scale = TRUE, ...)
     names(ARG) <- "scale"
     structure(list(statistic = STAT,
                    parameter = PARAMETER,
-                   p.value = PVAL, 
+                   p.value = PVAL,
                    method = METHOD,
                    data.name = DNAME,
                    arguments = ARG),
@@ -446,7 +447,7 @@ function(x, lag = 1, type = c("Chisq", "F"), scale = TRUE, ...)
         stop("x is not a vector or univariate time series")
     if(any(is.na(x)))
         stop("NAs in x")
-    if(lag < 1) 
+    if(lag < 1)
         stop("minimum lag is 1")
     if(!missing(type) && !is.na(pmatch(type, "chisq"))) {
         warning(paste("value 'chisq' for 'type' is deprecated,",
@@ -510,7 +511,7 @@ function(x, lag = 1, type = c("Chisq", "F"), scale = TRUE, ...)
     names(ARG) <- c("lag","scale")
     structure(list(statistic = STAT,
                    parameter = PARAMETER,
-                   p.value = PVAL, 
+                   p.value = PVAL,
                    method = METHOD,
                    data.name = DNAME,
                    arguments = ARG),
@@ -555,6 +556,7 @@ function(x, alternative = c("stationary", "explosive"),
     type <- match.arg(type)
     alternative <- match.arg(alternative)
     DNAME <- deparse(substitute(x))
+    x <- as.vector(x, mode="double")
     z <- embed(x, 2)
     yt <- z[,1]
     yt1 <- z[,2]
@@ -622,7 +624,7 @@ function(x, alternative = c("stationary", "explosive"),
         if(interpol == min(tablep))
             warning("p-value smaller than printed p-value")
         else
-            warning("p-value greater than printed p-value") 
+            warning("p-value greater than printed p-value")
     if(alternative == "stationary")
         PVAL <- interpol
     else if(alternative == "explosive")
@@ -696,12 +698,12 @@ function(x, demean = TRUE, lshort = TRUE)
     }
     table <- -table
     tablep <- c(0.01, 0.025, 0.05, 0.075, 0.10, 0.125, 0.15)
-    PVAL <- approx(table[dimx-1,], tablep, STAT, rule=2)$y   
+    PVAL <- approx(table[dimx-1,], tablep, STAT, rule=2)$y
     if(is.na(approx(table[dimx-1, ], tablep, STAT, rule=1)$y))
         if(PVAL == min(tablep))
             warning("p-value smaller than printed p-value")
         else
-            warning("p-value greater than printed p-value") 
+            warning("p-value greater than printed p-value")
     PARAMETER <- l
     METHOD <- "Phillips-Ouliaris Cointegration Test"
     if(demean)
@@ -724,6 +726,7 @@ function(x, null = c("Level", "Trend"), lshort = TRUE)
         stop("x is not a vector or univariate time series")
     DNAME <- deparse(substitute(x))
     null <- match.arg(null)
+    x <- as.vector(x, mode="double")
     n <- length(x)
     if(null == "Trend") {
         t <- 1:n
@@ -754,7 +757,7 @@ function(x, null = c("Level", "Trend"), lshort = TRUE)
         if(PVAL == min(tablep))
             warning("p-value smaller than printed p-value")
         else
-            warning("p-value greater than printed p-value") 
+            warning("p-value greater than printed p-value")
     PARAMETER <- l
     METHOD <- paste("KPSS Test for", null, "Stationarity")
     names(STAT) <- paste("KPSS", null)

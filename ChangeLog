@@ -1,3 +1,13 @@
+2013-05-07  Adrian Trapletti  <adrian@trapletti.org>
+
+	* DESCRIPTION (Version): New version is 0.10-32.
+
+	* README: Update contributers.
+
+	* R/test.R (adf.test, pp.test, kpss.test):
+	Convert time series argument in order to correctly handle xts
+	inputs as pointed out by Matthieu Stigler.
+
 2013-04-16  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-31.
