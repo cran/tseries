@@ -1,3 +1,10 @@
+2015-02-10  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-33.
+
+	* R/finance.R: Change get.hist.quote() to use new oanda URL and
+	file format.
+
 2013-05-07  Adrian Trapletti  <adrian@trapletti.org>
 
 	* DESCRIPTION (Version): New version is 0.10-32.

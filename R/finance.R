@@ -275,18 +275,27 @@ function (instrument = "^gdax", start, end,
         if(!missing(compression)) {
             warning("argument 'compression' ignored for provider 'oanda'")
         }
-        
-        url <-
-            paste("http://www.oanda.com/convert/fxhistory?lang=en&date1=",
-                  format(start, "%m"), "%2F", format(start, "%d"), "%2F", format(start, "%y"),
-                  "&date=",
-                  format(end, "%m"), "%2F", format(end, "%d"), "%2F", format(end, "%y"),
-                  "&date_fmt=us&exch=",
-                  unlist(strsplit(instrument, split = "/"))[1],
-                  "&exch2=&expr=",
-                  unlist(strsplit(instrument, split = "/"))[2],
-                  "&expr2=&margin_fixed=0&&SUBMIT=Get+Table&format=ASCII&redirected=1",
-                  sep="")
+
+        currencies <- unlist(strsplit(instrument, split = "/"))
+        ranges <- c("d7", "d30", "d60", "d90", "d180", "y1", "y2", "y5")
+        range <- ranges[c(7, 30, 60, 90, 180, 364, 728, 1820) >=
+                            difftime(end, start, units="days")][1]
+        url <- paste0("http://www.oanda.com/currency/historical-rates/download?",
+                      "quote_currency=", currencies[1],
+                      "&end_date=", end,
+                      "&start_date=", start,
+                      "&period=daily",
+                      "&display=absolute",
+                      "&rate=0",
+                      "&data_range=", range,
+                      "&price=mid",
+                      "&view=table",
+                      "&base_currency_0=", currencies[2],
+                      "&base_currency_1=",
+                      "&base_currency_2=",
+                      "&base_currency_3=",
+                      "&base_currency_4=",
+                      "&download=csv")
         destfile <- tempfile()
         
         status <- download.file(url, destfile, method = method, quiet = quiet)
@@ -295,32 +304,11 @@ function (instrument = "^gdax", start, end,
             stop(paste("download error, status", status))
         }
         
-        x <- readLines(destfile, warn = quiet)
+        x <- read.csv(destfile, skip = 4, as.is = TRUE, header = TRUE)
         unlink(destfile)
+        x <- head(x, -3)
         
-        if(length(grep("Sorry", x)) > 0) {
-            msg <- unlist(strsplit(gsub("<[a-zA-Z0-9\\/]*>", "", x[grep("Sorry", x)]), split = " "))
-            msg <- paste(msg[msg != ""], collapse = " ")
-            stop("Message from Oanda: ", msg)
-        }
-        ## This used to have
-        ##    first <- which(substr(x, 1, 5) == "<PRE>")
-        ##    last <- which(x == "</PRE>") - 1
-        ## but at least on 2007-11-04 we had an instance of <PRE> not
-        ## being at the beginning of a line and </PRE> not being on a
-        ## line of its own ...
-        first <- grep("<PRE>", x, fixed = TRUE)
-        last <- grep("</PRE>", x, fixed = TRUE) - 1
-        if((length(first) != 1) || (length(last) != 1) || (last < first)) {
-            stop(paste("no data available for", instrument))
-        }
-
-        x[first] <- sub(".*<PRE>", "", x[first])
-        con <- textConnection(x[first:last])
-        on.exit(close(con))
-        x <- scan(con, what = list(character(), double()), quiet = TRUE)
-        
-        dat <- as.Date(x[[1]], format = "%m/%d/%Y")
+        dat <- as.Date(x[[1]])
         n <- length(dat)
         if(!quiet && (dat[1] != start))
             cat(format(dat[1], "time series starts %Y-%m-%d\n"))
