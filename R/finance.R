@@ -303,26 +303,29 @@ function (instrument = "^gdax", start, end,
             unlink(destfile)
             stop(paste("download error, status", status))
         }
-        
+
         x <- read.csv(destfile, skip = 4, as.is = TRUE, header = TRUE)
         unlink(destfile)
         x <- head(x, -3)
         
-        dat <- as.Date(x[[1]])
+        dat <- rev(as.Date(x[[1]]))
         n <- length(dat)
         if(!quiet && (dat[1] != start))
             cat(format(dat[1], "time series starts %Y-%m-%d\n"))
         if(!quiet && (dat[n] != end))
             cat(format(dat[n], "time series ends   %Y-%m-%d\n"))
+        val <- rev(x[[2]])
+        if(is.character(val))
+            val <- as.numeric(sub(",", "", val, fixed = TRUE))
 
 	if(retclass == "ts") {
             jdat <- unclass(julian(dat, origin = as.Date(origin)))
             ind <- jdat - jdat[1] + 1
             y <- rep.int(NA, max(ind))
-            y[ind] <- x[[2]]
+            y[ind] <- val
             return(ts(y, start = jdat[1], end = jdat[n]))
 	} else {
-	  y <- zoo(x[[2]], dat)
+	  y <- zoo(val, dat)
 	  if(retclass == "its") {
               if(inherits(tryCatch(getNamespace("its"), error = identity),
                           "error"))
