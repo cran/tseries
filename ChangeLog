@@ -1,3 +1,21 @@
+2016-05-02  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (Version): New version is 0.10-35.
+
+	* R/test.R: Data frames are not univariate time series.
+	Spotted by szolaryb <szolaryb@gmail.com>.
+
+2016-04-28  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* R/finance.R (get.hist.quote):
+	* man/get.hist.quote.Rd:
+	OANDA now needs https at least for URL connections.
+	Spotted by Paul Gilbert <pgilbert@ncf.ca>.
+
+2016-01-06  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* inst/CITATION: Avoid personList().
+
 2015-02-20  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION (Version): New version is 0.10-34.

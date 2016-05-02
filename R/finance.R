@@ -280,7 +280,7 @@ function (instrument = "^gdax", start, end,
         ranges <- c("d7", "d30", "d60", "d90", "d180", "y1", "y2", "y5")
         range <- ranges[c(7, 30, 60, 90, 180, 364, 728, 1820) >=
                             difftime(end, start, units="days")][1]
-        url <- paste0("http://www.oanda.com/currency/historical-rates/download?",
+        url <- paste0("https://www.oanda.com/currency/historical-rates/download?",
                       "quote_currency=", currencies[1],
                       "&end_date=", end,
                       "&start_date=", start,

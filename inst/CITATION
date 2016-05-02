@@ -7,7 +7,7 @@ note <- sprintf("R package version %s.", meta$Version)
 
 citEntry(entry = "Manual",
 	 title = "tseries: Time Series Analysis and Computational Finance",
-	 author = personList(
+	 author = c(
            person("Adrian", "Trapletti",
                   email = "adrian@trapletti.org"),
            person("Kurt", "Hornik",

@@ -57,7 +57,7 @@ function (x, alternative = c("two.sided", "less", "greater"))
 bds.test <-
 function(x, m = 3, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
 {
-    if(NCOL(x) > 1)
+    if((NCOL(x) > 1) || is.data.frame(x))
         stop("x is not a vector or univariate time series")
     if(any(is.na(x)))
         stop("NAs in x")
@@ -143,7 +143,7 @@ adf.test <-
 function(x, alternative = c("stationary", "explosive"),
          k = trunc((length(x)-1)^(1/3)))
 {
-    if(NCOL(x) > 1)
+    if((NCOL(x) > 1) || is.data.frame(x))
         stop("x is not a vector or univariate time series")
     if(any(is.na(x)))
         stop("NAs in x")
@@ -521,7 +521,7 @@ function(x, lag = 1, type = c("Chisq", "F"), scale = TRUE, ...)
 jarque.bera.test <-
 function(x)
 {
-    if(NCOL(x) > 1)
+    if((NCOL(x) > 1) || is.data.frame(x))
         stop("x is not a vector or univariate time series")
     if(any(is.na(x)))
         stop("NAs in x")
@@ -551,7 +551,7 @@ pp.test <-
 function(x, alternative = c("stationary", "explosive"),
          type = c("Z(alpha)", "Z(t_alpha)"), lshort = TRUE)
 {
-    if(NCOL(x) > 1)
+    if((NCOL(x) > 1) || is.data.frame(x))
         stop("x is not a vector or univariate time series")
     type <- match.arg(type)
     alternative <- match.arg(alternative)
@@ -722,7 +722,7 @@ function(x, demean = TRUE, lshort = TRUE)
 kpss.test <-
 function(x, null = c("Level", "Trend"), lshort = TRUE)
 {
-    if(NCOL(x) > 1)
+    if((NCOL(x) > 1) || is.data.frame(x))        
         stop("x is not a vector or univariate time series")
     DNAME <- deparse(substitute(x))
     null <- match.arg(null)

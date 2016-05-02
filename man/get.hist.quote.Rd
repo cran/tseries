@@ -34,7 +34,7 @@ get.hist.quote(instrument = "^gdax", start, end,
   \item{provider}{a character string with the name of the data
     provider.  Currently, \code{"yahoo"} and \code{"oanda"} are
     implemented.  See \url{http://quote.yahoo.com/} and
-    \url{http://www.oanda.com/} for more information.}
+    \url{https://www.oanda.com/} for more information.}
   \item{method}{tool to be used for downloading the data.  See
     \code{\link{download.file}} for the available download methods and
     the default settings.}
@@ -74,7 +74,7 @@ get.hist.quote(instrument = "^gdax", start, end,
   \code{\link{as.POSIXct}},
   \code{\link{download.file}};
   \url{http://quote.yahoo.com/},
-  \url{http://www.oanda.com/}
+  \url{https://www.oanda.com/}
 }
 \examples{
 con <- url("http://quote.yahoo.com")
@@ -96,7 +96,7 @@ if(!inherits(try(open(con), silent = TRUE), "try-error")) {
   plot(x, main = "IBM vs S&P 500")
 }
 
-con <- url("http://www.oanda.com")
+con <- url("https://www.oanda.com")
 if(!inherits(try(open(con), silent = TRUE), "try-error")) {
   close(con)
   x <- get.hist.quote(instrument = "EUR/USD", provider = "oanda",
