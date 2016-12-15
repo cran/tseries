@@ -10,7 +10,7 @@ get.hist.quote(instrument = "^gdax", start, end,
                quote = c("Open", "High", "Low", "Close"),
                provider = c("yahoo", "oanda"), method = NULL,
                origin = "1899-12-30", compression = "d",
-	       retclass = c("zoo", "its", "ts"), quiet = FALSE, drop = FALSE) 
+	       retclass = c("zoo", "ts"), quiet = FALSE, drop = FALSE) 
 }
 \arguments{
   \item{instrument}{a character string giving the name of the quote
@@ -47,28 +47,24 @@ get.hist.quote(instrument = "^gdax", start, end,
     this argument is ignored.}
   \item{retclass}{character specifying which class the return value
     should have: can be either \code{"zoo"} (with \code{"Date"} index),
-    \code{"its"} (with \code{"POSIXct"} index) or \code{"ts"} (with
-    numeric index corresponding to days since \code{origin}).}
+    or \code{"ts"} (with numeric index corresponding to days since
+    \code{origin}).}
   \item{quiet}{logical. Should status messages (if any) be suppressed?}
   \item{drop}{logical.  If \code{TRUE} the result is coerced to the
     lowest possible dimension.  Default is \code{FALSE}.} 
 }
 \value{
   A time series containing the data either as a \code{"zoo"} series
-  (default), a \code{"its"} series or \code{"ts"} series. The
-  \code{"zoo"} series is created with \code{\link[zoo]{zoo}} and has an
-  index of class \code{"Date"}.  For returning an \code{"its"} series,
-  \code{\link[its:itsDef]{its}} has to be available.  \code{"its"}
-  series always have an index of class \code{"POSIXct"}.  If a
-  \code{"ts"} series is returned, the index is in physical time, i.e.,
-  weekends, holidays, and missing days are filled with \code{NA}s if not
-  available.  The time scale is given in Julian dates (days since the
-  \code{origin}).
+  (default) or a \code{"ts"} series.  The \code{"zoo"} series is created
+  with \code{\link[zoo]{zoo}} and has an index of class \code{"Date"}.
+  If a \code{"ts"} series is returned, the index is in physical time,
+  i.e., weekends, holidays, and missing days are filled with \code{NA}s
+  if not available.  The time scale is given in Julian dates (days since
+  the \code{origin}).
 }
 \author{A. Trapletti}
 \seealso{
   \code{\link[zoo]{zoo}},
-  \code{\link[its:itsDef]{its}},
   \code{\link{ts}},
   \code{\link{as.Date}},
   \code{\link{as.POSIXct}},

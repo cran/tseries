@@ -136,7 +136,7 @@ function (instrument = "^gdax", start, end,
           quote = c("Open", "High", "Low", "Close"),
           provider = c("yahoo", "oanda"), method = NULL,
           origin = "1899-12-30", compression = "d",
-	  retclass = c("zoo", "its", "ts"),
+	  retclass = c("zoo", "ts"),
 	  quiet = FALSE, drop = FALSE)
     ## Added new argument 'compression'.
     ## May be "d", "w" or "m", for daily weekly or monthly.
@@ -256,15 +256,6 @@ function (instrument = "^gdax", start, end,
 	  rownames(x) <- NULL
 	  y <- zoo(x, dat)
 	  y <- y[, seq_along(nser), drop = drop]
-	  if(retclass == "its") {
-              if(inherits(tryCatch(getNamespace("its"), error = identity),
-                          "error"))
-                  warning("package its could not be loaded: zoo series returned")
-              else {
-                  index(y) <- as.POSIXct(index(y))
-                  y <- its::as.its(y)
-              }
-	  }
 	  return(y)
 	}
     }
@@ -326,15 +317,6 @@ function (instrument = "^gdax", start, end,
             return(ts(y, start = jdat[1], end = jdat[n]))
 	} else {
 	  y <- zoo(val, dat)
-	  if(retclass == "its") {
-              if(inherits(tryCatch(getNamespace("its"), error = identity),
-                          "error"))
-                  warning("package its could not be loaded: zoo series returned")
-              else {
-                  index(y) <- as.POSIXct(index(y))
-                  y <- its::as.its(y)
-              }
-	  }
 	  return(y)
 	}
     }
