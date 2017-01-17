@@ -30,7 +30,7 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
     err <- function(coef) {
         u <- double(n)
         u[seqN(max.order)] <- 0
-        u <- .C("arma",
+        u <- .C(R_arma,
                 as.vector(x, mode = "double"),
                 u = as.vector(u),
                 as.vector(coef, mode = "double"),
@@ -40,15 +40,14 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
                 as.integer(ma.l),
                 as.integer(max.order),
                 as.integer(n),
-                as.integer(include.intercept),
-                PACKAGE="tseries")$u
+                as.integer(include.intercept))$u
         return(sum(u^2))
     }
   
     resid <- function(coef) {
         u <- double(n)
         u[seqN(max.order)] <- 0
-        u <- .C("arma",
+        u <- .C(R_arma,
                 as.vector(x, mode = "double"),
                 u = as.vector(u),
                 as.vector(coef, mode = "double"),
@@ -58,8 +57,7 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
                 as.integer(ma.l),
                 as.integer(max.order),
                 as.integer(n),
-                as.integer(include.intercept),
-                PACKAGE="tseries")$u
+                as.integer(include.intercept))$u
         return(u)
     }
   

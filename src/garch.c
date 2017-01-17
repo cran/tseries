@@ -131,9 +131,9 @@ static void F77_SUB(ufparm) ()
 }
 
 
-void fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax, 
-		double *afctol, double *rfctol, double *xctol, double *xftol,
-                double *fret, int *agrad, int *trace)
+void R_fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax, 
+		  double *afctol, double *rfctol, double *xctol, double *xftol,
+		  double *fret, int *agrad, int *trace)
      /* fit a GARCH (p, q) model 
 	
 	Input: 
@@ -228,7 +228,7 @@ void fit_garch (double *y, int *n, double *par, int *p, int *q, int *itmax,
 }
 
 
-void pred_garch (double *y, double *h, int *n, double *par, int *p, int *q, int *genuine)
+void R_pred_garch (double *y, double *h, int *n, double *par, int *p, int *q, int *genuine)
      /* predict cv with a GARCH (p, q) model 
 	
 	Input: 
@@ -267,7 +267,7 @@ void pred_garch (double *y, double *h, int *n, double *par, int *p, int *q, int 
 }
 
 
-void ophess_garch (double *y, int *n, double *par, double *he, int *p, int *q)
+void R_ophess_garch (double *y, int *n, double *par, double *he, int *p, int *q)
      /* Compute outer product approximation of the hessian of the 
 	negative log likelihood of a GARCH (p, q) model at given parameter
 	estimates

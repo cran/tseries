@@ -74,15 +74,14 @@ function(x, m = 3, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
     cstan <- double(m+1)
     STATISTIC <- matrix(0,m-1,k)
     for(i in (1:k)) {
-        res <- .C("bdstest_main",
+        res <- .C(R_bdstest_main,
                   as.integer(n),
                   as.integer(m),
                   as.vector(x, mode="double"),
                   as.vector(cc),
                   cstan = as.vector(cstan),
                   as.double(eps[i]),
-                  as.integer(trace),
-                  PACKAGE="tseries")
+                  as.integer(trace))
         STATISTIC[,i] <- res$cstan[2:m+1]
     }
     colnames(STATISTIC) <- eps
@@ -572,12 +571,11 @@ function(x, alternative = c("stationary", "explosive"),
         l <- trunc(4*(n/100)^0.25)
     else
         l <- trunc(12*(n/100)^0.25)
-    ssqrtl <- .C("R_pp_sum",
+    ssqrtl <- .C(R_pp_sum,
                  as.vector(u, mode="double"),
                  as.integer(n),
                  as.integer(l),
-                 ssqrtl=as.double(ssqru),
-                 PACKAGE="tseries")$ssqrtl
+                 ssqrtl=as.double(ssqru))$ssqrtl
     n2 <- n^2
     trm1 <- n2*(n2-1)*sum(yt1^2)/12
     trm2 <- n*sum(yt1*(1:n))^2
@@ -670,12 +668,11 @@ function(x, demean = TRUE, lshort = TRUE)
         l <- trunc(n/100)
     else
         l <- trunc(n/30)
-    ssqrtl <- .C("R_pp_sum",
+    ssqrtl <- .C(R_pp_sum,
                  as.vector(k, mode="double"),
                  as.integer(n),
                  as.integer(l),
-                 ssqrtl=as.double(ssqrk),
-                 PACKAGE="tseries")$ssqrtl
+                 ssqrtl=as.double(ssqrk))$ssqrtl
     alpha <- res.sum$coefficients[1,1]
     STAT <- n*(alpha-1)-0.5*n^2*(ssqrtl-ssqrk)/(sum(ut1^2))
     if(demean) {
@@ -745,12 +742,11 @@ function(x, null = c("Level", "Trend"), lshort = TRUE)
         l <- trunc(3*sqrt(n)/13)
     else
         l <- trunc(10*sqrt(n)/14)
-    s2 <- .C("R_pp_sum",
+    s2 <- .C(R_pp_sum,
              as.vector(e, mode="double"),
              as.integer(n),
              as.integer(l),
-             s2=as.double(s2),
-             PACKAGE="tseries")$s2
+             s2=as.double(s2))$s2
     STAT <- eta/s2
     PVAL <- approx(table, tablep, STAT, rule=2)$y
     if(is.na(approx(table, tablep, STAT, rule=1)$y))

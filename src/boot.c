@@ -103,7 +103,7 @@ static void BlockBoot (double x[], double xBoot[], int n, int L)
   }
 }
 
-void boot (double *x, double *xb, int *n, double *b, int *type)
+void R_boot (double *x, double *xb, int *n, double *b, int *type)
 {
   GetRNGstate();
   if (*type == 0) StatBoot (x-1, xb-1, *n, *b);

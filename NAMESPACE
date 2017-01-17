@@ -1,4 +1,4 @@
-useDynLib("tseries")
+useDynLib("tseries", .registration = TRUE)
 
 import("graphics", "stats", "utils")
 importFrom("quadprog", "solve.QP")

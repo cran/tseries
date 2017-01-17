@@ -126,12 +126,11 @@ function(xi = 0.2, a = 4.0, n = 1000)
     if((xi < 0) || (xi > 1)) stop("xi is not in [0,1]")
     if((a < 0) || (a > 4)) stop("a is not in [0,4]")
     x <- double(n)
-    res <- .C("R_quad_map",
+    res <- .C(R_quad_map,
               x = as.vector(x),
               as.double(xi),
               as.double(a),
-              as.integer(n),
-              PACKAGE="tseries")
+              as.integer(n))
     return(ts(res$x))
 }
 
@@ -273,13 +272,12 @@ function(x, y, colx = "black", coly = "red", typex = "l",
 boot.sample <-
 function(x, b, type)
 {
-    return(.C("boot",
+    return(.C(R_boot,
               as.vector(x, mode = "double"),
               x = as.vector(x, mode = "double"),
               as.integer(length(x)),
               as.double(b),
-              as.integer(type),
-              PACKAGE = "tseries")$x)
+              as.integer(type))$x)
 }
 
 tsbootstrap <- function(x, nb = 1, statistic = NULL, m = 1, b = NULL,
