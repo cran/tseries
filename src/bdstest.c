@@ -528,7 +528,8 @@ arguments are exactly the same.
 
 /* begin front end ---------------------------------- */
 
-void R_bdstest_main (int *N, int *M, double *x, double *c, double *cstan, double *EPS, int *TRACE)
+void tseries_bdstest_main (int *N, int *M, double *x, double *c,
+			   double *cstan, double *EPS, int *TRACE)
 {
 	int i;
 	double k;

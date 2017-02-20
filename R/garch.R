@@ -46,7 +46,7 @@ function (x, order = c(1, 1), series = NULL, control = garch.control(...), ...)
     if(!is.vector(coef)) stop("coef is not a vector")
     if(ncoef != length(coef)) stop("incorrect length of coef")
     nlikeli <- 1.0e+10
-    fit <- .C(R_fit_garch,
+    fit <- .C(tseries_fit_garch,
               as.vector(x, mode = "double"),
               as.integer(n),
               coef = as.vector(coef, mode = "double"),
@@ -60,7 +60,7 @@ function (x, order = c(1, 1), series = NULL, control = garch.control(...), ...)
               nlikeli = as.double(nlikeli),
               as.integer(agrad),
               as.integer(control$trace))
-    pred <- .C(R_pred_garch,
+    pred <- .C(tseries_pred_garch,
                as.vector(x, mode = "double"),
                e = as.vector(e, mode = "double"),
                as.integer(n),
@@ -68,7 +68,7 @@ function (x, order = c(1, 1), series = NULL, control = garch.control(...), ...)
                as.integer(order[1]),
                as.integer(order[2]),
                as.integer(FALSE))
-    com.hess <- .C(R_ophess_garch,
+    com.hess <- .C(tseries_ophess_garch,
                    as.vector(x, mode = "double"),
                    as.integer(n),
                    as.vector(fit$coef, mode = "double"),
@@ -257,7 +257,7 @@ function(object, newdata, genuine = FALSE, ...)
     n <- nrow(newdata)
     if(genuine) h <- double(n+1)
     else h <- double(n)
-    pred <- .C(R_pred_garch,
+    pred <- .C(tseries_pred_garch,
                as.vector(newdata, mode = "double"),
                h = as.vector(h, mode = "double"),
                as.integer(n),

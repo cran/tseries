@@ -17,7 +17,7 @@
    Support functions for time series utilities */
 
 
-void R_quad_map (double *x, double *xi, double *a, int *n)
+void tseries_quad_map (double *x, double *xi, double *a, int *n)
 {
   int i;
 

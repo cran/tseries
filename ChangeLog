@@ -1,6 +1,22 @@
+2017-02-20  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-38.
+
+	* R/*.R:
+	* src/*c:
+	Improve registration of native routines.
+
+2017-01-17  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-37.
+
+	* R/*.R:
+	* src/*c:
+	Register native routines.
+
 2016-12-15  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
-	* DESCRIPTION (Version): New version is 0.10-36.
+	* DESCRIPTION: New version is 0.10-36.
 
 	* R/finance.R (get.hist.quote):
 	* man/get.hist.quote.Rd:

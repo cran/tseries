@@ -17,8 +17,8 @@
    ARMA estimation */
 
 
-void R_arma (double *x, double *u, double *a, int *ar, int *ma, int *arl, 
-	     int *mal, int *max, int *n, int *intercept)
+void tseries_arma (double *x, double *u, double *a, int *ar, int *ma,
+		   int *arl, int *mal, int *max, int *n, int *intercept)
      /* compute conditional sum of squares */
 {
   int i, j;

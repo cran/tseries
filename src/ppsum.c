@@ -17,7 +17,7 @@
    efficient computation of the sums involved in the Phillips-Perron tests */
 
 
-void R_pp_sum (double* u, int* n, int* l, double* sum)
+void tseries_pp_sum (double* u, int* n, int* l, double* sum)
 {
   int i, j;
   double tmp1, tmp2;

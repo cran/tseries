@@ -74,7 +74,7 @@ function(x, m = 3, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
     cstan <- double(m+1)
     STATISTIC <- matrix(0,m-1,k)
     for(i in (1:k)) {
-        res <- .C(R_bdstest_main,
+        res <- .C(tseries_bdstest_main,
                   as.integer(n),
                   as.integer(m),
                   as.vector(x, mode="double"),
@@ -571,7 +571,7 @@ function(x, alternative = c("stationary", "explosive"),
         l <- trunc(4*(n/100)^0.25)
     else
         l <- trunc(12*(n/100)^0.25)
-    ssqrtl <- .C(R_pp_sum,
+    ssqrtl <- .C(tseries_pp_sum,
                  as.vector(u, mode="double"),
                  as.integer(n),
                  as.integer(l),
@@ -668,7 +668,7 @@ function(x, demean = TRUE, lshort = TRUE)
         l <- trunc(n/100)
     else
         l <- trunc(n/30)
-    ssqrtl <- .C(R_pp_sum,
+    ssqrtl <- .C(tseries_pp_sum,
                  as.vector(k, mode="double"),
                  as.integer(n),
                  as.integer(l),
@@ -742,7 +742,7 @@ function(x, null = c("Level", "Trend"), lshort = TRUE)
         l <- trunc(3*sqrt(n)/13)
     else
         l <- trunc(10*sqrt(n)/14)
-    s2 <- .C(R_pp_sum,
+    s2 <- .C(tseries_pp_sum,
              as.vector(e, mode="double"),
              as.integer(n),
              as.integer(l),

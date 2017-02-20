@@ -30,7 +30,7 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
     err <- function(coef) {
         u <- double(n)
         u[seqN(max.order)] <- 0
-        u <- .C(R_arma,
+        u <- .C(tseries_arma,
                 as.vector(x, mode = "double"),
                 u = as.vector(u),
                 as.vector(coef, mode = "double"),
@@ -47,7 +47,7 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
     resid <- function(coef) {
         u <- double(n)
         u[seqN(max.order)] <- 0
-        u <- .C(R_arma,
+        u <- .C(tseries_arma,
                 as.vector(x, mode = "double"),
                 u = as.vector(u),
                 as.vector(coef, mode = "double"),
