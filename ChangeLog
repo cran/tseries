@@ -1,3 +1,11 @@
+2017-04-18  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-39.
+
+	* R/finance.R (get.hist.quote):
+	* man/get.hist.quote.Rd:
+	Drop provider 'oanda' which now requires registration.
+
 2017-02-20  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-38.

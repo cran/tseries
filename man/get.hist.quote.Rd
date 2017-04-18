@@ -8,7 +8,7 @@
 \usage{
 get.hist.quote(instrument = "^gdax", start, end,
                quote = c("Open", "High", "Low", "Close"),
-               provider = c("yahoo", "oanda"), method = NULL,
+               provider = c("yahoo"), method = NULL,
                origin = "1899-12-30", compression = "d",
 	       retclass = c("zoo", "ts"), quiet = FALSE, drop = FALSE) 
 }
@@ -32,9 +32,9 @@ get.hist.quote(instrument = "^gdax", start, end,
     \code{"Volume"}, respectively.  For the provider \code{"oanda"},
     this argument is ignored. Abbreviations are allowed.}
   \item{provider}{a character string with the name of the data
-    provider.  Currently, \code{"yahoo"} and \code{"oanda"} are
-    implemented.  See \url{http://quote.yahoo.com/} and
-    \url{https://www.oanda.com/} for more information.}
+    provider.  Currently, \code{"yahoo"} is implemented, see
+    \url{http://quote.yahoo.com/} for more information.  Provider
+    \code{"oanda"} is no longer available.}
   \item{method}{tool to be used for downloading the data.  See
     \code{\link{download.file}} for the available download methods and
     the default settings.}
@@ -69,8 +69,7 @@ get.hist.quote(instrument = "^gdax", start, end,
   \code{\link{as.Date}},
   \code{\link{as.POSIXct}},
   \code{\link{download.file}};
-  \url{http://quote.yahoo.com/},
-  \url{https://www.oanda.com/}
+  \url{http://quote.yahoo.com/}
 }
 \examples{
 con <- url("http://quote.yahoo.com")
@@ -90,14 +89,6 @@ if(!inherits(try(open(con), silent = TRUE), "try-error")) {
   require("zoo")		# For merge() method.
   x <- merge(spc, ibm)
   plot(x, main = "IBM vs S&P 500")
-}
-
-con <- url("https://www.oanda.com")
-if(!inherits(try(open(con), silent = TRUE), "try-error")) {
-  close(con)
-  x <- get.hist.quote(instrument = "EUR/USD", provider = "oanda",
-                      start = Sys.Date() - 500)
-  plot(x, main = "EUR/USD")
 }
 }
 \keyword{ts}

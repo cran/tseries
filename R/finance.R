@@ -134,7 +134,7 @@ function(x, pm = mean(x), riskless = FALSE, shorts = FALSE,
 get.hist.quote <-
 function (instrument = "^gdax", start, end,
           quote = c("Open", "High", "Low", "Close"),
-          provider = c("yahoo", "oanda"), method = NULL,
+          provider = c("yahoo"), method = NULL,
           origin = "1899-12-30", compression = "d",
 	  retclass = c("zoo", "ts"),
 	  quiet = FALSE, drop = FALSE)
@@ -259,67 +259,72 @@ function (instrument = "^gdax", start, end,
 	  return(y)
 	}
     }
-    else if(provider == "oanda") {
-        if(!missing(quote)) {
-            warning("argument 'quote' ignored for provider 'oanda'")
-        }
-        if(!missing(compression)) {
-            warning("argument 'compression' ignored for provider 'oanda'")
-        }
-
-        currencies <- unlist(strsplit(instrument, split = "/"))
-        ranges <- c("d7", "d30", "d60", "d90", "d180", "y1", "y2", "y5")
-        range <- ranges[c(7, 30, 60, 90, 180, 364, 728, 1820) >=
-                            difftime(end, start, units="days")][1]
-        url <- paste0("https://www.oanda.com/currency/historical-rates/download?",
-                      "quote_currency=", currencies[1],
-                      "&end_date=", end,
-                      "&start_date=", start,
-                      "&period=daily",
-                      "&display=absolute",
-                      "&rate=0",
-                      "&data_range=", range,
-                      "&price=mid",
-                      "&view=table",
-                      "&base_currency_0=", currencies[2],
-                      "&base_currency_1=",
-                      "&base_currency_2=",
-                      "&base_currency_3=",
-                      "&base_currency_4=",
-                      "&download=csv")
-        destfile <- tempfile()
-        
-        status <- download.file(url, destfile, method = method, quiet = quiet)
-        if(status != 0) {
-            unlink(destfile)
-            stop(paste("download error, status", status))
-        }
-
-        x <- read.csv(destfile, skip = 4, as.is = TRUE, header = TRUE)
-        unlink(destfile)
-        x <- head(x, -3)
-        
-        dat <- rev(as.Date(x[[1]]))
-        n <- length(dat)
-        if(!quiet && (dat[1] != start))
-            cat(format(dat[1], "time series starts %Y-%m-%d\n"))
-        if(!quiet && (dat[n] != end))
-            cat(format(dat[n], "time series ends   %Y-%m-%d\n"))
-        val <- rev(x[[2]])
-        if(is.character(val))
-            val <- as.numeric(sub(",", "", val, fixed = TRUE))
-
-	if(retclass == "ts") {
-            jdat <- unclass(julian(dat, origin = as.Date(origin)))
-            ind <- jdat - jdat[1] + 1
-            y <- rep.int(NA, max(ind))
-            y[ind] <- val
-            return(ts(y, start = jdat[1], end = jdat[n]))
-	} else {
-	  y <- zoo(val, dat)
-	  return(y)
-	}
-    }
+    ## <NOTE>
+    ## As of 2017-04, OANDA more or less requires registration.
+    ## (Apparently, one can still get <= 180 days of historical data via
+    ## JSON but not CSV, for the time being ...)
+    ## </NOTE>
+    ## else if(provider == "oanda") {
+    ##     if(!missing(quote)) {
+    ##         warning("argument 'quote' ignored for provider 'oanda'")
+    ##     }
+    ##     if(!missing(compression)) {
+    ##         warning("argument 'compression' ignored for provider 'oanda'")
+    ##     }
+    ##
+    ##     currencies <- unlist(strsplit(instrument, split = "/"))
+    ##     ranges <- c("d7", "d30", "d60", "d90", "d180", "y1", "y2", "y5")
+    ##     range <- ranges[c(7, 30, 60, 90, 180, 364, 728, 1820) >=
+    ##                         difftime(end, start, units="days")][1]
+    ##     url <- paste0("https://www.oanda.com/currency/historical-rates/download?",
+    ##                   "quote_currency=", currencies[1],
+    ##                   "&end_date=", end,
+    ##                   "&start_date=", start,
+    ##                   "&period=daily",
+    ##                   "&display=absolute",
+    ##                   "&rate=0",
+    ##                   "&data_range=", range,
+    ##                   "&price=mid",
+    ##                   "&view=table",
+    ##                   "&base_currency_0=", currencies[2],
+    ##                   "&base_currency_1=",
+    ##                   "&base_currency_2=",
+    ##                   "&base_currency_3=",
+    ##                   "&base_currency_4=",
+    ##                   "&download=csv")
+    ##     destfile <- tempfile()
+    ##
+    ##     status <- download.file(url, destfile, method = method, quiet = quiet)
+    ##     if(status != 0) {
+    ##         unlink(destfile)
+    ##         stop(paste("download error, status", status))
+    ##     }
+    ##
+    ##     x <- read.csv(destfile, skip = 4, as.is = TRUE, header = TRUE)
+    ##     unlink(destfile)
+    ##     x <- head(x, -3)
+    ##    
+    ##     dat <- rev(as.Date(x[[1]]))
+    ##     n <- length(dat)
+    ##     if(!quiet && (dat[1] != start))
+    ##         cat(format(dat[1], "time series starts %Y-%m-%d\n"))
+    ##     if(!quiet && (dat[n] != end))
+    ##         cat(format(dat[n], "time series ends   %Y-%m-%d\n"))
+    ##     val <- rev(x[[2]])
+    ##     if(is.character(val))
+    ##         val <- as.numeric(sub(",", "", val, fixed = TRUE))
+    ##
+    ##     if(retclass == "ts") {
+    ##         jdat <- unclass(julian(dat, origin = as.Date(origin)))
+    ##         ind <- jdat - jdat[1] + 1
+    ##         y <- rep.int(NA, max(ind))
+    ##         y[ind] <- val
+    ##         return(ts(y, start = jdat[1], end = jdat[n]))
+    ##     } else {
+    ##       y <- zoo(val, dat)
+    ##       return(y)
+    ##     }
+    ## }
     else stop("provider not implemented")
 }
 

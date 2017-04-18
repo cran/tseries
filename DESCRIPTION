@@ -1,5 +1,5 @@
 Package: tseries
-Version: 0.10-38
+Version: 0.10-39
 Title: Time Series Analysis and Computational Finance
 Authors@R: c(person("Adrian", "Trapletti", role = "aut",
                     email = "adrian@trapletti.org"),
@@ -12,10 +12,10 @@ Depends: R (>= 2.10.0)
 Imports: graphics, stats, utils, quadprog, zoo
 License: GPL-2
 NeedsCompilation: yes
-Packaged: 2017-02-20 18:48:56 UTC; hornik
+Packaged: 2017-04-18 10:57:09 UTC; hornik
 Author: Adrian Trapletti [aut],
   Kurt Hornik [aut, cre],
   Blake LeBaron [ctb] (BDS test code)
 Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
 Repository: CRAN
-Date/Publication: 2017-02-20 20:21:26
+Date/Publication: 2017-04-18 11:22:27 UTC
