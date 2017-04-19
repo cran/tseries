@@ -163,7 +163,7 @@ function (instrument = "^gdax", start, end,
 
     if(provider == "yahoo") {
         url <-
-            paste("http://chart.yahoo.com/table.csv?s=",
+            paste("https://ichart.finance.yahoo.com/table.csv?s=",
                   instrument, 
                   format(start,
                          paste("&a=",

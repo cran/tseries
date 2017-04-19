@@ -33,7 +33,7 @@ get.hist.quote(instrument = "^gdax", start, end,
     this argument is ignored. Abbreviations are allowed.}
   \item{provider}{a character string with the name of the data
     provider.  Currently, \code{"yahoo"} is implemented, see
-    \url{http://quote.yahoo.com/} for more information.  Provider
+    \url{https://finance.yahoo.com/} for more information.  Provider
     \code{"oanda"} is no longer available.}
   \item{method}{tool to be used for downloading the data.  See
     \code{\link{download.file}} for the available download methods and
@@ -69,10 +69,10 @@ get.hist.quote(instrument = "^gdax", start, end,
   \code{\link{as.Date}},
   \code{\link{as.POSIXct}},
   \code{\link{download.file}};
-  \url{http://quote.yahoo.com/}
+  \url{https://finance.yahoo.com/}
 }
 \examples{
-con <- url("http://quote.yahoo.com")
+con <- url("https://finance.yahoo.com")
 if(!inherits(try(open(con), silent = TRUE), "try-error")) {
   close(con)
   x <- get.hist.quote(instrument = "^gspc", start = "1998-01-01",

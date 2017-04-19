@@ -1,8 +1,8 @@
-75ec489f3ade18ce825fe8e6b2f7be5d *ChangeLog
-5bedaa6d98dcf6861d2ef686ad8f21d3 *DESCRIPTION
+350b26da285cf21c7a0f63096a9d5de0 *ChangeLog
+5fed6f8a7fe3df4a669b5c0eedd468f5 *DESCRIPTION
 5f5a43a566e6cdf8f6f13199c78b399a *NAMESPACE
 c5a452ce3d1b330e8f92670ac8f0de83 *R/arma.R
-1355a604f955d083efb33d1751cc19d4 *R/finance.R
+85884205bb0d37fbcd9e74ff661d2afc *R/finance.R
 72ee630e802dbee4b151d9d1efd31ca3 *R/garch.R
 decf4a3134c069cf9d2dbc79b1b60706 *R/irts.R
 0ce6494a5006b2e8c4cc5e87e00993f7 *R/test.R
@@ -28,7 +28,7 @@ af95a59d763942cc81ad5d3f60a8394c *man/bds.test.Rd
 89173da2154e0d28b27bd2e9d00c983b *man/camp.Rd
 35c28a6707e4e01f789be2117c646664 *man/garch-methods.Rd
 6e9e94d717f01d4208a8fa29e0ea28d2 *man/garch.Rd
-efb2aed4190d74738049b0c4194808fa *man/get.hist.quote.Rd
+8259b9b4397915ab701374d8b3373428 *man/get.hist.quote.Rd
 d78ea694dcc885f7a4df3e89efff2788 *man/ice.river.Rd
 d1b8f7e9d68bae68eea050d9efedb11b *man/irts-functions.Rd
 82628e1b908072d5572db16d8d4fd2fa *man/irts-methods.Rd
@@ -38,7 +38,7 @@ ebbc531e16bbbbf4ce7e6851456d0d83 *man/jarque.bera.test.Rd
 8694b77930d8f87608e74cb3a098ffdb *man/maxdrawdown.Rd
 df57497fe0c4420af39d4372edbd0e4a *man/na.remove.Rd
 7da4c7325e0856a6dd73b0b3bc245d11 *man/nino.Rd
-7a304ac702560d8c6b661b71d3dc9aa2 *man/plotOHLC.Rd
+32d4b5b2e3866dddb511432a5fa82082 *man/plotOHLC.Rd
 28de929d9cd77e7668189e1d566ee781 *man/po.test.Rd
 085dbd437c66034802b1950a62353a4b *man/portfolio.optim.Rd
 069ec663f7f2bb9ca51b230efff6783f *man/pp.test.Rd
