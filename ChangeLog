@@ -1,8 +1,19 @@
+2017-05-29  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-41.
+
+	* R/finance.R:
+	* NAMESPACE:
+	Re-write get.hist.quote() as a wrapper for
+	quantmod::getSymbols().
+
 2017-04-19  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
-	* R/finance.R (get.hist.quote): 
+	* DESCRIPTION: New version is 0.10-40.
+
+	* R/finance.R (get.hist.quote):
 	* man/get.hist.quote.Rd:
-	* man/plotOHLC.Rd: 
+	* man/plotOHLC.Rd:
 	http://quote.yahoo.com now redirects to https.
 
 2017-04-18  Kurt Hornik  <Kurt.Hornik@wu.ac.at>

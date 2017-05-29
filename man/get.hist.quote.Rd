@@ -28,16 +28,14 @@ get.hist.quote(instrument = "^gdax", start, end,
   \item{quote}{a character string or vector indicating whether to
     download opening, high, low, or closing quotes, or volume.  For the
     default provider, this can be specified as \code{"Open"},
-    \code{"High"}, \code{"Low"}, \code{"Close"}, \code{"AdjClose"}, and
-    \code{"Volume"}, respectively.  For the provider \code{"oanda"},
-    this argument is ignored. Abbreviations are allowed.}
+    \code{"High"}, \code{"Low"}, \code{"Close"}, \code{"Adjusted"}, and
+    \code{"Volume"}, respectively.  Abbreviations are allowed.}
   \item{provider}{a character string with the name of the data
-    provider.  Currently, \code{"yahoo"} is implemented, see
-    \url{https://finance.yahoo.com/} for more information.  Provider
-    \code{"oanda"} is no longer available.}
-  \item{method}{tool to be used for downloading the data.  See
-    \code{\link{download.file}} for the available download methods and
-    the default settings.}
+    provider.  Currently, only \code{"yahoo"} is supported via 
+    \code{\link[quantmod:getSymbols.yahoo]{getSymbols}} from package
+    \pkg{quantmod} for the Yahoo Finance source.
+    Provider \code{"oanda"} is no longer available.}
+  \item{method}{No longer used.}
   \item{origin}{an R object specifying the origin of the Julian dates, see
     above.  Defaults to 1899-12-30 (Popular spreadsheet programs
     internally also use Julian dates with this origin).}
@@ -64,12 +62,12 @@ get.hist.quote(instrument = "^gdax", start, end,
 }
 \author{A. Trapletti}
 \seealso{
+  \code{\link[quantmod]{getSymbols}} for downloads from various
+  providers; 
   \code{\link[zoo]{zoo}},
   \code{\link{ts}},
   \code{\link{as.Date}},
   \code{\link{as.POSIXct}},
-  \code{\link{download.file}};
-  \url{https://finance.yahoo.com/}
 }
 \examples{
 con <- url("https://finance.yahoo.com")
@@ -85,7 +83,7 @@ if(!inherits(try(open(con), silent = TRUE), "try-error")) {
   spc <- get.hist.quote(instrument = "^gspc", start = "1998-01-01",
          quote = "Close")
   ibm <- get.hist.quote(instrument = "ibm",  start = "1998-01-01",
-         quote = "AdjClose")
+         quote = "Adj")
   require("zoo")		# For merge() method.
   x <- merge(spc, ibm)
   plot(x, main = "IBM vs S&P 500")

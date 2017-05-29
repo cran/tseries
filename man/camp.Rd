@@ -23,6 +23,6 @@ data(camp)
 }
 \source{
   Time Series Data Library:
-  \url{http://www-personal.buseco.monash.edu.au/~hyndman/TSDL/}
+  \url{https://robjhyndman.com/TSDL/}
 }
 \keyword{datasets}

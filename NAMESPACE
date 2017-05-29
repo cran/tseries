@@ -3,6 +3,7 @@ useDynLib("tseries", .registration = TRUE)
 import("graphics", "stats", "utils")
 importFrom("quadprog", "solve.QP")
 importFrom("zoo", "zoo", "index", "index<-")
+importFrom("quantmod", "getSymbols")
 
 export("adf.test", "approx.irts", "arma", "as.irts",
        "bds.test",
