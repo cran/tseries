@@ -1,3 +1,10 @@
+2017-06-21  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-42.
+
+	* R/finance.R (get.hist.quote): Fix problem spotted by
+	Thomas A Severini <severini@northwestern.edu>.
+
 2017-05-29  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-41.
@@ -667,7 +674,7 @@
 2001-10-29  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION (Version): New version is 0.8-2.
-	
+
 	* man/get.hist.quote.Rd:
 	* R/finance.R:
 	Change default value for argument 'quote' of 'get.hist.quote()'.
@@ -675,24 +682,24 @@
 	* man/maxdrawdown.Rd:
 	* R/finance.R:
 	* src/tsutils.c:
-	Simpler and more informative implementation of max drawdown 
+	Simpler and more informative implementation of max drawdown
 	statistic.
 
 	* man/plotOHLC.Rd:
-	* R/finance.R: 
+	* R/finance.R:
 	New function which plots open-high-low-close bar charts.
-	
+
 2001-10-18  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION: Cleanup. New version is 0.8-1.
-	
+
 	* README: Cleanup.
 
 2001-10-12  Adrian Trapletti <a.trapletti@bluewin.ch>
 
 	* DESCRIPTION (Version): New version is 0.8-0.
 
-	* R/tsutils.R: Call .C with 'mode = "double"' everywhere. 
+	* R/tsutils.R: Call .C with 'mode = "double"' everywhere.
 
 	* man/maxdrawdown.Rd:
 	* R/finance.R:
@@ -703,13 +710,13 @@
 
 	* DESCRIPTION (Version): New version is 0.7-6.
 
-	* src/arma.c: Correct nasty bug concerning accessing the 
-	parameter intercept. 
+	* src/arma.c: Correct nasty bug concerning accessing the
+	parameter intercept.
 
 	* man/portfolio.optim.Rd:
 	* R/finance.R:
-	Integration of a patch of Dirk Eddelbuettel for 'portfolio.optim()' 
-	that allows inequality restrictions on the portfolio weights and 
+	Integration of a patch of Dirk Eddelbuettel for 'portfolio.optim()'
+	that allows inequality restrictions on the portfolio weights and
 	a specification of the covariance matrix.
 
 2001-08-20  Kurt Hornik  <Kurt.Hornik@ci.tuwien.ac.at>
@@ -739,8 +746,8 @@
 
 	* DESCRIPTION (Version): New version is 0.7-4.
 
-	* R/test.R: 
-	* man/terasvirta.test.Rd: 
+	* R/test.R:
+	* man/terasvirta.test.Rd:
 	* man/white.test.Rd:
 	Use 'Chisq' instead of 'chisq' for argument 'type'.
 

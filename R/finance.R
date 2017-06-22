@@ -150,7 +150,7 @@ function(instrument = "^gdax", start, end,
 
     ## Be nice.
     ind <- pmatch(quote, "AdjClose", nomatch = 0L)
-    quote[ind] <= "Adjusted"
+    quote[ind] <- "Adjusted"
 
     start <- as.Date(start)
     end <- as.Date(end)
@@ -182,7 +182,7 @@ function(instrument = "^gdax", start, end,
         y <- y[, seq_along(nser), drop = drop]
         return(ts(y, start = jdat[1], end = jdat[n]))
     } else {
-        x[ , seq_along(nser), drop = drop]
+        x[ , nser, drop = drop]
     }
 }
 
