@@ -1,3 +1,10 @@
+2018-02-09  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-43.
+
+	* R/test.R (adf.test, kpss.test): Fix problems spotted by
+	David Shaub <davidshaub@gmx.com>.
+
 2017-06-21  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-42.

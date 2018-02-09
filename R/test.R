@@ -182,7 +182,8 @@ function(x, alternative = c("stationary", "explosive"),
     for(i in (1:tablen))
         tableipl[i] <- approx(tableT, table[, i], n, rule=2)$y
     interpol <- approx(tableipl, tablep, STAT, rule=2)$y
-    if(is.na(approx(tableipl, tablep, STAT, rule=1)$y))
+    if(!is.na(STAT) &&
+       is.na(approx(tableipl, tablep, STAT, rule=1)$y))
         if(interpol == min(tablep))
             warning("p-value smaller than printed p-value")
         else
@@ -749,7 +750,8 @@ function(x, null = c("Level", "Trend"), lshort = TRUE)
              s2=as.double(s2))$s2
     STAT <- eta/s2
     PVAL <- approx(table, tablep, STAT, rule=2)$y
-    if(is.na(approx(table, tablep, STAT, rule=1)$y))
+    if(!is.na(STAT) &&
+       is.na(approx(table, tablep, STAT, rule=1)$y))
         if(PVAL == min(tablep))
             warning("p-value smaller than printed p-value")
         else
