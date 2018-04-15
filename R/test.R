@@ -534,11 +534,11 @@ function(x)
     b1 <- (m3/m2^(3/2))^2
     b2 <- (m4/m2^2)
     STATISTIC <- n*b1/6+n*(b2-3)^2/24
-    names(STATISTIC) <- "X-squared"
-    PARAMETER <- 2
-    names(PARAMETER) <- "df"
     PVAL <- 1 - pchisq(STATISTIC,df = 2)
+    PARAMETER <- 2
     METHOD <- "Jarque Bera Test"
+    names(STATISTIC) <- "X-squared"
+    names(PARAMETER) <- "df"
     structure(list(statistic = STATISTIC,
                    parameter = PARAMETER,
                    p.value = PVAL,
