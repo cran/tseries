@@ -1,49 +1,7 @@
-2018-04-15  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+2018-06-04  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
-	* DESCRIPTION: New version is 0.10-44.
-
-	* R/test.R (jarque.bera.test): Fix problem spotted by
-	Alejandro Gómez <agomezh@gmail.com>.
-
-2018-02-09  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
-
-	* DESCRIPTION: New version is 0.10-43.
-
-	* R/test.R (adf.test, kpss.test): Fix problems spotted by
-	David Shaub <davidshaub@gmx.com>.
-
-2017-06-21  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
-
-	* DESCRIPTION: New version is 0.10-42.
-
-	* R/finance.R (get.hist.quote): Fix problem spotted by
-	Thomas A Severini <severini@northwestern.edu>.
-
-2017-05-29  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
-
-	* DESCRIPTION: New version is 0.10-41.
-
-	* R/finance.R:
-	* NAMESPACE:
-	Re-write get.hist.quote() as a wrapper for
-	quantmod::getSymbols().
-
-2017-04-19  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
-
-	* DESCRIPTION: New version is 0.10-40.
-
-	* R/finance.R (get.hist.quote):
-	* man/get.hist.quote.Rd:
-	* man/plotOHLC.Rd:
-	http://quote.yahoo.com now redirects to https.
-
-2017-04-18  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
-
-	* DESCRIPTION: New version is 0.10-39.
-
-	* R/finance.R (get.hist.quote):
-	* man/get.hist.quote.Rd:
-	Drop provider 'oanda' which now requires registration.
+	* DESCRIPTION: Improve Imports for cran2deb (spotted by DE).
+	New version is 0.10-45.
 
 2017-02-20  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
