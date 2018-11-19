@@ -1,3 +1,14 @@
+2018-11-18  Adrian Trapletti  <adrian@trapletti.org>
+
+	* DESCRIPTION (Version): New version is 0.10-46.
+
+	* README: Update contributers.
+
+	* R/test.R (kpss.test):
+	* man/kpss.test.Rd:
+	Change the truncation lag parameter formulas to the original formulas
+	of KPSS. Spotted by M. Bruns and K. Nieradko.
+
 2018-06-04  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: Improve Imports for cran2deb (spotted by DE).

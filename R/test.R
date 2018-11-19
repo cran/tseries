@@ -740,9 +740,9 @@ function(x, null = c("Level", "Trend"), lshort = TRUE)
     eta <- sum(s^2)/(n^2)
     s2 <- sum(e^2)/n
     if(lshort)
-        l <- trunc(3*sqrt(n)/13)
+        l <- trunc(4*(n/100)^0.25)
     else
-        l <- trunc(10*sqrt(n)/14)
+        l <- trunc(12*(n/100)^0.25)
     s2 <- .C(tseries_pp_sum,
              as.vector(e, mode="double"),
              as.integer(n),

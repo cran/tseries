@@ -19,8 +19,8 @@ kpss.test(x, null = c("Level", "Trend"), lshort = TRUE)
 \details{
   To estimate \code{sigma^2} the Newey-West estimator is used.
   If \code{lshort} is \code{TRUE}, then the truncation lag parameter is
-  set to \code{trunc(3*sqrt(n)/13)}, otherwise
-  \code{trunc(10*sqrt(n)/14)} is used.  The p-values are interpolated
+  set to \code{trunc(4*(n/100)^0.25)}, otherwise
+  \code{trunc(12*(n/100)^0.25)} is used.  The p-values are interpolated
   from Table 1 of Kwiatkowski et al. (1992). If the computed statistic
   is outside the table of critical values, then a warning message is
   generated.
