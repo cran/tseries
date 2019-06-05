@@ -1,3 +1,14 @@
+2019-06-05  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-47.
+
+	* src/formats.c:
+	* src/dsumsl.f:
+	Use bind(C) for correctly passing character strings from Fortran
+	to C.
+
+	* src/cfuncs.f95: Added.
+
 2018-11-18  Adrian Trapletti  <adrian@trapletti.org>
 
 	* DESCRIPTION (Version): New version is 0.10-46.

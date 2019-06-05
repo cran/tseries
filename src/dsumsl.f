@@ -1985,7 +1985,9 @@ C
 C  ***  LAST CARD OF DDBDOG FOLLOWS  ***
       END
       SUBROUTINE DITSUM(D, G, IV, LIV, LV, P, V, X)
+      use cfuncs
       save
+
 C
 C  ***  PRINT ITERATION SUMMARY FOR ***SOL (VERSION 2.3)  ***
 C
@@ -2090,12 +2092,12 @@ C
          IV(NEEDHD) = 0
          IF (ALG .EQ. 2) GO TO 50
          M = IV(SUSED)
-         call h100(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
-     1             MODEL1(M), MODEL2(M), V(STPPAR))
+         call h100s(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
+     1              MODEL1(M), MODEL2(M), V(STPPAR))
          GO TO 120
 C
- 50      call h110(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
-     1             V(STPPAR))
+ 50      call h110s(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
+     1              V(STPPAR))
          GO TO 120
 C
 C     ***  PRINT LONG SUMMARY LINE  ***
@@ -2107,12 +2109,12 @@ C
       IF (OLDF .GT. ZERO) NRELDF = V(NREDUC) / OLDF
       IF (ALG .EQ. 2) GO TO 90
       M = IV(SUSED)
-      call h100(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
+      call h100l(IV(NITER), NF, V(F), RELDF, PRELDF, V(RELDX),
      1           MODEL1(M), MODEL2(M), V(STPPAR), V(DSTNRM), NRELDF)
       GO TO 120
 C
- 90   call h110(IV(NITER), NF, V(F), RELDF, PRELDF,
-     1          V(RELDX), V(STPPAR), V(DSTNRM), NRELDF)
+ 90   call h110l(IV(NITER), NF, V(F), RELDF, PRELDF,
+     1           V(RELDX), V(STPPAR), V(DSTNRM), NRELDF)
 C
  120  IF (IV(STATPR) .LT. 0) GO TO 430
       GO TO (999, 999, 130, 150, 170, 190, 210, 230, 250, 270, 290, 310,

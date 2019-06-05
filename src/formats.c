@@ -1,7 +1,7 @@
 #include <R.h>
 #include <R_ext/Print.h>
 
-void F77_SUB(cnlprt)(char *msg, int *plen)
+void cnlprt_C(char *msg, int *plen)
 {
     char buf[1000];
     int len = *plen;
@@ -41,16 +41,30 @@ void F77_SUB(h80)(void)
 }
 
 /* 100  FORMAT(I6,I5,D10.3,2D9.2,D8.1,A3,A4,2D8.1,D9.2) */
-void F77_SUB(h100)(int *i1, int *i2, double *d1, double *d2, double *d3,
-		   double *d4, char *a1, char *a2,
-		   double *d5, double *d6, double *d7)
+void h100s_C(int *i1, int *i2, double *d1, double *d2, double *d3,
+	     double *d4, char *a1, char *a2,
+	     double *d5)
+{
+    Rprintf("%6d%5d%10.3e%9.2e%9.2e%8.1e%3s%4s%8.1e\n",
+	    *i1, *i2, *d1, *d2, *d3, *d4, a1, a2, *d5);
+}
+
+void h100l_C(int *i1, int *i2, double *d1, double *d2, double *d3,
+	     double *d4, char *a1, char *a2,
+	     double *d5, double *d6, double *d7)
 {
     Rprintf("%6d%5d%10.3e%9.2e%9.2e%8.1e%3s%4s%8.1e%8.1e%e9.2\n",
 	    *i1, *i2, *d1, *d2, *d3, *d4, a1, a2, *d5, *d6, *d7);
 }
 
 /*  110  FORMAT(I6,I5,D11.3,2D10.2,3D9.1,D10.2) */
-void F77_SUB(h110)(int *i1, int *i2, double *d1, double *d2, double *d3,
+void F77_SUB(h110s)(int *i1, int *i2, double *d1, double *d2, double *d3,
+		   double *d4, double *d5)
+{
+    Rprintf("%6d%5d%11.3e%10.2e%10.2e%9.1e%9.1e\n",
+	    *i1, *i2, *d1, *d2, *d3, *d4, *d5);
+}
+void F77_SUB(h110l)(int *i1, int *i2, double *d1, double *d2, double *d3,
 		   double *d4, double *d5, double *d6, double *d7)
 {
     Rprintf("%6d%5d%11.3e%10.2e%10.2e%9.1e%9.1e%9.1e%10.2e\n",
