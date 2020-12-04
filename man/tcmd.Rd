@@ -27,6 +27,6 @@ data(tcmd)
   eliminated.
 }
 \source{
-  U.S. Fed \url{http://www.federalreserve.gov/Releases/H15/data.htm}
+  U.S. Fed \url{https://www.federalreserve.gov/Releases/H15/data.htm}
 }
 \keyword{datasets}

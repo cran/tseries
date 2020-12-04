@@ -23,6 +23,6 @@ data(nino)
 }
 \source{
   Climate Prediction Center:
-  \url{http://www.cpc.ncep.noaa.gov/data/indices/}
+  \url{https://www.cpc.ncep.noaa.gov/data/indices/}
 }
 \keyword{datasets}
