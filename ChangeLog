@@ -1,3 +1,13 @@
+2020-12-04  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-48.
+
+	* man/NelPlo.Rd: Update source info.
+
+2020-03-09  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* src/cfuncs.f90: Renamed from cfuncs.f95.
+
 2019-06-05  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-47.

@@ -39,13 +39,21 @@ data(NelPlo)
   unemployment.
 }
 \source{
-  Journal of Business and Economic Statistics data archive
-  \url{http://www.amstat.org/publications/jbes/}
+  C. R. Nelson and C. I. Plosser (1982),
+  Trends and Random Walks in Macroeconomic Time Series.
+  \emph{Journal of Monetary Economics}, \bold{10}, 139--162.
+  \doi{10.1016/0304-3932(82)90012-5}.
+  
+  Formerly in the Journal of Business and Economic Statistics data
+  archive, currently at
+  \url{http://korora.econ.yale.edu/phillips/data/np&enp.dat}.
 }
 \references{
-  G. Koop and M. F. J. Steel (1994): A Decision-Theoretic Analysis of
-  the Unit-Root Hypothesis using Mixtures of Elliptical Models.
+  G. Koop and M. F. J. Steel (1994),
+  A Decision-Theoretic Analysis of the Unit-Root Hypothesis using
+  Mixtures of Elliptical Models.
   \emph{Journal of Business and Economic Statistics}, \bold{12},
   95--107.
+  \doi{10.1080/07350015.1994.10509993}.
 }
 \keyword{datasets}
