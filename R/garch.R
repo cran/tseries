@@ -75,7 +75,7 @@ function (x, order = c(1, 1), series = NULL, control = garch.control(...), ...)
                    hess = as.matrix(hess),
                    as.integer(order[1]),
                    as.integer(order[2]))
-    rank <- do.call("qr", c(list(x = com.hess$hess), control$qr))$rank
+    rank <- do.call(qr, c(list(x = com.hess$hess), control$qr))$rank
     if(rank != ncoef) {
 	vc <- matrix(NA, nrow = ncoef, ncol = ncoef)
         warning("singular information")

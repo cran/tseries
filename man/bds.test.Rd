@@ -7,7 +7,7 @@
   is a series of i.i.d. random variables.
 }
 \usage{
-bds.test(x, m = 3, eps = seq(0.5 * sd(x), 2 * sd(x), length = 4),
+bds.test(x, m = 3, eps = seq(0.5 * sd(x), 2 * sd(x), length.out = 4),
          trace = FALSE)
 }
 \arguments{

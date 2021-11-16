@@ -1,3 +1,20 @@
+2021-11-16  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-49.
+
+2021-11-15  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* R/garch.R:
+	Tweaks.
+
+2021-03-08  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* R/finance.R:
+	* R/test.R:
+	* man/bds.test.Rd:
+	* man/irts-functions.Rd:
+	Avoid partial matching.
+
 2020-12-04  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-48.

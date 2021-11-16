@@ -55,7 +55,7 @@ function (x, alternative = c("two.sided", "less", "greater"))
 }
 
 bds.test <-
-function(x, m = 3, eps = seq(0.5*sd(x),2*sd(x),length=4), trace = FALSE)
+function(x, m = 3, eps = seq(0.5*sd(x),2*sd(x),length.out=4), trace = FALSE)
 {
     if((NCOL(x) > 1) || is.data.frame(x))
         stop("x is not a vector or univariate time series")

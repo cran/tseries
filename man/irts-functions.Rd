@@ -91,7 +91,7 @@ is.weekend(x)
 x
 
 approx.irts(x, seq(ISOdatetime(1970, 1, 1, 0, 0, 0, tz = "GMT"),
-            by = "10 secs", length = 7), rule = 2)
+            by = "10 secs", length.out = 7), rule = 2)
 
 \dontrun{
 file <- tempfile()

@@ -272,7 +272,7 @@ function(x, xlim = NULL, ylim = NULL, xlab = "Time", ylab,
       }
       else {
           n <- NROW(x)
-          lab.ind <- round(seq(1, n, length=5))
+          lab.ind <- round(seq(1, n, length.out = 5))
           D <- as.vector(time.x[lab.ind]*86400) + as.POSIXct(origin, tz = "GMT")
           DD <- format.POSIXct(D, format = format, tz ="GMT")
           axis(1, at=time.x[lab.ind], labels=DD, ...)
