@@ -163,6 +163,8 @@ function(instrument = "^gdax", start, end,
     nser <- pmatch(quote, colnames(x))
     if(any(is.na(nser)))
         stop("this quote is not available")
+    if(any(i <- duplicated(time(x))))
+        x <- x[!i, , drop = FALSE]
     n <- nrow(x)
 
     dat <- index(x)
