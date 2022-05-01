@@ -1,3 +1,8 @@
+2022-05-01  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* man/get.hist.quote.Rd: Safeguard against problems accessing the
+	Yahoo Finance web service.
+
 2022-03-28  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-50.

@@ -1,5 +1,5 @@
-122bdb8d5e1d55cccff08c81f43e91ef *ChangeLog
-93a071f456b0685930c3f6efa0399974 *DESCRIPTION
+55463d02f3e11466b6b7d7a87d41f626 *ChangeLog
+22dd369fc69edf722523b09c3268cf80 *DESCRIPTION
 cdc8894457c6efd2f1e49cfa79272d7b *NAMESPACE
 c5a452ce3d1b330e8f92670ac8f0de83 *R/arma.R
 dc4e8457ecf24346fee6bd8a1b4a2687 *R/finance.R
@@ -29,7 +29,7 @@ af544e3ec3d8abaab6402a886d5429cf *man/bev.Rd
 96eca9b4b82e7bf3e6f743ce21a5d9d8 *man/camp.Rd
 35c28a6707e4e01f789be2117c646664 *man/garch-methods.Rd
 6e9e94d717f01d4208a8fa29e0ea28d2 *man/garch.Rd
-973d2524c38ae728a98b4a00c753a4d8 *man/get.hist.quote.Rd
+c22acb9192d7e819848cb71a08fc04c9 *man/get.hist.quote.Rd
 dad4d5b3dc8d236fa5455b0abbd294b2 *man/ice.river.Rd
 a6cbcad093fb530e27bf50ed3446d935 *man/irts-functions.Rd
 82628e1b908072d5572db16d8d4fd2fa *man/irts-methods.Rd

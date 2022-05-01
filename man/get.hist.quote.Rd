@@ -70,9 +70,7 @@ get.hist.quote(instrument = "^gdax", start, end,
   \code{\link{as.POSIXct}},
 }
 \examples{
-con <- url("https://finance.yahoo.com")
-if(!inherits(try(open(con), silent = TRUE), "try-error")) {
-  close(con)
+tryCatch({
   x <- get.hist.quote(instrument = "^gspc", start = "1998-01-01",
                       quote = "Close")
   plot(x)
@@ -87,6 +85,6 @@ if(!inherits(try(open(con), silent = TRUE), "try-error")) {
   require("zoo")		# For merge() method.
   x <- merge(spc, ibm)
   plot(x, main = "IBM vs S&P 500")
-}
+}, error = identity)
 }
 \keyword{ts}
