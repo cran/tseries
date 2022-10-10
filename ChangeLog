@@ -1,4 +1,14 @@
+2022-10-07  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-52.
+
+	* src/bdstest.c:
+	* src/garch.c:
+	Add missing prototypes.
+
 2022-05-01  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-51.
 
 	* man/get.hist.quote.Rd: Safeguard against problems accessing the
 	Yahoo Finance web service.

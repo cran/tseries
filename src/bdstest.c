@@ -81,7 +81,7 @@ static	struct position *postab,*postlast;
 */
 
 static void
-freeall()
+freeall(void)
 {
 	Free(grid);
 	Free(mask);
@@ -101,8 +101,7 @@ freeall()
 */
 
 static void
-genmask(l,n,nbits,omit,mask)
-int l,n,nbits,omit,mask[];
+genmask(int l, int n, int nbits, int omit, int mask[])
 {
 	int i,k,j,last,itrue;
 
@@ -126,8 +125,7 @@ int l,n,nbits,omit,mask[];
 */
 
 static void
-embed(n,dim)
-int n,dim;
+embed(int n, int dim)
 {
 	int j;
 	register short int *i,*i2;
@@ -150,8 +148,7 @@ int n,dim;
 
 static
 double 
-evalc(n)
-int n;
+evalc(int n)
 {
 
 	register long int count;
@@ -189,9 +186,7 @@ int n;
 
 static
 double
-ipow(x,m)
-double x;
-int m;
+ipow(double x, int m)
 {
 	int j;
 	double y;
@@ -216,15 +211,13 @@ in Brock, Hsieh, LeBaron, page 43.
 
 static 
 double
-cstat(c,cm,k,m,n)
-double c,cm,k;
-int m,n;
+cstat(double c, double cm, double k, int m, int n)
 {
 
 	double sigma,
-		stat,
-		std,
-		sqrt();
+	       stat,
+	       std;
+	    // sqrt();
 	int j;
 
 	sigma = 0;
@@ -242,9 +235,10 @@ int m,n;
 }
 
 static int
-comp(a,b)
-struct position *a,*b;
+comp(const void *p1, const void *p2)
 {
+    const struct position *a = p1;
+    const struct position *b = p2;
 	if(a->value>b->value)
 		return(1);
 	else if(a->value<b->value)
@@ -254,10 +248,7 @@ struct position *a,*b;
 }
 
 static void
-fkc(x,n,k,c,m,remove,eps) 
-PREC x[],eps;
-int n,m,remove;
-double *k,c[];
+fkc(PREC x[], int n, double *k, double c[], int m, int remove, PREC eps)
 {
 
 

@@ -23,9 +23,21 @@
 #include <R.h>
 
 
-extern void F77_NAME(dsumsl) ();
-extern void F77_NAME(dsmsno) ();
-extern void F77_NAME(ddeflt) ();
+extern void F77_NAME(dsumsl) (int *n, double *d, double *x,
+			      void (*)(int *, double *, int *, double *, int *, 
+				       double *, void (*)(void)),
+			      void (*)(int *, double *, int *, double *, int *, 
+				       double *, void (*)(void)),
+			      int *iv, int *liv, int *lv, double *v, 
+			      int *uiparm, double *urparm,
+			      void (*)(void));
+extern void F77_NAME(dsmsno) (int *n, double *d, double *x,
+			      void (*)(int *, double *, int *, double *, int *, 
+				       double *, void (*)(void)),
+			      int *iv, int *liv, int *lv, double *v, 
+			      int *uiparm, double *urparm,
+			      void (*)(void));
+extern void F77_NAME(ddeflt) (int *alg, int *iv, int *liv, int *lv, double *v);
 
 
 #define BIG 1.0e+10  /* function value if the parameters are invalid */
@@ -125,7 +137,7 @@ static void F77_SUB(calcg) (int *pq, double *p, int *nf, double *dp, int *uiparm
   } 
 }
 
-static void F77_SUB(ufparm) ()
+static void F77_SUB(ufparm) (void)
 {
   error ("fatal error in fit_garch ()\n");
 }
