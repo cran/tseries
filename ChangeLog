@@ -1,3 +1,9 @@
+2023-01-31  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-53.
+
+	* inst/CITATION: Drop.
+
 2022-10-07  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-52.
