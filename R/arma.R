@@ -70,20 +70,20 @@ function(x, order = c(1, 1), lag = NULL, coef = NULL,
         xx <- embed(x[-(1:k)], max.order+1)
         if(include.intercept == TRUE) {
             if(is.null(lag$ar))
-                coef <- lm(xx[,1]~ee[,lag$ma+1])$coef
+                coef <- lm(xx[,1]~ee[,lag$ma+1])$coefficients
             else if(is.null(lag$ma))
-                coef <- lm(xx[,1]~xx[,lag$ar+1])$coef
+                coef <- lm(xx[,1]~xx[,lag$ar+1])$coefficients
             else
-                coef <- lm(xx[,1]~xx[,lag$ar+1]+ee[,lag$ma+1])$coef
+                coef <- lm(xx[,1]~xx[,lag$ar+1]+ee[,lag$ma+1])$coefficients
             coef <- c(coef[-1], coef[1])
         } 
         else {
             if(is.null(lag$ar))
-                coef <- lm(xx[,1]~ee[,lag$ma+1]-1)$coef
+                coef <- lm(xx[,1]~ee[,lag$ma+1]-1)$coefficients
             else if(is.null(lag$ma))
-                coef <- lm(xx[,1]~xx[,lag$ar+1]-1)$coef
+                coef <- lm(xx[,1]~xx[,lag$ar+1]-1)$coefficients
             else
-                coef <- lm(xx[,1]~xx[,lag$ar+1]+ee[,lag$ma+1]-1)$coef
+                coef <- lm(xx[,1]~xx[,lag$ar+1]+ee[,lag$ma+1]-1)$coefficients
         }
         return(coef) 
     }

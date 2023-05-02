@@ -246,7 +246,7 @@ function(x, y, qstar = 2, q = 10, range = 4,
     max <- range/2
     gamma <- matrix(runif((nin+1)*q,-max,max),nin+1,q)
     phantom <- (1+exp(-(cbind(rep.int(1,t),x)%*%gamma)))^(-1)
-    phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
+    phantomstar <- as.matrix(prcomp(phantom,scale.=TRUE)$x[,2:(qstar+1)])
     xnam2 <- paste("phantomstar[,", 1:qstar, "]", sep="")
     xnam2 <- paste(xnam2,collapse="+")
     fmla <- as.formula(paste("u~",paste(paste(xnam,collapse= "+"),
@@ -313,7 +313,7 @@ function(x, lag = 1, qstar = 2, q = 10, range = 4,
     max <- range/2
     gamma <- matrix(runif((lag+1)*q,-max,max),lag+1,q)
     phantom <- (1+exp(-(cbind(rep.int(1,t-lag),y[,2:(lag+1)])%*%gamma)))^(-1)
-    phantomstar <- as.matrix(prcomp(phantom,scale=TRUE)$x[,2:(qstar+1)])
+    phantomstar <- as.matrix(prcomp(phantom,scale.=TRUE)$x[,2:(qstar+1)])
     xnam2 <- paste("phantomstar[,", 1:qstar, "]", sep="")
     xnam2 <- paste(xnam2, collapse="+")
     fmla <- as.formula(paste("u~",paste(paste(xnam,collapse= "+"),
