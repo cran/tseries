@@ -1,3 +1,9 @@
+2023-12-06  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-55.
+
+	* R/test.R (kpss.test): Warn for essentially perfect linear fit.
+
 2023-05-02  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-54.

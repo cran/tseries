@@ -728,13 +728,23 @@ function(x, null = c("Level", "Trend"), lshort = TRUE)
     n <- length(x)
     if(null == "Trend") {
         t <- 1:n
-        e <- residuals(lm(x ~ t))
+        m <- lm(x ~ t)
         table <- c(0.216, 0.176, 0.146, 0.119)
     }
     else if(null == "Level") {
-        e <- residuals(lm(x ~ 1))
+        m <- lm(x ~ 1)
         table <- c(0.739, 0.574, 0.463, 0.347)
     }
+    ## Warn for essentially perfect fit: suggested by Christoph Hanck,
+    ## following
+    ## <https://stats.stackexchange.com/questions/631555/counter-intuitive-results-from-kpss-test-kwiatkowski-phillips-schmidt-shin-on/631589?noredirect=1#631555>
+    ## Not straightforward as the warning from summary.lm() may get
+    ## translated, so we need to duplicate the code w/out translation.
+    resvar <- suppressWarnings(summary(m)$sigma^2)
+    f <- m$fitted.values
+    if(is.finite(resvar) && (resvar < (mean(f)^2 + var(c(f))) * 1e-30))
+        warning("essentially perfect fit: test may be unreliable")
+    e <- residuals(m)
     tablep <- c(0.01, 0.025, 0.05, 0.10)
     s <- cumsum(e)
     eta <- sum(s^2)/(n^2)
