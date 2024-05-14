@@ -1,3 +1,14 @@
+2024-05-14  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-56.
+
+	* src/dsumsl.f: Stop using Fortran 2018 deleted features.
+
+2023-12-16  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION (License): Change to GPL-2 or GPL-3.
+	Suggestion by Arne Babenhauserheide.
+
 2023-12-06  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-55.

@@ -451,7 +451,7 @@ c      IF (IV(1) - 2) 30, 40, 50
       IF (IV(1) .EQ. 2) GO TO 40
       IF (IV(1) .GT. 2) GO TO 50
 C
- 30   NF = IV(NFCALL)
+      NF = IV(NFCALL)
       CALL CALCF(N, X, NF, F, UIPARM, URPARM, UFPARM)
       IF (NF .LE. 0) IV(TOOBIG) = 1
       GO TO 20
@@ -1000,8 +1000,9 @@ C
 C
       INTEGER I
 C
-      DO 10 I = 1, P
- 10      W(I) = A*X(I) + Y(I)
+      DO I = 1, P
+         W(I) = A*X(I) + Y(I)
+      END DO
       RETURN
       END
       SUBROUTINE DVDFLT(ALG, LV, V)
@@ -1119,8 +1120,9 @@ C
 C
       INTEGER I
 C
-      DO 10 I = 1, P
- 10      Y(I) = S
+      DO I = 1, P
+         Y(I) = S
+      END DO
       RETURN
       END
       SUBROUTINE DVVMUP(N, X, Y, Z, K)
@@ -1133,12 +1135,14 @@ C
       INTEGER I
 C
       IF (K .GE. 0) GO TO 20
-      DO 10 I = 1, N
- 10      X(I) = Y(I) / Z(I)
+      DO I = 1, N
+         X(I) = Y(I) / Z(I)
+      END DO
       GO TO 999
 C
- 20   DO 30 I = 1, N
- 30      X(I) = Y(I) * Z(I)
+ 20   DO I = 1, N
+         X(I) = Y(I) * Z(I)
+      END DO
  999  RETURN
 C  ***  LAST CARD OF DVVMUP FOLLOWS  ***
       END
@@ -1220,10 +1224,11 @@ C
  10   CY = ONE / (DSQRT(YS) * DSQRT(SHS))
       CS = ONE / SHS
  20   CALL DLIVMU(N, Z, L, Y)
-      DO 30 I = 1, N
- 30      Z(I) = CY * Z(I)  -  CS * W(I)
+      DO I = 1, N
+         Z(I) = CY * Z(I)  -  CS * W(I)
+      END DO
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DWZBFG FOLLOWS  ***
       END
 
@@ -1904,8 +1909,9 @@ C
       RLAMBD = ONE
       IF (NWTNRM .GT. ZERO) RLAMBD = V(RADIUS) / NWTNRM
       GNORM = V(DGNORM)
-      DO 10 I = 1, N
- 10      STEP(I) = G(I) / GNORM
+      DO I = 1, N
+         STEP(I) = G(I) / GNORM
+      END DO
       GHINVG = DDOT(N, STEP,1,NWTSTP,1)
       V(NREDUC) = HALF * GHINVG * GNORM
       V(GRDFAC) = ZERO
@@ -1919,8 +1925,9 @@ C
          V(GTSTEP) = -GHINVG * GNORM
          V(PREDUC) = V(NREDUC)
          V(NWTFAC) = -ONE
-         DO 20 I = 1, N
- 20           STEP(I) = -NWTSTP(I)
+         DO I = 1, N
+            STEP(I) = -NWTSTP(I)
+         END DO
          GO TO 999
 C
  30   V(DSTNRM) = V(RADIUS)
@@ -1937,8 +1944,9 @@ C
          V(GTSTEP) = T * GHINVG * GNORM
          V(PREDUC) = RLAMBD * (ONE - HALF*RLAMBD) * GHINVG * GNORM
          V(NWTFAC) = T
-         DO 40 I = 1, N
- 40           STEP(I) = T * NWTSTP(I)
+         DO I = 1, N
+            STEP(I) = T * NWTSTP(I)
+         END DO
          GO TO 999
 C
  50   IF (CNORM .LT. V(RADIUS)) GO TO 70
@@ -1951,8 +1959,9 @@ C
          V(STPPAR) = ONE  +  CNORM / V(RADIUS)
          V(GTSTEP) = -V(RADIUS) * GNORM
       V(PREDUC) = V(RADIUS)*(GNORM - HALF*V(RADIUS)*(V(GTHG)/GNORM)**2)
-         DO 60 I = 1, N
- 60           STEP(I) = T * DIG(I)
+         DO I = 1, N
+            STEP(I) = T * DIG(I)
+         END DO
          GO TO 999
 C
 C     ***  COMPUTE DOGLEG STEP BETWEEN CAUCHY AND RELAXED NEWTON  ***
@@ -1978,8 +1987,9 @@ C     ***  DOGLEG STEP  =  CAUCHY STEP  +  T * FEMUR.
       V(PREDUC) = -(T1*GNORM) * ((T2 + ONE)*GNORM)
      1                  - (T2*GNORM) * (ONE + HALF*T2)*GHINVG
      2                  - HALF * (V(GTHG)*T1)**2
-      DO 80 I = 1, N
- 80      STEP(I) = T1*DIG(I) + T2*NWTSTP(I)
+      DO I = 1, N
+         STEP(I) = T1*DIG(I) + T2*NWTSTP(I)
+      END DO
 C
  999  RETURN
 C  ***  LAST CARD OF DDBDOG FOLLOWS  ***
@@ -2222,8 +2232,9 @@ C/7
       PARAMETER (ZERO=0.D+0)
 C/
 C
-      DO 10 I = 1, N
- 10      X(I) = Y(I)
+      DO I = 1, N
+         X(I) = Y(I)
+      END DO
       NP1 = N + 1
       I0 = N*(N+1)/2
       DO 30 II = 1, N
@@ -2301,12 +2312,12 @@ C
          YI = Y(I)
          X(I) = ZERO
          DO 10 J = 1, I
-              IJ = I0 + J
-              X(J) = X(J) + YI*L(IJ)
- 10           CONTINUE
+            IJ = I0 + J
+            X(J) = X(J) + YI*L(IJ)
+ 10      CONTINUE
          I0 = I0 + I
- 20      CONTINUE
- 999  RETURN
+ 20   CONTINUE
+      RETURN
 C  ***  LAST CARD OF DLTVMU FOLLOWS  ***
       END
       SUBROUTINE DLUPDT(BETA, GAMMA, L, LAMBDA, LPLUS, N, W, Z)
@@ -2440,16 +2451,16 @@ C
          IJ = JJ + J
          JP1 = J + 1
          DO 40 I = JP1, N
-              LIJ = L(IJ)
-              LPLUS(IJ) = LJ*LIJ + BJ*W(I) + GJ*Z(I)
-              W(I) = W(I) + LIJ*WJ
-              Z(I) = Z(I) + LIJ*ZJ
-              IJ = IJ + I
- 40           CONTINUE
+            LIJ = L(IJ)
+            LPLUS(IJ) = LJ*LIJ + BJ*W(I) + GJ*Z(I)
+            W(I) = W(I) + LIJ*WJ
+            Z(I) = Z(I) + LIJ*ZJ
+            IJ = IJ + I
+ 40      CONTINUE
  50      JJ = JJ - J
- 60      CONTINUE
+ 60   CONTINUE
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DLUPDT FOLLOWS  ***
       END
       SUBROUTINE DLVMUL(N, X, L, Y)
@@ -2477,12 +2488,12 @@ C
          I0 = I0 - I
          T = ZERO
          DO 10 J = 1, I
-              IJ = I0 + J
-              T = T + L(IJ)*Y(J)
- 10           CONTINUE
+            IJ = I0 + J
+            T = T + L(IJ)*Y(J)
+ 10      CONTINUE
          X(I) = T
- 20      CONTINUE
- 999  RETURN
+ 20   CONTINUE
+      RETURN
 C  ***  LAST CARD OF DLVMUL FOLLOWS  ***
       END
       SUBROUTINE DPARCK(ALG, D, IV, LIV, LV, N, V)
@@ -2835,7 +2846,7 @@ C
  10      CONTINUE
       DRELST = ZERO
       IF (XMAX .GT. ZERO) DRELST = EMAX / XMAX
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DRELST FOLLOWS  ***
       END
       LOGICAL FUNCTION DSTOPX(IDUMMY)
@@ -3074,7 +3085,7 @@ c      IF (IV(1) - 2) 999, 30, 70
 C
 C  ***  COMPUTE GRADIENT  ***
 C
- 30   IF (IV(NITER) .EQ. 0) CALL DVSCPY(N, V(G1), ZERO)
+      IF (IV(NITER) .EQ. 0) CALL DVSCPY(N, V(G1), ZERO)
       J = IV(LMAT)
       K = G1 - N
       DO 40 I = 1, N
@@ -3243,7 +3254,7 @@ C     ROUNDOFF (THE SMALLEST POSITIVE NUMBER SUCH THAT
 C     1 + MACHEP .GT. 1  AND  1 - MACHEP .LT. 1),  AND  H0 IS THE
 C     SQUARE-ROOT OF MACHEP.
 C
- 100  W(1) = D1MACH(4)
+      W(1) = D1MACH(4)
       W(2) = DSQRT(W(1))
 C
       W(FX0) = FX
