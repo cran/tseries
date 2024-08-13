@@ -83,11 +83,11 @@ static	struct position *postab,*postlast;
 static void
 freeall(void)
 {
-	Free(grid);
-	Free(mask);
-	Free(postab);
-	Free(start);
-	Free(lookup);
+	R_Free(grid);
+	R_Free(mask);
+	R_Free(postab);
+	R_Free(start);
+	R_Free(lookup);
 }
 
 /* module function definitions */
@@ -277,25 +277,25 @@ fkc(PREC x[], int n, double *k, double c[], int m, int remove, PREC eps)
 
 	/* allocate memory */
 	if(first ) {
-		mask = Calloc(2*n,int);
-		lookup = Calloc(TABLEN+1,int);
+		mask = R_Calloc(2*n,int);
+		lookup = R_Calloc(TABLEN+1,int);
 
 
 		if(BDS_DEBUG)
 			Rprintf("set up grid\n");
-		postab = Calloc(n,struct position);
+		postab = R_Calloc(n,struct position);
 
 		/* build start : grid pointers */
 		if(BDS_DEBUG)
 			Rprintf("build start\n");
-		start = Calloc(n+1,short int *);
+		start = R_Calloc(n+1,short int *);
 		/* find out how big grid has to be */
 		memsize = 0;
 		for(i=0;i<=n;i++) 
 			memsize += (n-i)/NBITS + 1;
 
 		/* grid is defined as short (2 byte integers) */
-		grid =  Calloc(memsize,short);
+		grid =  R_Calloc(memsize,short);
 		if(grid==NULL) {
 			error("Out of memory\n");
 			/*exit(-1);*/

@@ -51,8 +51,8 @@ tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
   yields asymptotically valid bootstrap estimates. The 
   case \code{m = 1} may only be used for symmetric statistics (i.e., for
   statistics which are invariant under permutations of \code{x}).
-  \code{\link{tsboot}} does not implement the block of blocks
-  bootstrap, and, therefore, the first example in \code{\link{tsboot}}
+  \code{\link[boot]{tsboot}} does not implement the block of blocks
+  bootstrap, and, therefore, the first example in \code{\link[boot]{tsboot}}
   yields inconsistent estimates.
   
   For consistency, the (mean) block length \code{b} should grow with
@@ -69,7 +69,7 @@ tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
 
   Note, that the computationally intensive parts are fully implemented
   in \code{C} which makes \code{tsbootstrap} about 10 to 30 times faster
-  than \code{\link{tsboot}}.  
+  than \code{\link[boot]{tsboot}}.  
   
   Missing values are not allowed.
 
@@ -106,7 +106,7 @@ tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
 \seealso{
   \code{\link{sample}},
   \code{\link{surrogate}},
-  \code{\link{tsboot}}
+  \code{\link[boot]{tsboot}}
 }
 \examples{
 n <- 500  # Generate AR(1) process

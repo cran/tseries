@@ -175,13 +175,13 @@ void tseries_fit_garch (double *y, int *n, double *par, int *p, int *q,
   
   /* set up general optimizer parameters to default values */ 
   pq = (*p)+(*q)+1; 
-  d = Calloc (pq, double);
+  d = R_Calloc (pq, double);
   for (i=0; i<pq; i++)
     d[i] = 1.0;
   liv = 60;
-  iv = Calloc (liv, int);
+  iv = R_Calloc (liv, int);
   lv = 77+pq*(pq+17)/2;
-  v = Calloc (lv, double);
+  v = R_Calloc (lv, double);
   alg = 2;  
   F77_CALL(ddeflt) (&alg, iv, &liv, &lv, v);
   iv[0] = 12;  
@@ -200,8 +200,8 @@ void tseries_fit_garch (double *y, int *n, double *par, int *p, int *q,
   
   /* set handler values */
   garch_h.p = (*p); garch_h.q = (*q); garch_h.n = (*n); garch_h.y = y;  
-  garch_h.h = Calloc ((*n), double); 
-  garch_h.dh = Calloc ((*n)*pq, double);
+  garch_h.h = R_Calloc ((*n), double); 
+  garch_h.dh = R_Calloc ((*n)*pq, double);
   var = 0.0;
   for (i=0; i<(*n); i++)  /* estimate unconditional variance (uv) */
     var += DSQR(y[i]);
@@ -233,11 +233,11 @@ void tseries_fit_garch (double *y, int *n, double *par, int *p, int *q,
   (*fret) = v[9];
 
   /* free memory */
-  Free (d);
-  Free (iv); 
-  Free (v);
-  Free (garch_h.h);
-  Free (garch_h.dh);
+  R_Free (d);
+  R_Free (iv); 
+  R_Free (v);
+  R_Free (garch_h.h);
+  R_Free (garch_h.dh);
 }
 
 
@@ -303,9 +303,9 @@ void tseries_ophess_garch (double *y, int *n, double *par, double *he,
   double *h, *dh, *dpar;
   
   pq = (*p)+(*q)+1; 
-  h = Calloc ((*n), double); 
-  dh = Calloc ((*n)*pq, double);
-  dpar = Calloc (pq, double);
+  h = R_Calloc ((*n), double); 
+  dh = R_Calloc ((*n)*pq, double);
+  dpar = R_Calloc (pq, double);
   var = 0.0;
   for (i=0; i<(*n); i++)  /* estimate uv */
     var += DSQR(y[i]);
@@ -354,8 +354,8 @@ void tseries_ophess_garch (double *y, int *n, double *par, double *he,
       for (j=0; j<pq; j++)
 	he[pq*k+j] += dpar[k]*dpar[j];
   }
-  Free (h);
-  Free (dh);
-  Free (dpar);
+  R_Free (h);
+  R_Free (dh);
+  R_Free (dpar);
 }
 
