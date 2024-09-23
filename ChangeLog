@@ -1,4 +1,14 @@
+2024-09-23  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-58.
+
+	* src/dsumsl.f:
+	* src/garch.c:
+	Silence compilation warnings.  By Brian Ripley.
+
 2024-08-13  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-57.
 
 	* src/bdstest.c:
 	* src/garch.c:

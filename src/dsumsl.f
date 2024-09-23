@@ -459,7 +459,7 @@ C
  40   CALL CALCG(N, X, IV(NFGCAL), V(G1), UIPARM, URPARM, UFPARM)
       GO TO 20
 C
- 50   IF (IV(1) .NE. 14) GO TO 999
+ 50   IF (IV(1) .NE. 14) RETURN
 C
 C  ***  STORAGE ALLOCATION
 C
@@ -467,9 +467,10 @@ C
       IV(NEXTV) = IV(G) + N
       IF (IV1 .NE. 13) GO TO 10
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DSUMSL FOLLOWS  ***
       END
+
       SUBROUTINE DDEFLT(ALG, IV, LIV, LV, V)
       save
 C
@@ -560,7 +561,7 @@ C
       IV(RDREQ) = 3
       IV(RMAT) = 0
       IV(VSAVE) = 58
-      GO TO 999
+      RETURN
 C
 C  ***  GENERAL OPTIMIZATION VALUES
 C
@@ -570,19 +571,20 @@ C
       IV(NGCOV) = 0
       IV(NVDFLT) = 25
       IV(PARSAV) = 47
-      GO TO 999
+      RETURN
 C
  20   IV(1) = 15
-      GO TO 999
+      RETURN
 C
  30   IV(1) = 16
-      GO TO 999
+      RETURN
 C
  40   IV(1) = 67
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DDEFLT FOLLOWS  ***
       END
+ 
       SUBROUTINE DSUMIT(D, FX, G, IV, LIV, LV, N, V, X)
       save
 C
@@ -650,7 +652,7 @@ C+++++++++++++++++++++++++++  DECLARATIONS  ++++++++++++++++++++++++++++
 C
 C  ***  LOCAL VARIABLES  ***
 C
-      INTEGER DG1, DUMMY, G01, I, K, L, LSTGST, NN1O2, NWTST1, STEP1,
+      INTEGER DG1, G01, I, K, L, LSTGST, NN1O2, NWTST1, STEP1,
      1        TEMP1, W, X01, Z
       DOUBLE PRECISION T
 C
@@ -739,12 +741,20 @@ C
       IV(VNEED) = IV(VNEED) + N*(N+13)/2
       CALL DPARCK(2, D, IV, LIV, LV, N, V)
       I = IV(1) - 2
-      IF (I .GT. 12) GO TO 999
-      GO TO (160, 160, 160, 160, 160, 160, 110, 80, 110, 10, 10, 20), I
+      IF (I .GT. 12) RETURN
+c      GO TO (160, 160, 160, 160, 160, 160, 110, 80, 110, 10, 10, 20), I
+      IF (I .LT. 7) GO TO 160
+      IF (I .EQ. 7) GO TO 110
+      IF (I .EQ. 8) GO TO 80
+      IF (I .EQ. 9) GO TO 110
+      IF (I .EQ. 9) GO TO 110
+      IF (I .EQ. 9) GO TO 110
+C     10 and 11 drop through
+      IF (I .EQ. 12) GO TO 20
 C
 C  ***  STORAGE ALLOCATION  ***
 C
- 10   NN1O2 = N * (N + 1) / 2
+      NN1O2 = N * (N + 1) / 2
       L = IV(LMAT)
       IV(X0) = L + NN1O2
       IV(STEP) = IV(X0) + N
@@ -755,7 +765,7 @@ C
       IV(NEXTV) = IV(DG) + N
       IF (IV(1) .NE. 13) GO TO 20
          IV(1) = 14
-         GO TO 999
+         RETURN
 C
 C  ***  INITIALIZATION  ***
 C
@@ -772,24 +782,24 @@ C
       V(RAD0) = ZERO
       IF (V(DINIT) .GE. ZERO) CALL DVSCPY(N, D, V(DINIT))
       IV(1) = 1
-      IF (IV(INITH) .NE. 1) GO TO 999
+      IF (IV(INITH) .NE. 1) RETURN
 C
 C     ***  SET THE INITIAL HESSIAN APPROXIMATION TO DIAG(D)**-2  ***
 C
-         CALL DVSCPY(NN1O2, V(L), ZERO)
-         K = L - 1
-         DO 30 I = 1, N
-              K = K + I
-              T = D(I)
-              IF (T .LE. ZERO) T = ONE
-              V(K) = T
- 30           CONTINUE
-      GO TO 999
+      CALL DVSCPY(NN1O2, V(L), ZERO)
+      K = L - 1
+      DO I = 1, N
+         K = K + I
+         T = D(I)
+         IF (T .LE. ZERO) T = ONE
+         V(K) = T
+      END DO
+      RETURN
 C
  40   V(F) = FX
       IF (IV(MODE) .GE. 0) GO TO 160
       IV(1) = 2
-      IF (IV(TOOBIG) .EQ. 0) GO TO 999
+      IF (IV(TOOBIG) .EQ. 0) RETURN
          IV(1) = 63
          GO TO 270
 C
@@ -845,7 +855,7 @@ C
 C
 C  ***  CHECK DSTOPX AND FUNCTION EVALUATION LIMIT  ***
 C
- 100  IF (.NOT. DSTOPX(DUMMY)) GO TO 120
+ 100  IF (.NOT. DSTOPX()) GO TO 120
          IV(1) = 11
          GO TO 130
 C
@@ -892,7 +902,7 @@ C
       IV(NFCALL) = IV(NFCALL) + 1
       IV(1) = 1
       IV(TOOBIG) = 0
-      GO TO 999
+      RETURN
 C
 C. . . . . . . . . . . . .  ASSESS CANDIDATE STEP  . . . . . . . . . . .
 C
@@ -902,7 +912,21 @@ C
       CALL DASSST(D, IV, N, V(STEP1), V(LSTGST), V, X, V(X01))
 C
       K = IV(IRC)
-      GO TO (170,200,200,200,170,180,190,190,190,190,190,190,250,220), K
+c      GO TO (170,200,200,200,170,180,190,190,190,190,190,190,250,220), K
+      IF (K .EQ. 1) GO TO 170
+      IF (K .EQ. 2) GO TO 200
+      IF (K .EQ. 3) GO TO 200
+      IF (K .EQ. 4) GO TO 200
+      IF (K .EQ. 5) GO TO 170
+      IF (K .EQ. 6) GO TO 180
+      IF (K .EQ. 7) GO TO 190
+      IF (K .EQ. 8) GO TO 190
+      IF (K .EQ. 9) GO TO 190
+      IF (K .EQ. 10) GO TO 190
+      IF (K .EQ. 11) GO TO 190
+      IF (K .EQ. 12) GO TO 190
+      IF (K .EQ. 13) GO TO 250
+      IF (K .EQ. 14) GO TO 220
 C
 C     ***  RECOMPUTE STEP WITH CHANGED RADIUS  ***
 C
@@ -937,7 +961,7 @@ C  ***  COMPUTE GRADIENT  ***
 C
  210  IV(NGCALL) = IV(NGCALL) + 1
       IV(1) = 2
-      GO TO 999
+      RETURN
 C
 C  ***  INITIALIZATIONS -- G0 = G - G0, ETC.  ***
 C
@@ -986,10 +1010,11 @@ C
       IV(CNVCOD) = 0
  270  CALL DITSUM(D, G, IV, LIV, LV, N, V, X)
 C
- 999  RETURN
+      RETURN
 C
 C  ***  LAST CARD OF DSUMIT FOLLOWS  ***
       END
+
       SUBROUTINE DVAXPY(P, W, A, X, Y)
       save
 C
@@ -1005,6 +1030,7 @@ C
       END DO
       RETURN
       END
+ 
       SUBROUTINE DVDFLT(ALG, LV, V)
       save
 C
@@ -1099,7 +1125,7 @@ C
       V(RLIMIT) = DSQRT(D1MACH(2))*16.
       V(RSPTOL) = 1.D-2
       V(SIGMIN) = 1.D-4
-      GO TO 999
+      RETURN
 C
 C  ***  GENERAL OPTIMIZATION VALUES
 C
@@ -1107,9 +1133,10 @@ C
       V(DINIT) = -1.0D+0
       V(ETA0) = 1.0D+3 * MACHEP
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DVDFLT FOLLOWS  ***
       END
+
       SUBROUTINE DVSCPY(P, Y, S)
       save
 C
@@ -1125,6 +1152,7 @@ C
       END DO
       RETURN
       END
+
       SUBROUTINE DVVMUP(N, X, Y, Z, K)
       save
 C
@@ -1138,14 +1166,15 @@ C
       DO I = 1, N
          X(I) = Y(I) / Z(I)
       END DO
-      GO TO 999
+      RETURN
 C
  20   DO I = 1, N
          X(I) = Y(I) * Z(I)
       END DO
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DVVMUP FOLLOWS  ***
       END
+
       SUBROUTINE DWZBFG (L, N, S, W, Y, Z)
       save
 C
@@ -1526,10 +1555,23 @@ C
       RFAC1 = ONE
       GOODX = .TRUE.
       I = IV(IRC)
-      IF (I .GE. 1 .AND. I .LE. 12)
-     1             GO TO (20,30,10,10,40,280,220,220,220,220,220,170), I
-         IV(IRC) = 13
-         GO TO 999
+      IF (I .GE. 1 .AND. I .LE. 12) THEN
+c         GO TO (20,30,10,10,40,280,220,220,220,220,220,170), I
+         IF (I .EQ. 1) GO TO 20
+         IF (I .EQ. 2) GO TO 30
+         IF (I .EQ. 3) GO TO 10
+         IF (I .EQ. 4) GO TO 10
+         IF (I .EQ. 5) GO TO 40
+         IF (I .EQ. 6) GO TO 280
+         IF (I .EQ. 7) GO TO 220
+         IF (I .EQ. 8) GO TO 220
+         IF (I .EQ. 9) GO TO 220
+         IF (I .EQ. 10) GO TO 220
+         IF (I .EQ. 11) GO TO 220
+         IF (I .EQ. 12) GO TO 170
+      END IF
+      IV(IRC) = 13
+      RETURN
 C
 C  ***  INITIALIZE FOR NEW ITERATION  ***
 C
@@ -1568,7 +1610,12 @@ C        ***  RESTORE IV(STAGE) AND PICK UP WHERE WE LEFT OFF.  ***
 C
          IV(STAGE) = -IV(STAGE)
          I = IV(XIRC)
-         GO TO (20, 30, 90, 90, 70), I
+c         GO TO (20, 30, 90, 90, 70), I
+         IF (I .EQ. 1) GO TO 20
+         IF (I .EQ. 2) GO TO 30
+         IF (I .EQ. 3) GO TO 90
+         IF (I .EQ. 4) GO TO 90
+         IF (I .EQ. 5) GO TO 70
 C
  50   IF (IV(TOOBIG) .EQ. 0) GO TO 70
 C
@@ -1581,7 +1628,7 @@ C
  60      V(RADFAC) = V(DECFAC)
          IV(RADINC) = IV(RADINC) - 1
          IV(IRC) = 5
-         GO TO 999
+         RETURN
 C
  70   IF (V(F) .LT. V(FLSTGD)) GO TO 90
 C
@@ -1611,10 +1658,10 @@ C
 C  ***  RESTORE X AND STEP IF NECESSARY  ***
 C
       IF (GOODX) GO TO 110
-      DO 100 I = 1, P
+      DO I = 1, P
          STEP(I) = STLSTG(I)
          X(I) = X0(I) + STLSTG(I)
- 100     CONTINUE
+      END DO
 C
  110  V(FDIF) = V(F0) - V(F)
       IF (V(FDIF) .GT. V(TUNER2) * V(PREDUC)) GO TO 140
@@ -1728,7 +1775,7 @@ C  ***  PERFORM CONVERGENCE TESTS  ***
 C
  230  IV(XIRC) = IV(IRC)
  240  IF (DABS(V(F)) .LT. V(AFCTOL)) IV(IRC) = 10
-      IF (HALF * V(FDIF) .GT. V(PREDUC)) GO TO 999
+      IF (HALF * V(FDIF) .GT. V(PREDUC)) RETURN
       EMAX = V(RFCTOL) * DABS(V(F0))
       EMAXS = V(SCTOL) * DABS(V(F0))
       IF (V(DSTNRM) .GT. V(LMAXS) .AND. V(PREDUC) .LE. EMAXS)
@@ -1744,15 +1791,15 @@ C
 C  ***  CONSIDER RECOMPUTING STEP OF LENGTH V(LMAXS) FOR SINGULAR
 C  ***  CONVERGENCE TEST.
 C
- 250  IF (IV(IRC) .GT. 5 .AND. IV(IRC) .NE. 12) GO TO 999
+ 250  IF (IV(IRC) .GT. 5 .AND. IV(IRC) .NE. 12) RETURN
       IF (V(DSTNRM) .GT. V(LMAXS)) GO TO 260
-         IF (V(PREDUC) .GE. EMAXS) GO TO 999
+         IF (V(PREDUC) .GE. EMAXS) RETURN
               IF (V(DST0) .LE. ZERO) GO TO 270
-                   IF (HALF * V(DST0) .LE. V(LMAXS)) GO TO 999
+                   IF (HALF * V(DST0) .LE. V(LMAXS)) RETURN
                         GO TO 270
- 260  IF (HALF * V(DSTNRM) .LE. V(LMAXS)) GO TO 999
+ 260  IF (HALF * V(DSTNRM) .LE. V(LMAXS)) RETURN
       XMAX = V(LMAXS) / V(DSTNRM)
-      IF (XMAX * (TWO - XMAX) * V(PREDUC) .GE. EMAXS) GO TO 999
+      IF (XMAX * (TWO - XMAX) * V(PREDUC) .GE. EMAXS) RETURN
  270  IF (V(NREDUC) .LT. ZERO) GO TO 290
 C
 C  ***  RECOMPUTE V(PREDUC) FOR USE IN SINGULAR CONVERGENCE TEST  ***
@@ -1763,7 +1810,7 @@ C
       V(PLSTGD) = V(PREDUC)
       IV(IRC) = 6
       CALL DCOPY(P, STEP,1,STLSTG,1)
-      GO TO 999
+      RETURN
 C
 C  ***  PERFORM SINGULAR CONVERGENCE TEST WITH RECOMPUTED V(PREDUC)  ***
 C
@@ -1776,10 +1823,11 @@ C
       V(PREDUC) = V(PLSTGD)
  290  IF (-V(NREDUC) .LE. V(RFCTOL) * DABS(V(F0))) IV(IRC) = 11
 C
- 999  RETURN
+      RETURN
 C
 C  ***  LAST CARD OF ASSESS FOLLOWS  ***
       END
+ 
       SUBROUTINE DDBDOG(DIG, G, LV, N, NWTSTP, STEP, V)
       save
 C
@@ -1928,7 +1976,7 @@ C
          DO I = 1, N
             STEP(I) = -NWTSTP(I)
          END DO
-         GO TO 999
+         RETURN
 C
  30   V(DSTNRM) = V(RADIUS)
       CFACT = (GNORM / V(GTHG))**2
@@ -1947,7 +1995,7 @@ C
          DO I = 1, N
             STEP(I) = T * NWTSTP(I)
          END DO
-         GO TO 999
+         RETURN
 C
  50   IF (CNORM .LT. V(RADIUS)) GO TO 70
 C
@@ -1962,7 +2010,7 @@ C
          DO I = 1, N
             STEP(I) = T * DIG(I)
          END DO
-         GO TO 999
+         RETURN
 C
 C     ***  COMPUTE DOGLEG STEP BETWEEN CAUCHY AND RELAXED NEWTON  ***
 C     ***  FEMUR = RELAXED NEWTON STEP MINUS CAUCHY STEP  ***
@@ -1991,9 +2039,10 @@ C     ***  DOGLEG STEP  =  CAUCHY STEP  +  T * FEMUR.
          STEP(I) = T1*DIG(I) + T2*NWTSTP(I)
       END DO
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DDBDOG FOLLOWS  ***
       END
+ 
       SUBROUTINE DITSUM(D, G, IV, LIV, LV, P, V, X)
       use cfuncs
       save
@@ -2011,11 +2060,11 @@ C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C  ***  LOCAL VARIABLES  ***
 C
-      INTEGER ALG, I, IV1, M, NF, NG, OL, PU
+      INTEGER ALG, IV1, M, NF, NG, OL, PU
 C/6
 C     REAL MODEL1(6), MODEL2(6)
 C/7
-      CHARACTER*4 MODEL1(6), MODEL2(6)
+      CHARACTER(4) MODEL1(6), MODEL2(6)
 C/
       DOUBLE PRECISION NRELDF, OLDF, PRELDF, RELDF, ZERO
 C
@@ -2072,7 +2121,7 @@ C
 C-------------------------------  BODY  --------------------------------
 C
       PU = IV(PRUNIT)
-      IF (PU .EQ. 0) GO TO 999
+      IF (PU .EQ. 0) RETURN
       IV1 = IV(1)
       IF (IV1 .GT. 62) IV1 = IV1 - 51
       OL = IV(OUTLEV)
@@ -2084,7 +2133,7 @@ C
       IF (IV1 .GE. 10 .AND. IV(PRNTIT) .EQ. 0) GO TO 120
       IF (IV1 .GT. 2) GO TO 10
          IV(PRNTIT) = IV(PRNTIT) + 1
-         IF (IV(PRNTIT) .LT. IABS(OL)) GO TO 999
+         IF (IV(PRNTIT) .LT. IABS(OL)) RETURN
  10   NF = IV(NFCALL) - IABS(IV(NFCOV))
       IV(PRNTIT) = 0
       RELDF = ZERO
@@ -2127,8 +2176,23 @@ C
      1           V(RELDX), V(STPPAR), V(DSTNRM), NRELDF)
 C
  120  IF (IV(STATPR) .LT. 0) GO TO 430
-      GO TO (999, 999, 130, 150, 170, 190, 210, 230, 250, 270, 290, 310,
-     1       330, 350, 520), IV1
+c      GO TO (999, 999, 130, 150, 170, 190, 210, 230, 250, 270, 290, 310,
+c     1       330, 350, 520), IV1
+      IF (IV1 .EQ. 1) RETURN
+      IF (IV1 .EQ. 2) RETURN
+      IF (IV1 .EQ. 3) GOTO 130
+      IF (IV1 .EQ. 4) GOTO 150
+      IF (IV1 .EQ. 5) GOTO 170
+      IF (IV1 .EQ. 6) GOTO 190
+      IF (IV1 .EQ. 7) GOTO 210
+      IF (IV1 .EQ. 8) GOTO 230
+      IF (IV1 .EQ. 9) GOTO 250
+      IF (IV1 .EQ. 10) GOTO 270
+      IF (IV1 .EQ. 11) GOTO 290
+      IF (IV1 .EQ. 12) GOTO 310
+      IF (IV1 .EQ. 13) GOTO 330
+      IF (IV1 .EQ. 14) GOTO 350
+      IF (IV1 .EQ. 15) GOTO 520
 C
  130  call cnlprt(' ***** X-CONVERGENCE *****', 26)
       GO TO 430
@@ -2162,29 +2226,29 @@ C
       GO TO 390
 C
  330  call cnlprt(' ***** BAD PARAMETERS TO ASSESS *****', 37)
-      GO TO 999
+      RETURN
 C
  350  call cnlprt(' ***** GRADIENT COULD NOT BE COMPUTED *****', 43)
       IF (IV(NITER) .GT. 0) GO TO 480
       GO TO 390
 C
  370  call h380(IV(1))
-      GO TO 999
+      RETURN
 C
 C  ***  INITIAL CALL ON DITSUM  ***
 C
  390  call h400(P, X, D)
-      IF (IV1 .GE. 12) GO TO 999
+      IF (IV1 .GE. 12) RETURN
       IV(NEEDHD) = 0
       IV(PRNTIT) = 0
-      IF (OL .EQ. 0) GO TO 999
+      IF (OL .EQ. 0) RETURN
       IF (OL .LT. 0 .AND. ALG .EQ. 1) call h30()
       IF (OL .LT. 0 .AND. ALG .EQ. 2) call h40()
       IF (OL .GT. 0 .AND. ALG .EQ. 1) call h70()
       IF (OL .GT. 0 .AND. ALG .EQ. 2) call h80()
       IF (ALG .EQ. 1) call h410(V(F))
       IF (ALG .EQ. 2) call h420(V(F))
-      GO TO 999
+      RETURN
 C
 C  ***  PRINT VARIOUS INFORMATION REQUESTED ON SOLUTION  ***
 C
@@ -2203,17 +2267,18 @@ C
          IF (IV(NFCOV) .GT. 0) call h460(IV(NFCOV))
          IF (IV(NGCOV) .GT. 0) call h470(IV(NGCOV))
 C
- 480  IF (IV(SOLPRT) .EQ. 0) GO TO 999
+ 480  IF (IV(SOLPRT) .EQ. 0) RETURN
          IV(NEEDHD) = 1
          call cnlprt('     I      FINAL X(I)        D(I)          G(I)',
      1               48)
          call h500(P, X, D, G)
-      GO TO 999
+      RETURN
 C
  520  call cnlprt(' INCONSISTENT DIMENSIONS', 24)
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DITSUM FOLLOWS  ***
       END
+
       SUBROUTINE DLITVM(N, X, L, Y)
       save
 C
@@ -2237,22 +2302,23 @@ C
       END DO
       NP1 = N + 1
       I0 = N*(N+1)/2
-      DO 30 II = 1, N
+      DO II = 1, N
          I = NP1 - II
          XI = X(I)/L(I0)
          X(I) = XI
-         IF (I .LE. 1) GO TO 999
+         IF (I .LE. 1) RETURN
          I0 = I0 - I
-         IF (XI .EQ. ZERO) GO TO 30
+         IF (XI .EQ. ZERO) EXIT
          IM1 = I - 1
-         DO 20 J = 1, IM1
-              IJ = I0 + J
-              X(J) = X(J) - XI*L(IJ)
- 20           CONTINUE
- 30      CONTINUE
- 999  RETURN
+         DO J = 1, IM1
+            IJ = I0 + J
+            X(J) = X(J) - XI*L(IJ)
+         END DO
+      END DO
+      RETURN
 C  ***  LAST CARD OF DLITVM FOLLOWS  ***
       END
+
       SUBROUTINE DLIVMU(N, X, L, Y)
       save
 C
@@ -2272,23 +2338,24 @@ C/7
       PARAMETER (ZERO=0.D+0)
 C/
 C
-      DO 10 K = 1, N
+      DO K = 1, N
          IF (Y(K) .NE. ZERO) GO TO 20
          X(K) = ZERO
- 10      CONTINUE
-      GO TO 999
+      END DO
+      RETURN
  20   J = K*(K+1)/2
       X(K) = Y(K) / L(J)
-      IF (K .GE. N) GO TO 999
+      IF (K .GE. N) RETURN
       K = K + 1
-      DO 30 I = K, N
+      DO I = K, N
          T = DDOT(I-1, L(J+1),1,X,1)
          J = J + I
          X(I) = (Y(I) - T)/L(J)
- 30      CONTINUE
- 999  RETURN
+      END DO
+      RETURN
 C  ***  LAST CARD OF DLIVMU FOLLOWS  ***
       END
+
       SUBROUTINE DLTVMU(N, X, L, Y)
       save
 C
@@ -2308,18 +2375,19 @@ C/7
 C/
 C
       I0 = 0
-      DO 20 I = 1, N
+      DO I = 1, N
          YI = Y(I)
          X(I) = ZERO
-         DO 10 J = 1, I
+         DO J = 1, I
             IJ = I0 + J
             X(J) = X(J) + YI*L(IJ)
- 10      CONTINUE
+         END DO
          I0 = I0 + I
- 20   CONTINUE
+      END DO
       RETURN
 C  ***  LAST CARD OF DLTVMU FOLLOWS  ***
       END
+ 
       SUBROUTINE DLUPDT(BETA, GAMMA, L, LAMBDA, LPLUS, N, W, Z)
       save
 C
@@ -2408,15 +2476,15 @@ C  ***  TEMPORARILY STORE S(J) = SUM OVER K = J+1 TO N OF W(K)**2 IN
 C  ***  LAMBDA(J).
 C
       S = ZERO
-      DO 10 I = 1, NM1
+      DO I = 1, NM1
          J = N - I
          S = S + W(J+1)**2
          LAMBDA(J) = S
- 10      CONTINUE
+      END DO
 C
 C  ***  COMPUTE LAMBDA, GAMMA, AND BETA BY GOLDFARB*S RECURRENCE 3.
 C
-      DO 20 J = 1, NM1
+      DO J = 1, NM1
          WJ = W(J)
          A = NU*Z(J) - ETA*WJ
          THETA = ONE + A*WJ
@@ -2429,14 +2497,14 @@ C
          BETA(J) = (A - B*ETA) / LJ
          NU = -NU / LJ
          ETA = -(ETA + (A**2)/(THETA - LJ)) / LJ
- 20      CONTINUE
+      END DO
  30   LAMBDA(N) = ONE + (NU*Z(N) - ETA*W(N))*W(N)
 C
 C  ***  UPDATE L, GRADUALLY OVERWRITING  W  AND  Z  WITH  L*W  AND  L*Z.
 C
       NP1 = N + 1
       JJ = N * (N + 1) / 2
-      DO 60 K = 1, N
+      DO K = 1, N
          J = NP1 - K
          LJ = LAMBDA(J)
          LJJ = L(JJ)
@@ -2450,19 +2518,20 @@ C
          GJ = GAMMA(J)
          IJ = JJ + J
          JP1 = J + 1
-         DO 40 I = JP1, N
+         DO I = JP1, N
             LIJ = L(IJ)
             LPLUS(IJ) = LJ*LIJ + BJ*W(I) + GJ*Z(I)
             W(I) = W(I) + LIJ*WJ
             Z(I) = Z(I) + LIJ*ZJ
             IJ = IJ + I
- 40      CONTINUE
+         END DO
  50      JJ = JJ - J
- 60   CONTINUE
+      END DO
 C
       RETURN
 C  ***  LAST CARD OF DLUPDT FOLLOWS  ***
       END
+
       SUBROUTINE DLVMUL(N, X, L, Y)
       save
 C
@@ -2483,19 +2552,20 @@ C/
 C
       NP1 = N + 1
       I0 = N*(N+1)/2
-      DO 20 II = 1, N
+      DO II = 1, N
          I = NP1 - II
          I0 = I0 - I
          T = ZERO
-         DO 10 J = 1, I
+         DO J = 1, I
             IJ = I0 + J
             T = T + L(IJ)*Y(J)
- 10      CONTINUE
+         END DO
          X(I) = T
- 20   CONTINUE
+      END DO
       RETURN
 C  ***  LAST CARD OF DLVMUL FOLLOWS  ***
       END
+
       SUBROUTINE DPARCK(ALG, D, IV, LIV, LV, N, V)
       save
 C
@@ -2522,8 +2592,8 @@ C/6
 C     INTEGER VARNM(2), SH(2)
 C     REAL CNGD(3), DFLT(3), VN(2,34), WHICH(3)
 C/7
-      CHARACTER*1 VARNM(2), SH(2)
-      CHARACTER*4 CNGD(3), DFLT(3), VN(2,34), WHICH(3)
+      CHARACTER(1) VARNM(2), SH(2)
+      CHARACTER(4) CNGD(3), DFLT(3), VN(2,34), WHICH(3)
 C/
       DOUBLE PRECISION BIG, MACHEP, TINY, VK, VM(34), VX(34), ZERO
 C
@@ -2667,18 +2737,18 @@ c         IF (PU .NE. 0) WRITE(PU,10) ALG, IV(ALGSAV)
 c 10      FORMAT(/' THE FIRST PARAMETER TO DDEFLT SHOULD BE',I3,
 c     1          12H RATHER THAN,I3)
          IV(1) = 82
-         GO TO 999
+         RETURN
  20   IV1 = IV(1)
       IF (IV1 .LT. 12 .OR. IV1 .GT. 14) GO TO 50
          IF (N .GE. 1) GO TO 40
               IV(1) = 81
-              IF (PU .EQ. 0) GO TO 999
+              IF (PU .EQ. 0) RETURN
 c              WRITE(PU,30) VARNM(ALG), N
 c 30           FORMAT(/8H /// BAD,A1,2H =,I5)
-              GO TO 999
+              RETURN
  40      IF (IV1 .NE. 14) IV(NEXTIV) = IV(PERM)
          IF (IV1 .NE. 14) IV(NEXTV) = IV(LMAT)
-         IF (IV1 .EQ. 13) GO TO 999
+         IF (IV1 .EQ. 13) RETURN
          K = IV(PARSAV) - EPSLON
          CALL DVDFLT(ALG, LV-K, V(K+1))
          IV(DTYPE0) = 2 - ALG
@@ -2689,16 +2759,16 @@ c 30           FORMAT(/8H /// BAD,A1,2H =,I5)
          GO TO 100
  50   IF (N .EQ. IV(OLDN)) GO TO 70
          IV(1) = 17
-         IF (PU .EQ. 0) GO TO 999
+         IF (PU .EQ. 0) RETURN
 c         WRITE(PU,60) VARNM(ALG), IV(OLDN), N
 c 60      FORMAT(/5H /// ,1A1,14H CHANGED FROM ,I5,4H TO ,I5)
-         GO TO 999
+         RETURN
 C
  70   IF (IV1 .LE. 11 .AND. IV1 .GE. 1) GO TO 90
          IV(1) = 80
 c         IF (PU .NE. 0) WRITE(PU,80) IV1
 c 80      FORMAT(/13H ///  IV(1) =,I5,28H SHOULD BE BETWEEN 0 AND 14.)
-         GO TO 999
+         RETURN
 C
  90   WHICH(1) = CNGD(1)
       WHICH(2) = CNGD(2)
@@ -2706,34 +2776,34 @@ C
 C
  100  IF (IV1 .EQ. 14) IV1 = 12
       IF (BIG .GT. TINY) GO TO 110
-         TINY = D1MACH(1)
-         MACHEP = D1MACH(4)
-         BIG = D1MACH(2)
-         VM(12) = MACHEP
-         VX(12) = BIG
-         VM(13) = TINY
-         VX(13) = BIG
-         VM(14) = MACHEP
-         VM(17) = TINY
-         VX(17) = BIG
-         VM(18) = TINY
-         VX(18) = BIG
-         VX(20) = BIG
-         VX(21) = BIG
-         VX(22) = BIG
-         VM(24) = MACHEP
-         VM(25) = MACHEP
-         VM(26) = MACHEP
-         VX(28) = DSQRT(D1MACH(2))*16.
-         VM(29) = MACHEP
-         VX(30) = BIG
-         VM(33) = MACHEP
+      TINY = D1MACH(1)
+      MACHEP = D1MACH(4)
+      BIG = D1MACH(2)
+      VM(12) = MACHEP
+      VX(12) = BIG
+      VM(13) = TINY
+      VX(13) = BIG
+      VM(14) = MACHEP
+      VM(17) = TINY
+      VX(17) = BIG
+      VM(18) = TINY
+      VX(18) = BIG
+      VX(20) = BIG
+      VX(21) = BIG
+      VX(22) = BIG
+      VM(24) = MACHEP
+      VM(25) = MACHEP
+      VM(26) = MACHEP
+      VX(28) = DSQRT(D1MACH(2))*16.
+      VM(29) = MACHEP
+      VX(30) = BIG
+      VM(33) = MACHEP
  110  M = 0
       I = 1
       J = JLIM(ALG)
       K = EPSLON
       NDFALT = NDFLT(ALG)
-      DO 140 L = 1, NDFALT
+      DO L = 1, NDFALT
          VK = V(K)
          IF (VK .GE. VM(I) .AND. VK .LE. VX(I)) GO TO 130
               M = K
@@ -2744,27 +2814,27 @@ c     1               11H BE BETWEEN,D11.3,4H AND,D11.3)
  130     K = K + 1
          I = I + 1
          IF (I .EQ. J) I = IJMP
- 140     CONTINUE
+      END DO
 C
       IF (IV(NVDFLT) .EQ. NDFALT) GO TO 160
          IV(1) = 51
-         IF (PU .EQ. 0) GO TO 999
+         IF (PU .EQ. 0) RETURN
 c         WRITE(PU,150) IV(NVDFLT), NDFALT
 c 150     FORMAT(/13H IV(NVDFLT) =,I5,13H RATHER THAN ,I5)
-         GO TO 999
+         RETURN
  160  IF ((IV(DTYPE) .GT. 0 .OR. V(DINIT) .GT. ZERO) .AND. IV1 .EQ. 12)
      1                  GO TO 190
-      DO 180 I = 1, N
-         IF (D(I) .GT. ZERO) GO TO 180
-              M = 18
-c              IF (PU .NE. 0) WRITE(PU,170) I, D(I)
+      DO I = 1, N
+         IF (D(I) .GT. ZERO) EXIT
+         M = 18
+c     IF (PU .NE. 0) WRITE(PU,170) I, D(I)
 c 170     FORMAT(/8H ///  D(,I3,3H) =,D11.3,19H SHOULD BE POSITIVE)
- 180     CONTINUE
+      END DO
  190  IF (M .EQ. 0) GO TO 200
-         IV(1) = M
-         GO TO 999
+      IV(1) = M
+      RETURN
 C
- 200  IF (PU .EQ. 0 .OR. IV(PARPRT) .EQ. 0) GO TO 999
+ 200  IF (PU .EQ. 0 .OR. IV(PARPRT) .EQ. 0) RETURN
       IF (IV1 .NE. 12 .OR. IV(INITS) .EQ. ALG-1) GO TO 220
          M = 1
 c         WRITE(PU,210) SH(ALG), IV(INITS)
@@ -2780,7 +2850,7 @@ c 230     FORMAT(20H DTYPE..... IV(16) =,I3)
       K = EPSLON
       L = IV(PARSAV)
       NDFALT = NDFLT(ALG)
-      DO 280 II = 1, NDFALT
+      DO II = 1, NDFALT
          IF (V(K) .EQ. V(L)) GO TO 270
 c              IF (M .EQ. 0) WRITE(PU,250) WHICH
 c 250          FORMAT(/1H ,3A4,9HALUES..../)
@@ -2791,30 +2861,30 @@ c 260          FORMAT(1X,2A4,5H.. V(,I2,3H) =,D15.7)
          L = L + 1
          I = I + 1
          IF (I .EQ. J) I = IJMP
- 280     CONTINUE
+      END DO
 C
       IV(DTYPE0) = IV(DTYPE)
       PARSV1 = IV(PARSAV)
       CALL DCOPY(IV(NVDFLT), V(EPSLON),1,V(PARSV1),1)
-      GO TO 999
+      RETURN
 C
  290  IV(1) = 15
-      IF (PU .EQ. 0) GO TO 999
+      IF (PU .EQ. 0) RETURN
 c      WRITE(PU,300) LIV, MIV2
 c 300  FORMAT(/10H /// LIV =,I5,17H MUST BE AT LEAST,I5)
-      IF (LIV .LT. MIV1) GO TO 999
+      IF (LIV .LT. MIV1) RETURN
       IF (LV .LT. IV(LASTV)) GO TO 310
-      GO TO 999
+      RETURN
 C
  310  IV(1) = 16
-      IF (PU .EQ. 0) GO TO 999
+      IF (PU .EQ. 0) RETURN
 c      WRITE(PU,320) LV, IV(LASTV)
 c 320  FORMAT(/9H /// LV =,I5,17H MUST BE AT LEAST,I5)
-      GO TO 999
+      RETURN
 C
  330  IV(1) = 67
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DPARCK FOLLOWS  ***
       END
       DOUBLE PRECISION FUNCTION DRELST(P, D, X, X0)
@@ -2838,21 +2908,22 @@ C/
 C
       EMAX = ZERO
       XMAX = ZERO
-      DO 10 I = 1, P
+      DO I = 1, P
          T = DABS(D(I) * (X(I) - X0(I)))
          IF (EMAX .LT. T) EMAX = T
          T = D(I) * (DABS(X(I)) + DABS(X0(I)))
          IF (XMAX .LT. T) XMAX = T
- 10      CONTINUE
+      END DO
       DRELST = ZERO
       IF (XMAX .GT. ZERO) DRELST = EMAX / XMAX
       RETURN
 C  ***  LAST CARD OF DRELST FOLLOWS  ***
       END
-      LOGICAL FUNCTION DSTOPX(IDUMMY)
+
+      LOGICAL FUNCTION DSTOPX()
       save
 C     *****PARAMETERS...
-      INTEGER IDUMMY
+c      INTEGER IDUMMY
 C
 C     ..................................................................
 C
@@ -2873,6 +2944,7 @@ C
       DSTOPX = .FALSE.
       RETURN
       END
+
       SUBROUTINE DSMSNO(N, D, X, CALCF, IV, LIV, LV, V,
      1                  UIPARM, URPARM, UFPARM)
       save
@@ -2958,7 +3030,7 @@ C
 C+++++++++++++++++++++++++++++++  BODY  ++++++++++++++++++++++++++++++++
 C
  10   CALL DSNOIT(D, FX, IV, LIV, LV, N, V, X)
-      IF (IV(1) .GT. 2) GO TO 999
+      IF (IV(1) .GT. 2) RETURN
 C
 C     ***  COMPUTE FUNCTION  ***
 C
@@ -2968,9 +3040,10 @@ C
       GO TO 10
 C
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DSMSNO FOLLOWS  ***
       END
+
       SUBROUTINE DSNOIT(D, FX, IV, LIV, LV, N, V, X)
       save
 C
@@ -3079,8 +3152,8 @@ C
  10   G1 = IV(G)
 C
  20   CALL DSUMIT(D, FX, V(G1), IV, LIV, LV, N, V, X)
-c      IF (IV(1) - 2) 999, 30, 70
-      IF (IV(1) .LT. 2) GO TO 999
+c      IF (IV(1) - 2)    , 30, 70
+      IF (IV(1) .LT. 2) RETURN
       IF (IV(1) .GT. 2) GO TO 70
 C
 C  ***  COMPUTE GRADIENT  ***
@@ -3088,11 +3161,11 @@ C
       IF (IV(NITER) .EQ. 0) CALL DVSCPY(N, V(G1), ZERO)
       J = IV(LMAT)
       K = G1 - N
-      DO 40 I = 1, N
+      DO I = 1, N
          V(K) = DDOT(I, V(J),1,V(J),1)
          K = K + 1
          J = J + I
- 40      CONTINUE
+      END DO
 C     ***  UNDO INCREMENT OF IV(NGCALL) DONE BY DSUMIT  ***
       IV(NGCALL) = IV(NGCALL) - 1
 C     ***  STORE RETURN CODE FROM DSGRD2 IN IV(SGIRC)  ***
@@ -3113,9 +3186,9 @@ C
       CALL DSGRD2(V(ALPHA), D, V(ETA0), FX, V(G1), IV(SGIRC), N, V(W),X)
       IF (IV(SGIRC) .EQ. 0) GO TO 10
          IV(NGCALL) = IV(NGCALL) + 1
-         GO TO 999
+         RETURN
 C
- 70   IF (IV(1) .NE. 14) GO TO 999
+ 70   IF (IV(1) .NE. 14) RETURN
 C
 C  ***  STORAGE ALLOCATION  ***
 C
@@ -3123,9 +3196,10 @@ C
       IV(NEXTV) = IV(G) + N
       IF (IV1 .NE. 13) GO TO 10
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DSNOIT FOLLOWS  ***
       END
+ 
       SUBROUTINE DSGRD2 (ALPHA, D, ETA0, FX, G, IRC, N, W, X)
       save
 C
@@ -3335,7 +3409,7 @@ C
 C
  200     X(I) = W(XISAVE) + H
          W(HSAVE) = H
-         GO TO 999
+         RETURN
 C
 C     ***  COMPUTE ACTUAL FORWARD DIFFERENCE  ***
 C
@@ -3348,6 +3422,6 @@ C
  300  FX = W(FX0)
       IRC = 0
 C
- 999  RETURN
+      RETURN
 C  ***  LAST CARD OF DSGRD2 FOLLOWS  ***
       END

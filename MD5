@@ -1,5 +1,5 @@
-5fca2aeaf1f0169661427908f68ac64d *ChangeLog
-18122993650176c1f7456b5054772cb3 *DESCRIPTION
+fb299556f0e8da6bad1037bedf77b0ca *ChangeLog
+048434ca47eef1c1126b83b7d5b2a84e *DESCRIPTION
 cdc8894457c6efd2f1e49cfa79272d7b *NAMESPACE
 06290f3ea287a06d96e34079acdbf807 *R/arma.R
 dc4e8457ecf24346fee6bd8a1b4a2687 *R/finance.R
@@ -62,9 +62,9 @@ a63fd0e0e404b1a196f9de52221659a2 *man/tsbootstrap.Rd
 6f5325ce1373b88a04cf55bc9c5854c4 *src/bdstest.c
 8dbd6e977d226eac7f7e18ff39ef47d8 *src/boot.c
 996e3e3f932209858e83681bdd14bfd9 *src/cfuncs.f90
-9f6a8881e10d5fba5bfcdeb852a011da *src/dsumsl.f
+ca68c9c583eaabd708417b4cd04cf2fe *src/dsumsl.f
 fcc7996d15fcd1b9c215fdbc3868444c *src/formats.c
-14b251add72b4f8c2f7a5d2963a8faf5 *src/garch.c
+c9e04ab34ac308889d0509eab8718ca3 *src/garch.c
 728b829670d1b3f59d710e6715034966 *src/init.c
 49cd32e3a939bf03635388adff3918a7 *src/ppsum.c
 82c18ab81d94bec813d53d52819e6f44 *src/tsutils.c

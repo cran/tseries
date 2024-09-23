@@ -68,7 +68,7 @@ static void F77_SUB(calcf) (int *pq, double *p, int *nf, double *f, int *uiparm,
      /* compute negative log likelihood apart from the constant and the pre-sample values */
 {
   int i, j, ok;
-  int maxpq = DMAX(garch_h.p,garch_h.q); 
+  int maxpq = (int) DMAX(garch_h.p,garch_h.q); 
   double temp = 0.0;
   double sum = 0.0;
   
@@ -99,7 +99,7 @@ static void F77_SUB(calcg) (int *pq, double *p, int *nf, double *dp, int *uiparm
      /* compute derivative of negative log likelihood */
 {
   int i, j, k;
-  int maxpq = DMAX(garch_h.p,garch_h.q); 
+  int maxpq = (int) DMAX(garch_h.p,garch_h.q); 
   double temp1, temp2, temp3;
   
   for (k=0; k<(*pq); k++)  /* initialize */
@@ -206,7 +206,7 @@ void tseries_fit_garch (double *y, int *n, double *par, int *p, int *q,
   for (i=0; i<(*n); i++)  /* estimate unconditional variance (uv) */
     var += DSQR(y[i]);
   var /= (double) (*n); 
-  for (i=0; i<DMAX((*p),(*q)); i++)  /* initialize */
+  for (i=0; i<(int)DMAX((*p),(*q)); i++)  /* initialize */
   {
     garch_h.h[i] = var;  /* with uv */
     garch_h.dh[pq*i] = 1.0;  /* dh_i/dp_0 with 1 */
@@ -262,7 +262,7 @@ void tseries_pred_garch (double *y, double *h, int *n, double *par,
   
   if (*genuine) N = (*n)+1;
   else N = (*n);
-  maxpq = DMAX((*p),(*q));
+  maxpq = (int)DMAX((*p),(*q));
   var = 0.0;
   for (i=1; i<=(*p)+(*q); i++)  /* compute uv */
     var += par[i];
@@ -310,7 +310,7 @@ void tseries_ophess_garch (double *y, int *n, double *par, double *he,
   for (i=0; i<(*n); i++)  /* estimate uv */
     var += DSQR(y[i]);
   var /= (double) (*n); 
-  for (i=0; i<DMAX((*p),(*q)); i++)  /* initialize */
+  for (i=0; i<(int)DMAX((*p),(*q)); i++)  /* initialize */
   {
     h[i] = var;  /* with uv */
     dh[pq*i] = 1.0;  /* dh_i/dp_0 with 1 */
@@ -320,7 +320,7 @@ void tseries_ophess_garch (double *y, int *n, double *par, double *he,
   for (k=0; k<pq; k++)  /* initialize */
     for (j=0; j<pq; j++)
       he[pq*k+j] = 0.0;
-  for (i=DMAX((*p),(*q)); i<(*n); i++)  /* loop over time */
+  for (i=(int)DMAX((*p),(*q)); i<(*n); i++)  /* loop over time */
   {                                   /* compute cv at time i and derivatives dh_i/dp_j */
     temp1 = par[0];  /* compute ARCH part of cv */
     for (j=1; j<=(*q); j++)
