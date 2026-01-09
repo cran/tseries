@@ -1,3 +1,9 @@
+2026-01-09  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
+
+	* DESCRIPTION: New version is 0.10-59.
+
+	* man/*.Rd: More DOIs.
+
 2024-09-23  Kurt Hornik  <Kurt.Hornik@wu.ac.at>
 
 	* DESCRIPTION: New version is 0.10-58.

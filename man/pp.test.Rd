@@ -50,8 +50,10 @@ pp.test(x, alternative = c("stationary", "explosive"),
     of Non-Stationary Data}, Oxford University Press, Oxford.
   
   P. Perron (1988):
-  Trends and Random Walks in Macroeconomic Time Series.
+  Trends and Random Walks in Macroeconomic Time Series: Further Evidence
+  from a New Approach.
   \emph{Journal of Economic Dynamics and Control} \bold{12}, 297--332.
+  \doi{10.1016/0165-1889(88)90043-7}.
 }
 \author{A. Trapletti}
 \seealso{

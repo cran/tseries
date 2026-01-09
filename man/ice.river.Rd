@@ -42,5 +42,6 @@ data(ice.river)
   Threshold time series modelling of two Icelandic riverflow
   systems.
   \emph{Water Resources Bulletin}, \bold{21}, 651--661.
+  \doi{10.1111/j.1752-1688.1985.tb05380.x}.
 }
 \keyword{datasets}

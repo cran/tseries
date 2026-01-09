@@ -69,7 +69,8 @@ arma(x, order = c(1, 1), lag = NULL, coef = NULL,
   E. J. Hannan and J. Rissanen (1982):
   Recursive Estimation of Mixed Autoregressive-Moving Average
   Order.
-  \emph{Biometrika} \bold{69}, 81--94. 
+  \emph{Biometrika} \bold{69}, 81--94.
+  \doi{10.1093/biomet/69.1.81}.
 }
 \author{
   A. Trapletti

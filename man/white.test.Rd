@@ -56,9 +56,10 @@
   \item{arguments}{additional arguments used to compute the test statistic.}
 }
 \references{
-  T. H. Lee, H. White, and C. W. J. Granger (1993): Testing for
-  neglected nonlinearity in time series models. \emph{Journal of
-  Econometrics} \bold{56}, 269-290.
+  T. H. Lee, H. White, and C. W. J. Granger (1993):
+  Testing for neglected nonlinearity in time series models.
+  \emph{Journal of Econometrics} \bold{56}, 269--290.
+  \doi{10.1016/0304-4076(93)90122-L}.
 }
 \author{A. Trapletti}
 \seealso{

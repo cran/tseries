@@ -41,6 +41,7 @@ kpss.test(x, null = c("Level", "Trend"), lshort = TRUE)
   Testing the Null Hypothesis of Stationarity against the Alternative of
   a Unit Root.
   \emph{Journal of Econometrics} \bold{54}, 159--178.
+  \doi{10.1016/0304-4076(92)90104-Y}.
 }
 \author{A. Trapletti}
 \seealso{

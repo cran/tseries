@@ -33,6 +33,7 @@
   T. Bollerslev (1986):
   Generalized Autoregressive Conditional Heteroscedasticity.
   \emph{Journal of Econometrics} \bold{31}, 307--327.
+  \doi{10.1016/0304-4076(86)90063-1}.
 }
 \seealso{
   \code{\link{garch}}

@@ -96,11 +96,13 @@ tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
   H. R. Kuensch (1989):
   The Jackknife and the Bootstrap for General Stationary Observations.
   \emph{The Annals of Statistics} \bold{17}, 1217--1241.
+  \doi{10.1214/aos/1176347265}.
 
   D. N. Politis and J. P. Romano (1994):
   The Stationary Bootstrap.
   \emph{Journal of the American Statistical Association} \bold{89},
   1303--1313.
+  \doi{10.1080/01621459.1994.10476870}.
 }
 \author{A. Trapletti}
 \seealso{

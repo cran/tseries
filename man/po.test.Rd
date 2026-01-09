@@ -44,6 +44,7 @@ po.test(x, demean = TRUE, lshort = TRUE)
   P. C. B. Phillips and S. Ouliaris (1990):
   Asymptotic Properties of Residual Based Tests for Cointegration.
   \emph{Econometrica} \bold{58}, 165--193.
+  \doi{10.2307/2938339}.
 }
 \author{A. Trapletti}
 \seealso{

@@ -28,5 +28,6 @@ data(bev)
   R. T. Baillie (1996):
   Long Memory Processes and Fractional Integration in Econometrics.
   \emph{Journal of Econometrics}, \bold{73}, 5--59.
+  \doi{10.1016/0304-4076(95)01732-1}.
 }
 \keyword{datasets}

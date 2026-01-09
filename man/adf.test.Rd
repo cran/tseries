@@ -52,6 +52,7 @@ adf.test(x, alternative = c("stationary", "explosive"),
   Testing for Unit Roots in Autoregressive-Moving Average Models of
   Unknown Order.
   \emph{Biometrika} \bold{71}, 599--607.
+  \doi{10.1093/biomet/71.3.599}.
 }
 \author{A. Trapletti}
 \seealso{
