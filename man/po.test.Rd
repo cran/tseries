@@ -24,8 +24,9 @@ po.test(x, demean = TRUE, lshort = TRUE)
   \code{sigma^2} the Newey-West estimator is used.  If \code{lshort} is
   \code{TRUE}, then the truncation lag parameter is set to
   \code{trunc(n/100)}, otherwise \code{trunc(n/30)} is used.  The
-  p-values are interpolated from Table Ia and Ib, p. 189 of Phillips and
-  Ouliaris (1990).  If the computed statistic is outside the table of
+  p-values are interpolated from Table Ia and Ib, page 189 of
+  \bibcitet{Phillips+Ouliaris:1990}.
+  If the computed statistic is outside the table of
   critical values, then a warning message is generated.
   
   The dimension of \code{x} is restricted to six variables.  Missing
@@ -41,10 +42,7 @@ po.test(x, demean = TRUE, lshort = TRUE)
   \item{data.name}{a character string giving the name of the data.}
 }
 \references{
-  P. C. B. Phillips and S. Ouliaris (1990):
-  Asymptotic Properties of Residual Based Tests for Cointegration.
-  \emph{Econometrica} \bold{58}, 165--193.
-  \doi{10.2307/2938339}.
+  \bibshow{Phillips+Ouliaris:1990}
 }
 \author{A. Trapletti}
 \seealso{

@@ -31,13 +31,15 @@ tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
 }
 \details{
   If \code{type} is \code{"stationary"}, then the stationary
-  bootstrap scheme with mean block length \code{b} according to Politis
-  and Romano (1994) is computed. For \code{type} equals \code{"block"},
+  bootstrap scheme with mean block length \code{b} according to
+  \bibcitet{Politis+Romano:1994}
+  is computed. For \code{type} equals \code{"block"},
   the blockwise bootstrap with block length \code{b} according to
-  Kuensch (1989) is used. 
+  \bibcitet{Kunsch:1989} is used. 
 
   If \code{m > 1}, then the block of blocks bootstrap is computed
-  (see Kuensch, 1989). The basic sampling scheme is the same as for 
+  \bibcitep{see|Kunsch:1989|}.
+  The basic sampling scheme is the same as for 
   the case \code{m = 1}, except that the bootstrap is applied to a series
   \code{y} containing blocks of length \code{m}, where each block of \code{y} is
   defined as \eqn{y[t] = (x[t], \dots, x[t-m+1])}. Therefore, for the block
@@ -93,16 +95,7 @@ tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
   \item{call}{the original call of \code{tsbootstrap}.}
 }
 \references{
-  H. R. Kuensch (1989):
-  The Jackknife and the Bootstrap for General Stationary Observations.
-  \emph{The Annals of Statistics} \bold{17}, 1217--1241.
-  \doi{10.1214/aos/1176347265}.
-
-  D. N. Politis and J. P. Romano (1994):
-  The Stationary Bootstrap.
-  \emph{Journal of the American Statistical Association} \bold{89},
-  1303--1313.
-  \doi{10.1080/01621459.1994.10476870}.
+  \bibshow{Kunsch:1989, Politis+Romano:1994}
 }
 \author{A. Trapletti}
 \seealso{

@@ -27,9 +27,8 @@ jarque.bera.test(x)
   \item{data.name}{a character string giving the name of the data.}
 }
 \references{
-  J. B. Cromwell, W. C. Labys and M. Terraza (1994):
-  \emph{Univariate Tests for Time Series Models},
-  Sage, Thousand Oaks, CA, pages 20--22.
+  \bibinfo{Cromwell+Labys+Terraza:1994}{note}{Pages 20--22}
+  \bibshow{Cromwell+Labys+Terraza:1994}
 }
 \author{A. Trapletti}
 \examples{

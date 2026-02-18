@@ -44,9 +44,8 @@ bds.test(x, m = 3, eps = seq(0.5 * sd(x), 2 * sd(x), length.out = 4),
   \item{data.name}{a character string giving the name of the data.}
 }
 \references{
-  J. B. Cromwell, W. C. Labys and M. Terraza (1994):
-  \emph{Univariate Tests for Time Series Models},
-  Sage, Thousand Oaks, CA, pages 32--36.
+  \bibinfo{Cromwell+Labys+Terraza:1994}{note}{Pages 32--36}
+  \bibshow{Cromwell+Labys+Terraza:1994}
 }
 \author{B. LeBaron, Ported to R by A. Trapletti}
 \examples{

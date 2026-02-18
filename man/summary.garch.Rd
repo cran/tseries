@@ -21,8 +21,8 @@
 \details{
   \code{summary} computes the asymptotic standard errors of the
   coefficient estimates from an outer-product approximation of the
-  Hessian evaluated at the estimates, see Bollerslev (1986).  It
-  furthermore tests the residuals for normality and remaining ARCH
+  Hessian evaluated at the estimates, see \bibcitet{Bollerslev:1986}.
+  It furthermore tests the residuals for normality and remaining ARCH
   effects, see \code{\link{jarque.bera.test}} and
   \code{\link{Box.test}}. 
 }
@@ -30,10 +30,7 @@
   A list of class \code{"summary.garch"}.
 }
 \references{
-  T. Bollerslev (1986):
-  Generalized Autoregressive Conditional Heteroscedasticity.
-  \emph{Journal of Econometrics} \bold{31}, 307--327.
-  \doi{10.1016/0304-4076(86)90063-1}.
+  \bibshow{Bollerslev:1986}
 }
 \seealso{
   \code{\link{garch}}

@@ -50,11 +50,9 @@
   \item{ps}{the standard deviation of the portfolio returns.}
 }
 \references{
-  E. J. Elton and M. J. Gruber (1991): \emph{Modern Portfolio Theory and
-  Investment Analysis}, 4th Edition, Wiley, NY, pp. 65-93.
-
-  C. Huang and R. H. Litzenberger (1988): \emph{Foundations for
-  Financial Economics}, Elsevier, NY, pp. 59-82.
+  \bibinfo{Elton+Gruber:1991}{note}{Pages 65--93}
+  \bibinfo{Huang+Litzenberger:1988}{note}{Pages 59--82}
+  \bibshow{Elton+Gruber:1991, Huang+Litzenberger:1988}
 }
 \author{A. Trapletti}
 \seealso{

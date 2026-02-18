@@ -8,8 +8,8 @@
   Icelandic River Data
 }
 \description{
-  Contains the Icelandic river data as presented in Tong (1990),
-  pages 432--440.
+  Contains the Icelandic river data as presented in
+  \bibcitet{|Tong:1990|pages 432--440}.
 }
 \usage{
 data(ice.river)
@@ -27,21 +27,13 @@ data(ice.river)
   temperature in Hveravellir (deg C).
 
   These datasets were introduced into the literature in a paper by
-  Tong, Thanoon, and Gudmundsson (1985).
+  \bibcitet{Tong+Thanoon+Gudmundsson:1985}.
 }
 \source{
   Time Series Data Library:
   \url{https://robjhyndman.com/TSDL/}
 }
 \references{
-  H. Tong (1990):
-  \emph{Non-Linear Time Series, A Dynamical System Approach}.
-  Oxford University Press, Oxford.
-
-  H. Tong, B. Thanoon, and G. Gudmundsson (1985):
-  Threshold time series modelling of two Icelandic riverflow
-  systems.
-  \emph{Water Resources Bulletin}, \bold{21}, 651--661.
-  \doi{10.1111/j.1752-1688.1985.tb05380.x}.
+  \bibshow{Tong:1990, Tong+Thanoon+Gudmundsson:1985}
 }
 \keyword{datasets}

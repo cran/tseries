@@ -21,7 +21,8 @@ kpss.test(x, null = c("Level", "Trend"), lshort = TRUE)
   If \code{lshort} is \code{TRUE}, then the truncation lag parameter is
   set to \code{trunc(4*(n/100)^0.25)}, otherwise
   \code{trunc(12*(n/100)^0.25)} is used.  The p-values are interpolated
-  from Table 1 of Kwiatkowski et al. (1992). If the computed statistic
+  from Table 1 of \bibcitet{Kwiatkowski+Phillips+Schmidt:1992}.
+  If the computed statistic
   is outside the table of critical values, then a warning message is
   generated.
   
@@ -37,11 +38,7 @@ kpss.test(x, null = c("Level", "Trend"), lshort = TRUE)
   \item{data.name}{a character string giving the name of the data.}
 }
 \references{
-  D. Kwiatkowski, P. C. B. Phillips, P. Schmidt, and Y. Shin (1992):
-  Testing the Null Hypothesis of Stationarity against the Alternative of
-  a Unit Root.
-  \emph{Journal of Econometrics} \bold{54}, 159--178.
-  \doi{10.1016/0304-4076(92)90104-Y}.
+  \bibshow{Kwiatkowski+Phillips+Schmidt:1992}
 }
 \author{A. Trapletti}
 \seealso{

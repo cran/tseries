@@ -26,7 +26,8 @@ adf.test(x, alternative = c("stationary", "explosive"),
   made to grow with the sample size for the general \code{ARMA(p,q)}
   setup. Note that for \code{k} equals zero the standard Dickey-Fuller
   test is computed. The p-values are interpolated from Table 4.2, p. 103
-  of Banerjee et al. (1993). If the computed statistic is outside the
+  of \bibcitet{R:Banerjee+Dolado+Galbraith:1993}.
+  If the computed statistic is outside the
   table of critical values, then a warning message is generated. 
   
   Missing values are not allowed.
@@ -43,16 +44,7 @@ adf.test(x, alternative = c("stationary", "explosive"),
     hypothesis.}
 }
 \references{
-  A. Banerjee, J. J. Dolado, J. W. Galbraith, and D. F. Hendry (1993):
-  \emph{Cointegration, Error Correction, and the Econometric Analysis of
-    Non-Stationary Data},
-  Oxford University Press, Oxford.
-  
-  S. E. Said and D. A. Dickey (1984):
-  Testing for Unit Roots in Autoregressive-Moving Average Models of
-  Unknown Order.
-  \emph{Biometrika} \bold{71}, 599--607.
-  \doi{10.1093/biomet/71.3.599}.
+  \bibshow{R:Banerjee+Dolado+Galbraith:1993, Said+Dickey:1984}
 }
 \author{A. Trapletti}
 \seealso{

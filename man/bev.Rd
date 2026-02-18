@@ -18,16 +18,13 @@ data(bev)
 \details{
   This data provides an example of long memory time series which has the
   appearance of being nonstationary in levels and yet also appears
-  overdifferenced.  See, e.g., Baillie (1996).
+  overdifferenced.  See, e.g., \bibcitet{Baillie:1996}.
 }
 \source{
   Time Series Data Library:
   \url{https://robjhyndman.com/TSDL/}
 }
 \references{
-  R. T. Baillie (1996):
-  Long Memory Processes and Fractional Integration in Econometrics.
-  \emph{Journal of Econometrics}, \bold{73}, 5--59.
-  \doi{10.1016/0304-4076(95)01732-1}.
+  \bibshow{Baillie:1996}
 }
 \keyword{datasets}

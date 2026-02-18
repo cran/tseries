@@ -46,10 +46,14 @@ garch.control(maxiter = 200, trace = TRUE, start = NULL,
   likelihood estimates of the conditionally normal model.  The first
   max(p, q) values are assumed to be fixed.  The optimizer uses a hessian
   approximation computed from the BFGS update.  Only a Cholesky factor
-  of the Hessian approximation is stored.  For more details see Dennis
-  et al. (1981), Dennis and Mei (1979), Dennis and More (1977), and
-  Goldfarb (1976).  The gradient is either computed analytically or
-  using a numerical approximation.
+  of the Hessian approximation is stored.
+  For more details see
+  \bibcitet{Dennis+Gay+Welsch:1981},
+  \bibcitet{Dennis+Mei:1979},
+  \bibcitet{Dennis+Moré:1977} and
+  \bibcitet{Goldfarb:1976}.
+  The gradient is either computed analytically or using a numerical
+  approximation. 
 }
 \value{
   A list of class \code{"garch"} with the following elements:
@@ -68,43 +72,13 @@ garch.control(maxiter = 200, trace = TRUE, start = NULL,
     covariance matrix for the coefficient estimates.}
 }
 \references{
-  A. K. Bera and M. L. Higgins (1993):
-  ARCH Models: Properties, Estimation and Testing.
-  \emph{J. Economic Surveys} \bold{7} 305--362.
-  \doi{10.1111/j.1467-6419.1993.tb00170.x}.
-  
-  T. Bollerslev (1986):
-  Generalized Autoregressive Conditional Heteroscedasticity.
-  \emph{Journal of Econometrics} \bold{31}, 307--327.
-  \doi{10.1016/0304-4076(86)90063-1}.
-
-  R. F. Engle (1982):
-  Autoregressive Conditional Heteroscedasticity with Estimates of the
-  Variance of United Kingdom Inflation.
-  \emph{Econometrica} \bold{50}, 987--1008.
-  \doi{10.1093/oso/9780198774310.003.0001}.
-
-  J. E. Dennis, D. M. Gay, and R. E. Welsch (1981):
-  Algorithm 573 --- An Adaptive Nonlinear Least-Squares
-  Algorithm.
-  \emph{ACM Transactions on Mathematical Software} \bold{7}, 369--383.
-  \doi{10.1145/355958.355966}.
-
-  J. E. Dennis and H. H. W. Mei (1979):
-  Two New Unconstrained Optimization Algorithms which use Function and
-  Gradient Values.
-  \emph{J. Optim. Theory Applic.} \bold{28}, 453--482.
-  \doi{10.1007/BF00932218}.
-
-  J. E. Dennis and J. J. More (1977):
-  Quasi-Newton Methods, Motivation and Theory.
-  \emph{SIAM Rev.} \bold{19}, 46--89.
-  \doi{10.1137/1019005}.
-
-  D. Goldfarb (1976):
-  Factorized Variable Metric Methods for Unconstrained Optimization.
-  \emph{Math. Comput.} \bold{30}, 796--811.
-  \doi{10.2307/2005399}.
+  \bibshow{Bera+Higgins:1993,
+    Bollerslev:1986,
+    Engle:1982,
+    Dennis+Gay+Welsch:1981,
+    Dennis+Mei:1979,
+    Dennis+Moré:1977,
+    Goldfarb:1976}
 }
 \author{
   A. Trapletti, the whole GARCH part;

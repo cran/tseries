@@ -21,7 +21,7 @@ arma(x, order = c(1, 1), lag = NULL, coef = NULL,
     given, only the specification from \code{lag} is used.}
   \item{coef}{If given this numeric vector is used as the initial estimate
     of the ARMA coefficients. The preliminary estimator suggested in
-    Hannan and Rissanen (1982) is used for the default initialization.}
+    \bibcitet{Hannan+Rissanen:1982} is used for the default initialization.}
   \item{include.intercept}{Should the model contain an intercept?}
   \item{series}{name for the series. Defaults to
     \code{deparse(substitute(x))}.}
@@ -45,8 +45,8 @@ arma(x, order = c(1, 1), lag = NULL, coef = NULL,
   a finite-difference approximation. Default initialization is done by
   fitting a pure high-order AR model (see \code{\link{ar.ols}}). 
   The estimated residuals are then used for computing a least squares
-  estimator of the full ARMA model. See Hannan and Rissanen (1982) for
-  details.
+  estimator of the full ARMA model.
+  See \bibcitet{Hannan+Rissanen:1982} for details.
 }
 \value{
   A list of class \code{"arma"} with the following elements:
@@ -66,11 +66,7 @@ arma(x, order = c(1, 1), lag = NULL, coef = NULL,
   \item{include.intercept}{Does the model contain an intercept?}
 }
 \references{
-  E. J. Hannan and J. Rissanen (1982):
-  Recursive Estimation of Mixed Autoregressive-Moving Average
-  Order.
-  \emph{Biometrika} \bold{69}, 81--94.
-  \doi{10.1093/biomet/69.1.81}.
+  \bibshow{Hannan+Rissanen:1982}
 }
 \author{
   A. Trapletti

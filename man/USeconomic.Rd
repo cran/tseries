@@ -8,7 +8,7 @@
   U.S. Economic Variables
 }
 \description{
-  This is the E.3 example data set of Luetkepohl (1991).
+  This is the E.3 example data set of \bibcitet{R:Luetkepohl:1991}.
 }
 \usage{
 data(USeconomic)
@@ -25,8 +25,6 @@ data(USeconomic)
   yield on long-term treasury bonds \code{rl}. 
 }
 \source{
-  Luetkepohl, H. (1991):
-  \emph{Introduction to Multiple Time Series Analysis}.
-  Springer Verlag, NY, 500--503.
+  \bibshow{R:Luetkepohl:1991}
 }
 \keyword{datasets}

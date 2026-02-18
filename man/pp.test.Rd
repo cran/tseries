@@ -27,7 +27,8 @@ pp.test(x, alternative = c("stationary", "explosive"),
   used.  If \code{lshort} is \code{TRUE}, then the truncation lag
   parameter is set to \code{trunc(4*(n/100)^0.25)}, otherwise
   \code{trunc(12*(n/100)^0.25)} is used.  The p-values are interpolated
-  from Table 4.1 and 4.2, p. 103 of Banerjee et al. (1993).  If the
+  from Table 4.1 and 4.2, p. 103 of
+  \bibcitet{R:Banerjee+Dolado+Galbraith:1993}.  If the
   computed statistic is outside the table of critical values, then a
   warning message is generated.
   
@@ -45,15 +46,7 @@ pp.test(x, alternative = c("stationary", "explosive"),
     hypothesis.}
 }
 \references{
-  A. Banerjee, J. J. Dolado, J. W. Galbraith, and D. F. Hendry (1993):
-  \emph{Cointegration, Error Correction, and the Econometric Analysis
-    of Non-Stationary Data}, Oxford University Press, Oxford.
-  
-  P. Perron (1988):
-  Trends and Random Walks in Macroeconomic Time Series: Further Evidence
-  from a New Approach.
-  \emph{Journal of Economic Dynamics and Control} \bold{12}, 297--332.
-  \doi{10.1016/0165-1889(88)90043-7}.
+  \bibshow{R:Banerjee+Dolado+Galbraith:1993, Perron:1988}
 }
 \author{A. Trapletti}
 \seealso{

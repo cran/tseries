@@ -38,11 +38,7 @@ runs.test(x, alternative = c("two.sided", "less", "greater"))
     hypothesis.}
 }
 \references{
-  S. Siegel (1956): \emph{Nonparametric Statistics for the Behavioural
-  Sciences}, McGraw-Hill, New York.
-  
-  S. Siegel and N. J. Castellan (1988): \emph{Nonparametric Statistics for the
-  Behavioural Sciences}, 2nd edn, McGraw-Hill, New York.
+  \bibshow{Siegel:1956, Siegel+Castellan:1988}
 }
 \author{A. Trapletti}
 \examples{

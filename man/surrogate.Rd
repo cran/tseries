@@ -35,7 +35,8 @@ surrogate(x, ns = 1, fft = FALSE, amplitude = FALSE,
   is different than in a bootstrap setup.
 
   To compute the phase randomized surrogate and the amplitude adjusted
-  data algorithm 1 and 2 from Theiler et al. (1992), pp. 183, 184 are
+  data algorithm 1 and 2 from
+  \bibcitet{|Theiler+Galdrikian+Longtin:1992|pages 183--184} are
   used.
   
   Missing values are not allowed.
@@ -58,11 +59,7 @@ surrogate(x, ns = 1, fft = FALSE, amplitude = FALSE,
   \item{call}{the original call of \code{surrogate}.}
 }
 \references{
-  J. Theiler, B. Galdrikian, A. Longtin, S. Eubank, and J. D. Farmer
-  (1992): Using Surrogate Data to Detect
-  Nonlinearity in Time Series, in \emph{Nonlinear Modelling and
-  Forecasting}, Eds. M. Casdagli and S. Eubank, Santa Fe Institute,
-  Addison Wesley, 163--188.
+  \bibshow{Theiler+Galdrikian+Longtin:1992}
 }
 \author{A. Trapletti}
 \seealso{
