@@ -1,5 +1,5 @@
-e3a8c8931f1f547abd51238cc1b4860e *ChangeLog
-7de6839be5c9f285301dff92e0b4c555 *DESCRIPTION
+523f9d8a89893af843f27673e6a9351d *ChangeLog
+f2cb37d12e8dde207a9762dd77bd8ab7 *DESCRIPTION
 cdc8894457c6efd2f1e49cfa79272d7b *NAMESPACE
 06290f3ea287a06d96e34079acdbf807 *R/arma.R
 dc4e8457ecf24346fee6bd8a1b4a2687 *R/finance.R
@@ -9,7 +9,7 @@ decf4a3134c069cf9d2dbc79b1b60706 *R/irts.R
 9db11950b82d51c34320a7baea82bd52 *R/tsutils.R
 6474314852bc0951b0cc3848febd98dc *R/zzz.R
 5e4d9899b4d9967986461369024bd0bf *README
-84f806ecece0ba2250b002cbb64b10d1 *build/partial.rdb
+9e9eb0fd7b5586b92aaf5301095f7f43 *build/partial.rdb
 2609e3ea40e33ecc8fd8c8078ef55f34 *data/NelPlo.rda
 11a8bf5e4d45ac82cacc542463f5fe6a *data/USeconomic.rda
 81de46bb2c71a7c047f1cba7a19ad036 *data/bev.rda
@@ -56,7 +56,7 @@ dea09ebef7f99803d091506c850dd8d0 *man/summary.garch.Rd
 a251dc6cdf0c63f3ced72f26d0282b7a *man/tcm.Rd
 173b8da44c209a388a4ade20f293d272 *man/tcmd.Rd
 922cf731bb67f08ab0fe4457b9e2f36f *man/terasvirta.test.Rd
-3775e30b504276a276011e8c9e74d089 *man/tsbootstrap.Rd
+29167a91df0154b936aaa959560f5ec6 *man/tsbootstrap.Rd
 451ad858a39efe93ed856a3420a18347 *man/white.test.Rd
 2fa4c7011c2bc0f7449ae151d5cc44ae *src/Makevars
 3b89f280404ab59ecff6d2e36d8e68a4 *src/arma.c

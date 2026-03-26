@@ -37,8 +37,8 @@ tsbootstrap(x, nb = 1, statistic = NULL, m = 1, b = NULL,
   the blockwise bootstrap with block length \code{b} according to
   \bibcitet{Kunsch:1989} is used. 
 
-  If \code{m > 1}, then the block of blocks bootstrap is computed
-  \bibcitep{see|Kunsch:1989|}.
+  If \code{m > 1}, then the block of blocks bootstrap is computed,
+  see \bibcitet{Kunsch:1989}.
   The basic sampling scheme is the same as for 
   the case \code{m = 1}, except that the bootstrap is applied to a series
   \code{y} containing blocks of length \code{m}, where each block of \code{y} is
